@@ -1,0 +1,9 @@
+Figure out a meeting time that works for everyone - start a doodle
+
+
+Binary <-> Assembly
+Syntax highlighting
+Tab auto-complete
+
+
+Step-by-step execution
