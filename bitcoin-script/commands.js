@@ -1,4 +1,6 @@
-// commands.js                                                                     // Library for all Bitcoin Script commands                                          
+// commands.js
+// Library for all Bitcoin Script commands
+
 var commandToOpcode = {
     "OP_0": 0,
     "OP_FALSE": 0,
