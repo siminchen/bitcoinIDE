@@ -121,7 +121,6 @@ var commandToOpcode = {
 }
 
 
-
 var opcodeToCommand = {
     0: "OP_FALSE",
     76: "OP_PUSHDATA1",
@@ -238,4 +237,5 @@ var opcodeToCommand = {
     184: "OP_NOP9",
     185: "OP_NOP10",
 }
+
 
