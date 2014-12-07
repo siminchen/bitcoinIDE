@@ -2,8 +2,10 @@ Figure out a meeting time that works for everyone - start a doodle
 
 
 Binary <-> Assembly
-Syntax highlighting
-Tab auto-complete
+
+
+Syntax highlighting -> mostly done, but need to find out where they force some keywords to be lower case and force upper case instead
+Tab auto-complete -> Have started on snippets for autocomplete, but with Ace's implementation of tab autocomplete, snippet naming is kinda sensitive.
 
 
 Step-by-step execution
