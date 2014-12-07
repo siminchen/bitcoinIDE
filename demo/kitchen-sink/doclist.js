@@ -66,8 +66,9 @@ function makeHuge(txt) {
 }
 
 var docs = {
-    "docs/javascript.js": {order: 1, name: "JavaScript"},
-
+    
+    "docs/script.script": {order: 1, name: "Script", wrapped: true}
+/*  "docs/javascript.js": {order: 1,  name: "JavaScript"},
     "docs/latex.tex": {name: "LaTeX", wrapped: true},
     "docs/markdown.md": {name: "Markdown", wrapped: true},
     "docs/mushcode.mc": {name: "MUSHCode", wrapped: true},
@@ -79,7 +80,7 @@ var docs = {
 
     "docs/c9search.c9search_results": "C9 Search Results",
     "docs/mel.mel": "MEL",
-    "docs/Nix.nix": "Nix"
+    "docs/Nix.nix": "Nix"*/
 };
 
 var ownSource = {
