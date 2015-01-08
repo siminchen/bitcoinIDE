@@ -1,5 +1,11 @@
 // commands.js
 // Library for all Bitcoin Script commands
+//
+// Usage: to assemble a bitcoin script (string) into hex (string),
+// call assembleToHex. To disassemble a hex string into a bitcoin
+// script (string), call disassembleFromHex.
+
+var BASE_16 = 16;
 
 var commandToOpcode = {
     "OP_0": 0,
@@ -118,7 +124,7 @@ var commandToOpcode = {
     "OP_NOP8": 183,
     "OP_NOP9": 184,
     "OP_NOP10": 185,
-}
+};
 
 
 var opcodeToCommand = {
@@ -236,6 +242,96 @@ var opcodeToCommand = {
     183: "OP_NOP8",
     184: "OP_NOP9",
     185: "OP_NOP10",
-}
+};
 
 
+// Convert an opcode to its hex code
+// Arguments: opcode: integer
+// Return: string with two characters
+var opcodeToHex = function(opcode) {
+    var hexcode = opcode.toString(BASE_16);
+
+    // Convert the hex code two 2 characters
+    if (hexcode.length == 1) {
+	hexcode = "0" + hexcode;
+    }
+
+    return hexcode;
+};
+
+
+// Convert a constant in the Bitcoin script to its hexcode in Bitcoin
+// Return a string on success, and null on failure
+// Arguments: hexstring: string
+// Return: string or null
+var constantToHexcode = function(hexstring) {
+    // Extract the constant inside the < ... >
+    var num = parseInt(hexstring.substring(1, hexstring.length - 1));
+    if (isNaN(num)) {
+	return null;
+    }
+
+    num = num.toString(BASE_16);
+
+    // Determine the number of bytes of the constant
+    var numBytes = num.length;
+    numBytes = opcodeToHex(numBytes);
+
+    return numBytes + num;
+};
+
+// Convert a Bitcoin script to its hex code
+// Argument: script: string
+// Return: string for the hex code
+var assembleToHex = function(script) {
+    var hexcode = "";
+    var commands = script.split(" ");
+    
+    for (var i = 0; i < commands.length; i++) {
+	var opcode = commandToOpcode[commands[i]];
+
+	// This is a valid command
+	if (opcode != null) {
+	    hexcode += opcodeToHex(opcode);
+	} else { // must be a constant
+	    var constant = constantToHexcode(commands[i]);
+	    if (constant != null) {
+		hexcode += constant;
+	    }
+	}
+    }
+    return hexcode;
+};
+
+// Convert a hex string to the original Bitcoin script
+// Argument: hex: string
+// Return: string for the script
+var disassembleFromHex = function(hexstring) {
+    var script = "";
+    var index = 0;
+
+    while (index < hexstring.length) {
+	var opcode = hexstring.substring(index, index + 2);
+	var opcodeValue = parseInt("0x" + opcode);
+	index += 2;
+
+	// If opcode does not represent any constant data
+	if (opcodeValue < 1 || opcodeValue > 75) {
+	    script += opcodeToCommand[opcodeValue];
+	} else { // Opcode represents constants
+	    script += "<";
+	    script += "0x";
+	    while (opcodeValue > 0) {
+		script += hexstring[index];
+		index += 1;
+		opcodeValue -= 1;
+	    }
+	    script += ">";
+	}
+
+	script += " ";
+    }
+
+    // Remove the last space and return
+    return script.substring(0, script.length - 1);
+};
