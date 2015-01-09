@@ -1,10 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Editor</title>
-  <style type="text/css" media="screen">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Editor</title>
+
+    <script src="editor.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <!-- Twitter Bootstrap -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="editor.css">
+    <style type="text/css" media="screen">
     body {
         overflow: hidden;
     }
@@ -17,30 +30,37 @@
         left: 0;
         right: 0;
     }
-  </style>
+    </style>
 </head>
 <body>
 
-<pre id="editor">function foo(items) {
-    var i;
-    for (i = 0; i &lt; items.length; i++) {
-        alert("Ace Rocks " + items[i]);
-    }
-    OP_NOP
-}</pre>
+    <div id="top-panel"class="container container-lg-height">
+        <div id="top-row" class="row row-lg-height">
+            <div id="editor_container" class="col-md-8  col-lg-height">
+                <pre id="editor">OP_HASH256 6fe28c0ab6f1b372c1a6a246ae63f74f931e8365e15a089c68d6190000000000 OP_EQUAL
+                </pre>
+            </div>
 
-<script src="src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-<script src="../build/src-noconflict/ext-language_tools.js"></script>
-<script>
-    ace.require("ace/ext/language_tools");
-    var editor = ace.edit("editor");
-    editor.setTheme("ace/theme/twilight");
-    editor.getSession().setMode("ace/mode/script");
-    editor.setOptions({
-        enableBasicAutocompletion: true,
-        enableSnippets: true,
-        enableLiveAutocompletion: false
-    });
+            <div class="col-md-4  col-lg-height test-box">.col-xs-6 .col-md-4</div>
+        </div>
+    </div>
+
+    <button id="b" type="button" class="btn btn-primary">Primary</button>
+
+
+    
+    <script src="src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../build/src-noconflict/ext-language_tools.js"></script>
+    <script>
+        ace.require("ace/ext/language_tools");
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/twilight");
+        editor.getSession().setMode("ace/mode/script");
+        editor.setOptions({
+            enableBasicAutocompletion: true,
+            enableSnippets: true,
+            enableLiveAutocompletion: false
+        });
 </script>
 
 </body>
