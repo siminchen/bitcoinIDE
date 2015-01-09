@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Editor</title>
+    <title>Bitcoin IDE</title>
+    <meta name="author" content="The Overage Miners">
 
-    <script src="editor.js"></script>
+    <!-- JQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
     <!-- Twitter Bootstrap -->
@@ -16,42 +17,45 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="editor.css">
-    <style type="text/css" media="screen">
-    body {
-        overflow: hidden;
-    }
-
-    #editor {
-        margin: 0;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-    }
-    </style>
 </head>
 <body>
 
-    <div id="top-panel"class="container container-lg-height">
-        <div id="top-row" class="row row-lg-height">
-            <div id="editor_container" class="col-md-8  col-lg-height">
-                <pre id="editor">OP_HASH256 6fe28c0ab6f1b372c1a6a246ae63f74f931e8365e15a089c68d6190000000000 OP_EQUAL
-                </pre>
+    <div id="top-panel">
+        <div id="top-row" >
+            <div id="editor" style="position: relative;">OP_HASH256 6fe28c0ab6f1b372c1a6a246ae63f74f931e8365e15a089c68d6190000000000 OP_EQUAL
             </div>
 
-            <div class="col-md-4  col-lg-height test-box">.col-xs-6 .col-md-4</div>
+            <div id="stack-visualizer" class="test-box">
+                Stack visualizer
+            </div>
         </div>
     </div>
 
-    <button id="b" type="button" class="btn btn-primary">Primary</button>
+    <div id="middle-panel">
+        <div id="executor" class="test-box">Executor
+            <button id="" type="button" class="btn btn-primary">Execute</button>
+            <button id="" type="button" class="btn btn-primary">Next</button>
+            <button id="" type="button" class="btn btn-primary">Run</button>
+            <button id="" type="button" class="btn btn-danger">Stop</button>
+        </div>
+        
+    </div>
+
+    <div id="bottom-panel">
+        <div id="assembly" class="test-box">Assembly
+            <button id="" type="button" class="btn btn-primary">To Assembly</button>
+        </div>
+        
+    </div>
 
 
     
+
+    <!-- ACE Editor (javascript) -->
     <script src="src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="../build/src-noconflict/ext-language_tools.js"></script>
-    <script>
+    <!-- Set up the editor window -->
+    <script> 
         ace.require("ace/ext/language_tools");
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/twilight");
@@ -61,7 +65,10 @@
             enableSnippets: true,
             enableLiveAutocompletion: false
         });
-</script>
+    </script>
 
+    <!-- Our Javascript/CSS -->
+    <script src="editor.js"></script>
+    <link rel="stylesheet" type="text/css" href="editor.css">
 </body>
 </html>
