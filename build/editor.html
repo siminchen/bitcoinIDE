@@ -19,33 +19,47 @@
 
 </head>
 <body>
+    <!-- LAYOUT: -->
+    <!-- Panels are horizontal groupings -->
+    <!-- Rows contain all elements in a panel (horizontal group) -->
+    <!-- Each row contains adjacent sections -->
 
     <div id="top-panel">
-        <div id="top-row" >
-            <div id="editor" style="position: relative;">OP_HASH256 6fe28c0ab6f1b372c1a6a246ae63f74f931e8365e15a089c68d6190000000000 OP_EQUAL
+        <div class="row">
+            <div id="editor-section">
+                <h2 id="editor-section-title" class="section-title">Script Editor</h2>
+                <div id="editor-holder">
+                    <div id="editor" style="position: relative;">OP_HASH256 6fe28c0ab6f1b372c1a6a246ae63f74f931e8365e15a089c68d6190000000000 OP_EQUAL
+                    </div>
+                </div>
             </div>
 
-            <div id="stack-visualizer" class="test-box">
-                Stack visualizer
+            <div id="stack-visualizer-section">
+                <h2 id="stack-section-title" class="section-title">Stack Visualizer</h2>
+                <div id="stack-visualizer" class="test-box">
+                    Stack visualizer
+                </div>
             </div>
         </div>
     </div>
 
     <div id="middle-panel">
-        <div id="executor" class="test-box">Executor
-            <button id="" type="button" class="btn btn-primary">Execute</button>
-            <button id="" type="button" class="btn btn-primary">Next</button>
-            <button id="" type="button" class="btn btn-primary">Run</button>
-            <button id="" type="button" class="btn btn-danger">Stop</button>
+        <div class="row">
+            <div id="executor-section" class="test-box">Executor
+                <button id="" type="button" class="btn btn-primary">Execute</button>
+                <button id="" type="button" class="btn btn-primary">Next</button>
+                <button id="" type="button" class="btn btn-primary">Run</button>
+                <button id="" type="button" class="btn btn-danger">Stop</button>
+            </div>
         </div>
-        
     </div>
 
     <div id="bottom-panel">
-        <div id="assembly" class="test-box">Assembly
-            <button id="" type="button" class="btn btn-primary">To Assembly</button>
+        <div class="row">
+            <div id="assembly-section" class="test-box">Assembly
+                <button id="" type="button" class="btn btn-primary">To Assembly</button>
+            </div>
         </div>
-        
     </div>
 
 
@@ -60,10 +74,11 @@
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/twilight");
         editor.getSession().setMode("ace/mode/script");
+        //Set options for auto-completion
         editor.setOptions({
             enableBasicAutocompletion: true,
             enableSnippets: true,
-            enableLiveAutocompletion: false
+            enableLiveAutocompletion: false //suggests words as you type
         });
     </script>
 

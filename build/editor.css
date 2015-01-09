@@ -5,19 +5,61 @@ html, body {
 	overflow: hidden;
 }
 
+.section-title {
+	border-style: solid;
+  	border-width: 1px;
+  	font-family: Verdana; 
+  	font-size: 2.0em;
+}
+
+.row {
+	width: 100%;
+	height: 100%;
+}
+
 #top-panel {
 	height: 60%;
 	width: 100%;
 }
 
-#top-row {
-	width: 100%;
+#editor-section {
 	height: 100%;
+	float:left;
+	width: 60%;
+	/*overflow: hidden;*/
+}
+
+#editor-section-title {
+	height: 10%;
+	display: block;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+}
+
+#editor-holder {
+	width: 100%;
+	height: 90%;
+	display: block;
+}
+
+#stack-visualizer-section {
+	width: 40%;
+	height: 100%;
+	float:right;
+}
+
+#stack-section-title {
+	height: 10%;
+	display: block;
+	margin: 0;
+	padding: 0;
+	text-align: center;
 }
 
 #stack-visualizer {
-	width: 40%;
-	height: 100%;
+	width: 100%;
+	height: 90%;
 	float:right;
 }
 
@@ -32,10 +74,7 @@ html, body {
 }
 
 #editor {
-	width: 60%;
-	height: inherit;
-	float:left;
-
+	height: 100%;
     margin: 0;
     top: 0;
     bottom: 0;
