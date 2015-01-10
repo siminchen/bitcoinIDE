@@ -53,7 +53,7 @@ StackVisualizer.prototype.createStackDiagram = function() {
 	    id: this.stackID
 	});
 
-	stackDiv.addClass("test-box");
+	//stackDiv.addClass("test-box");
 
 	stackDiv.css({
 		'height' : '100%',
@@ -61,7 +61,13 @@ StackVisualizer.prototype.createStackDiagram = function() {
 		'margin' : '0 auto',
 		'position' : 'relative',
 		'vertical-align' :'bottom',
-		'overflow-y' : 'hidden'
+		'overflow-y' : 'hidden',
+		'background-color' : 'white',
+		
+		//border
+		'border-style' : 'double',
+		'border-color' : 'gray',
+		'border-width' : '0px 5px 5px 5px'
 	});
 
 	stackDiv.appendTo(this.parentElement);
@@ -73,24 +79,24 @@ StackVisualizer.prototype.createStackElement = function(value) {
 	    text: value
 	});
 
-	//stackElement.addClass("test-box");
-
 	stackElement.css({
 		'height' : '10%',
 		'width' : '100%',
 		'position' : 'relative',
 		'display' : 'table', //for IE8+
-		//'margin-left' : '50%', //parentWidth/2
-
+		
+		'padding' : '5px',
 		'color' : 'white',
 		'text-align' : 'center',
 		'bottom' : '0',
 		'background-color' : '#E89A2C',
-		'border-style' : 'solid',
+
+		'border-style' : 'groove',
+		'border-color' : 'white',
 		'border-width' : stackElementBorderWidth+'px',
 
-		'-moz-border-radius' : '10px',
-		'border-radius' : '10px'
+		'-moz-border-radius' : '7px',
+		'border-radius' : '7px'
 	});
 
 	return stackElement;
@@ -150,7 +156,6 @@ StackVisualizer.prototype.numStackElements = function() {
 StackVisualizer.prototype.popElementFromDiagram = function() {
 	popped = this.top;
 	this.top = $(this.top).next();
-	//popped = $('#' + this.stackID + ' :first-child');
 
 	var heightToFlyTo = this.getStackRemainingHeight()*0.95;
 
