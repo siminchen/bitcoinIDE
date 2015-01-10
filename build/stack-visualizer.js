@@ -1,3 +1,6 @@
+var stackAnimationTime = 400;
+var stackElementBorderWidth = 1;
+
 function StackVisualizer (elemID) {
     this.name = "Bitcoin Stack Visualizer";
     this.parentID = elemID;
@@ -14,8 +17,8 @@ StackVisualizer.prototype.getInfo = function() {
 };
 
 StackVisualizer.prototype.push = function(value) {
-	this.stack.push(value);
 	this.pushElementOnDiagram(this.createStackElement(value));
+	this.stack.push(value);
 };
 
 StackVisualizer.prototype.pop = function() {
@@ -63,7 +66,7 @@ StackVisualizer.prototype.createStackElement = function(value) {
 	    text: value
 	});
 
-	stackElement.addClass("test-box");
+	//stackElement.addClass("test-box");
 
 	stackElement.css({
 		'height' : '10%',
@@ -75,42 +78,73 @@ StackVisualizer.prototype.createStackElement = function(value) {
 		'color' : 'white',
 		'text-align' : 'center',
 		'bottom' : '0',
-		'background-color' : 'blue'
+		'background-color' : 'blue',
+		'border-style' : 'solid',
+		'border-width' : stackElementBorderWidth+'px'
 	});
 
 	return stackElement;
 };
 
-var stackAnimationTime = 400;
 
 StackVisualizer.prototype.pushElementOnDiagram = function(stackElement) {
 	this.stackDiagram.prepend(stackElement);
 
-	maxHeight = this.stackDiagram.height();
-	maxHeight -= maxHeight*0.50;
+	var heightToFallFrom = this.getStackRemainingHeight()*0.75;
 
-	console.log(maxHeight);
+	//console.log(maxHeight);
+	console.log('Num elements: ' + this.numStackElements());
+	console.log('Each elem height: ' + this.getStackElementHeight());
+	console.log('Max height: ' + this.getStackMaxHeight());
+	console.log('Current height: ' + this.getStackCurrHeight());
+	console.log('Remaining height: ' + this.getStackRemainingHeight());
 
 	//Set starting state and then animation
 	stackElement.css({
 		'opacity' : '0.0',
 		'margin' : '0',
 		'border-width' : '1px',
+		'bottom' : heightToFallFrom
 		//'margin-bottom' : '10px'//maxHeight+'px'
 	}).animate({
 		opacity: 1.0,
+		'bottom' : '0px'
 		//'margin-bottom' : '0'
 	}, stackAnimationTime, function() {
 		//animation complete
 	});
 };
 
+StackVisualizer.prototype.getStackRemainingHeight = function() {
+	return this.getStackMaxHeight() - this.getStackCurrHeight();
+};
+
+StackVisualizer.prototype.getStackMaxHeight = function() {
+	var maxHeight = this.stackDiagram.height();
+	return maxHeight;
+};
+
+StackVisualizer.prototype.getStackCurrHeight = function() {
+	return this.numStackElements() * this.getStackElementHeight();
+};
+
+StackVisualizer.prototype.getStackElementHeight = function() {
+	return $('#' + this.stackID + ' :first-child').height() + 2*stackElementBorderWidth;
+};
+
+StackVisualizer.prototype.numStackElements = function() {
+	return this.stack.length;
+};
+
+
 StackVisualizer.prototype.popElementFromDiagram = function() {
 	popped = $('#' + this.stackID + ' :first-child');
 
+	var heightToFlyTo = this.getStackRemainingHeight()*0.95;
+
 	popped.animate({
 		opacity: 0.0,
-		//'margin-bottom' : '0'
+		'bottom' : heightToFlyTo+'px'
 	}, stackAnimationTime, function() {
 		//animation complete
 		popped.remove();
