@@ -185,8 +185,7 @@ StackVisualizer.prototype.popElementFromDiagram = function() {
 //1-indexed from top
 StackVisualizer.prototype.removeElementFromDiagram = function(idx) {
 	if(idx == 1) { //removing top element
-		popped = this.top;
-		this.top = $(this.top).next();
+		this.popElementFromDiagram();
 	} else {
 		popped = $('#' + this.stackID + ' :nth-child(' + idx + ')');
 	}
@@ -212,7 +211,10 @@ StackVisualizer.prototype.removeElementFromDiagram = function(idx) {
 			$(this).remove();
 		});
 	}, function(){
+		//concurrent function
 		console.log($(poppedSelector).text());
+		//get nth sibling of the current top
+		//return sibling
 	});
 };
 
