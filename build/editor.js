@@ -21,4 +21,16 @@ $( document ).ready(function() {
 	p = stackVisualizer.remove(3);
 	p = stackVisualizer.pop();
 	stackVisualizer.push("STACK VALUE TEST6");
+
+
+	// Attach event listeners to the assemble and disassemble button
+	$( "body" ).delegate( "#assemble-button", "click", function() {
+		var script = editor.getSession().getValue();
+		$(".assembly-content").val(assembleToHex(script));
+	});
+
+	$( "body" ).delegate( "#disassemble-button", "click", function() {
+		var hex = $(".assembly-content").val();
+		editor.getSession().setValue(disassembleFromHex(hex));
+	});
 });

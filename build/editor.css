@@ -91,11 +91,11 @@ html, body {
 
 #editor {
 	height: 100%;
-    margin: 0;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    	margin: 0;
+   	 top: 0;
+    	 bottom: 0;
+    	 left: 0;
+    	 right: 0;
 }
 
 .test-box {
@@ -103,4 +103,15 @@ html, body {
 	border-style: solid;
   	border-width: 1px;
   	height: 100%;
+}
+
+.assembly-content {
+ 	margin-left: 20px;
+	margin-top: 20px;
+	background-color: black;
+	color: white;
+	border-style: solid;
+	border-width: 1px;
+	border-color: black;
+	font-size: small; 
 }
