@@ -1,4 +1,4 @@
-var stackAnimationTime = 500;
+var stackAnimationTime = 400;
 var stackElementBorderWidth = 1;
 var curvedness = 8;
 var percentHeightToFallFrom = 0.95;
@@ -16,9 +16,16 @@ function StackVisualizer (elemID) {
     this.animQueue = $({});
 }
 
-StackVisualizer.prototype.animToQueue = function(selector, animationprops, callback) {
+StackVisualizer.prototype.animToQueue = function(selector, animationprops, callback, concurrentFunc, args) {
     this.animQueue.queue(function(next) {
-        $(selector).animate(animationprops, stackAnimationTime, next).promise().done(callback);
+    	if(concurrentFunc !== undefined) {
+    		// concurrentFunc(args);
+    		$.when( concurrentFunc(args) ).done(function() {
+		       $(selector).animate(animationprops, stackAnimationTime, next).promise().done(callback);
+			});
+    	} else {
+	        $(selector).animate(animationprops, stackAnimationTime, next).promise().done(callback);
+	    }
     });
 };
  
@@ -114,9 +121,10 @@ StackVisualizer.prototype.createStackElement = function(value) {
 
 
 StackVisualizer.prototype.pushElementOnDiagram = function(stackElement) {
-	this.stackDiagram.prepend(stackElement);
+	// this.stackDiagram.prepend(stackElement);
 
 	var heightToFallFrom = this.getStackRemainingHeight()*percentHeightToFallFrom;
+	var stackSelector = '#' + this.stackID;
 
 	//Set starting state and then animation
 	stackElement.css({
@@ -130,24 +138,36 @@ StackVisualizer.prototype.pushElementOnDiagram = function(stackElement) {
 		'bottom' : '0px'
 	}, function(){
 		//animation complete
-	});
+		// this.top = stackElement;
+	}, function(a) {
+		$(stackSelector).prepend(stackElement);
+		a.top = stackElement;
+	}, this);
 
-	this.top = stackElement;
+	// this.top = stackElement;
 };
 
 StackVisualizer.prototype.popElementFromDiagram = function() {
-	popped = this.top;
-	this.top = $(this.top).next();
+	//popped = this.top;
+	poppedSelector = '#' + this.stackID + ' :first-child';
 
 	var heightToFlyTo = this.getStackRemainingHeight()*percentHeightToFlyUp;
 
-	this.animToQueue(popped, {
+	console.log("Top: " + this.top.text());
+
+	var top = this.top;
+
+	this.animToQueue(this.top, {
 		opacity: 0.0,
 		'bottom' : heightToFlyTo+'px'
 	}, function() {
 		//animation complete
 		$(this).remove();
-	});
+	}, function(a) {
+		console.log("Now popping: " + $(poppedSelector).text());
+		a.top = $(a.top).next();
+		console.log("New Top: " + a.top.text());
+	}, this);
 	
 };
 
@@ -157,8 +177,10 @@ StackVisualizer.prototype.removeElementFromDiagram = function(idx) {
 		popped = this.top;
 		this.top = $(this.top).next();
 	} else {
-		popped = $('#' + this.stackID + ' :nth-child(' + idx + ')')
+		popped = $('#' + this.stackID + ' :nth-child(' + idx + ')');
 	}
+
+	//console.log(popped.text());
 
 	var heightToFlyTo = this.getStackRemainingHeight()*percentHeightToFlyUp;
 
@@ -166,7 +188,8 @@ StackVisualizer.prototype.removeElementFromDiagram = function(idx) {
 		padding: "0"
 	});
 
-	this.animToQueue(popped, {
+	poppedSelector = '#' + this.stackID + ' :nth-child(' + idx + ')';
+	this.animToQueue(poppedSelector, {
 		'opacity' : '0.0',
 		'bottom' : heightToFlyTo+'px'
 	}, function() {
@@ -177,6 +200,8 @@ StackVisualizer.prototype.removeElementFromDiagram = function(idx) {
 		}, stackAnimationTime, function(){
 			$(this).remove();
 		});
+	}, function(){
+		console.log($(poppedSelector).text());
 	});
 };
 
@@ -200,7 +225,8 @@ StackVisualizer.prototype.insertElementInDiagram = function(stackElement, idx) {
 		});
 
 		//Append element
-		$('#' + this.stackID + ' :nth-child(' + idx + ')').after(stackElement);
+		//$('#' + this.stackID + ' :nth-child(' + idx + ')').after(stackElement);
+		var appendSelector = '#' + this.stackID + ' :nth-child(' + idx + ')';
 		
 		this.animToQueue(stackElement, {
 			"height": "10%",
@@ -214,6 +240,10 @@ StackVisualizer.prototype.insertElementInDiagram = function(stackElement, idx) {
 				'opacity' : '1.0',
 				'bottom' : '0px',
 			}, stackAnimationTime);
+		}, function() {
+			// console.log(stackElement.text());
+			// console.log(appendSelector);
+			$(appendSelector).after(stackElement);
 		});
 	}
 };

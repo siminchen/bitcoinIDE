@@ -12,21 +12,12 @@ $( document ).ready(function() {
 	stackVisualizer.push("STACK VALUE TEST1");
 	stackVisualizer.push("STACK VALUE TEST2");
 	stackVisualizer.push("STACK VALUE TEST3");
-	// p = stackVisualizer.pop();
-	// p = stackVisualizer.pop();
-	// stackVisualizer.push("STACK VALUE TEST3");
-	// p = stackVisualizer.pop();
-	
-
-	// stackVisualizer.push("STACK VALUE TEST3");
-	// p = stackVisualizer.pop();
-	// stackVisualizer.push("STACK VALUE TEST1");
-	// stackVisualizer.push("STACK VALUE TEST2");
-	// stackVisualizer.push("STACK VALUE TEST1");
-	// p = stackVisualizer.pop();
-	// p = stackVisualizer.pop();
-	// p = stackVisualizer.pop();
-	// p = stackVisualizer.pop();
-	// stackVisualizer.push("STACK VALUE TEST2");
-	// stackVisualizer.push("STACK VALUE TEST2");
+	p = stackVisualizer.pop();
+	stackVisualizer.pop();
+	stackVisualizer.push("STACK VALUE TEST4");
+	p = stackVisualizer.remove(2);
+	stackVisualizer.insert("STACK VALUE TEST5", 2);
+	p = stackVisualizer.remove(3);
+	p = stackVisualizer.pop();
+	stackVisualizer.push("STACK VALUE TEST6");
 });
