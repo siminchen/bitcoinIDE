@@ -116,12 +116,6 @@ StackVisualizer.prototype.pushElementOnDiagram = function(stackElement) {
 
 	var heightToFallFrom = this.getStackRemainingHeight()*0.75;
 
-	// console.log('Num elements: ' + this.numStackElements());
-	// console.log('Each elem height: ' + this.getStackElementHeight());
-	// console.log('Max height: ' + this.getStackMaxHeight());
-	// console.log('Current height: ' + this.getStackCurrHeight());
-	// console.log('Remaining height: ' + this.getStackRemainingHeight());
-
 	//Set starting state and then animation
 	stackElement.css({
 		'opacity' : '0.0',
@@ -138,6 +132,23 @@ StackVisualizer.prototype.pushElementOnDiagram = function(stackElement) {
 
 	this.top = stackElement;
 };
+
+StackVisualizer.prototype.popElementFromDiagram = function() {
+	popped = this.top;
+	this.top = $(this.top).next();
+
+	var heightToFlyTo = this.getStackRemainingHeight()*0.95;
+
+	this.animToQueue(popped, {
+		opacity: 0.0,
+		'bottom' : heightToFlyTo+'px'
+	}, function() {
+		//animation complete
+		$(this).remove();
+	});
+	
+};
+
 
 StackVisualizer.prototype.getStackRemainingHeight = function() {
 	return this.getStackMaxHeight() - this.getStackCurrHeight();
@@ -160,18 +171,47 @@ StackVisualizer.prototype.numStackElements = function() {
 	return this.stack.length;
 };
 
+StackVisualizer.prototype.size = function() {
+	return this.stack.length;
+};
 
-StackVisualizer.prototype.popElementFromDiagram = function() {
-	popped = this.top;
-	this.top = $(this.top).next();
+//1-indexed from the top of the stack
+StackVisualizer.prototype.peek = function(idx) {
 
-	var heightToFlyTo = this.getStackRemainingHeight()*0.95;
+	if(idx === undefined) {
+		if(this.size() <= 0) {
+			console.error("WARNING: peek() called with empty stack.");
+		} else {
+			return this.stack[this.size()-1];
+		}
+	} else {
+		if(this.size()-idx < 0 || this.size()-idx >= this.size()) {
+			console.error("WARNING: Index out of bounds: peek(" + idx + ") called with stack size " + this.size() + ".");
+		} else {
+			return this.stack[this.size()-idx];
+		}
+	}
+};
 
-	this.animToQueue(popped, {
-		opacity: 0.0,
-		'bottom' : heightToFlyTo+'px'
-	}, function() {
-		$(this).remove();
-	});
-	
+//1-indexed from the top of the stack
+StackVisualizer.prototype.remove = function(idx) {
+	var arrayIndex = this.size() - idx;
+	if(arrayIndex < 0 || arrayIndex >= this.size()) {
+		console.error("WARNING: Index out of bounds: remove(" + idx + ") called with stack size " + this.size() + ".");
+	} else {
+		return this.stack.splice(arrayIndex, 1)[0];
+	}
+};
+
+//1-indexed from the top of the stack
+StackVisualizer.prototype.insert = function(value, idx) {
+	//insert(val, 1) goes on the top of the stack
+	//insert(val, 2) goes under the current top element
+	var arrayIndex = this.size() - idx;
+	console.log("Array index: " + arrayIndex);
+	if(idx <= 0 || idx > this.size()+1) {
+		console.error("WARNING: Index out of bounds: insert(" + value + "," + idx + ") called with stack size " + this.size() + ".");
+	} else {
+		this.stack.splice(arrayIndex+1, 0, value);
+	}
 };

@@ -10,12 +10,13 @@ html, body {
   	border-width: 1px;
   	font-family: Verdana; 
   	font-size: 2.0em;
-  	
+
 	height: 10%;
 	display: block;
 	margin: 0;
 	padding: 0;
 	text-align: center;
+	overflow: hidden;
 }
 
 .row {

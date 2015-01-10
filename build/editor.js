@@ -11,6 +11,7 @@ $( document ).ready(function() {
 	stackVisualizer = new StackVisualizer("stack-visualizer");
 	stackVisualizer.push("STACK VALUE TEST1");
 	stackVisualizer.push("STACK VALUE TEST2");
+	stackVisualizer.push("STACK VALUE TEST3");
 	// p = stackVisualizer.pop();
 	// p = stackVisualizer.pop();
 	// stackVisualizer.push("STACK VALUE TEST3");
