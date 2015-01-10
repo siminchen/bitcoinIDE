@@ -15,7 +15,8 @@ $( document ).ready(function() {
 	p = stackVisualizer.pop();
 	stackVisualizer.pop();
 	stackVisualizer.push("STACK VALUE TEST4");
-	p = stackVisualizer.remove(2);
+	stackVisualizer.push("STACK VALUE TEST4.5");
+	p = stackVisualizer.remove(3);
 	stackVisualizer.insert("STACK VALUE TEST5", 2);
 	p = stackVisualizer.remove(3);
 	p = stackVisualizer.pop();

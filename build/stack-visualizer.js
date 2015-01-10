@@ -20,10 +20,17 @@ StackVisualizer.prototype.animToQueue = function(selector, animationprops, callb
     this.animQueue.queue(function(next) {
     	if(concurrentFunc !== undefined) {
     		// concurrentFunc(args);
-    		$.when( concurrentFunc(args) ).done(function() {
+    		$.when( newSelector = concurrentFunc(args) ).done(function() {
+    			console.log("Animating for " + selector + " : " + $(selector).text());
+    			console.log("RET: " + newSelector);
+    			if(newSelector != undefined)
+    			{
+    				selector = newSelector;
+    			}
 		       $(selector).animate(animationprops, stackAnimationTime, next).promise().done(callback);
 			});
     	} else {
+    		console.log("Animating for " + selector + " : " + $(selector).text());
 	        $(selector).animate(animationprops, stackAnimationTime, next).promise().done(callback);
 	    }
     });
@@ -157,16 +164,20 @@ StackVisualizer.prototype.popElementFromDiagram = function() {
 
 	var top = this.top;
 
-	this.animToQueue(this.top, {
+	this.animToQueue(poppedSelector, {
 		opacity: 0.0,
 		'bottom' : heightToFlyTo+'px'
 	}, function() {
 		//animation complete
 		$(this).remove();
 	}, function(a) {
+		var poppedTop = a.top;
 		console.log("Now popping: " + $(poppedSelector).text());
+		console.log("Original Top: " + a.top.text());
 		a.top = $(a.top).next();
 		console.log("New Top: " + a.top.text());
+
+		return poppedTop;
 	}, this);
 	
 };
