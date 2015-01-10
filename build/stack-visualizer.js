@@ -1,5 +1,6 @@
 var stackAnimationTime = 400;
 var stackElementBorderWidth = 1;
+var curvedness = 8;
 
 
 function StackVisualizer (elemID) {
@@ -46,6 +47,8 @@ StackVisualizer.prototype.createStackDiagram = function() {
     	'height' : '90%',
     	'width' : '80%',
     	'margin' : '0 auto',
+
+		'margin-top' : '2%',
     	//'overflow' : 'scroll'
     });
 
@@ -67,7 +70,12 @@ StackVisualizer.prototype.createStackDiagram = function() {
 		//border
 		'border-style' : 'double',
 		'border-color' : 'gray',
-		'border-width' : '0px 5px 5px 5px'
+		'border-width' : '0px 5px 5px 5px',
+
+		'-moz-border-radius-bottomright' : curvedness + 'px',
+		'border-bottom-right-radius' : curvedness + 'px',
+		'-moz-border-radius-bottomleft' : curvedness + 'px',
+		'border-bottom-left-radius' : curvedness + 'px'
 	});
 
 	stackDiv.appendTo(this.parentElement);
@@ -95,8 +103,8 @@ StackVisualizer.prototype.createStackElement = function(value) {
 		'border-color' : 'white',
 		'border-width' : stackElementBorderWidth+'px',
 
-		'-moz-border-radius' : '7px',
-		'border-radius' : '7px'
+		'-moz-border-radius' : curvedness+'px',
+		'border-radius' : curvedness+'px'
 	});
 
 	return stackElement;
