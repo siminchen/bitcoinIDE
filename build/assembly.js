@@ -283,9 +283,10 @@ var constantToHexcode = function(hexstring) {
 // Convert a Bitcoin script to its hex code
 // Argument: script: string
 // Return: string for the hex code
-var assembleToHex = function(script) {
+function assembleToHex(script) {
     var hexcode = "";
-    var commands = script.split(" ");
+    // Split the script based on space characters                                                                                                                                    
+    var commands = script.split(/\s+/);
     
     for (var i = 0; i < commands.length; i++) {
 	var opcode = commandToOpcode[commands[i]];
@@ -306,7 +307,7 @@ var assembleToHex = function(script) {
 // Convert a hex string to the original Bitcoin script
 // Argument: hex: string
 // Return: string for the script
-var disassembleFromHex = function(hexstring) {
+function disassembleFromHex(hexstring) {
     var script = "";
     var index = 0;
 
