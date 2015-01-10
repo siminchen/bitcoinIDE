@@ -289,7 +289,7 @@ function assembleToHex(script) {
     var commands = script.split(/\s+/);
     
     for (var i = 0; i < commands.length; i++) {
-	var opcode = commandToOpcode[commands[i]];
+	var opcode = commandToOpcode[commands[i].toUpperCase()];
 
 	// This is a valid command
 	if (opcode != null) {
