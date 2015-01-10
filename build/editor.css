@@ -80,13 +80,19 @@ html, body {
 }
 
 #middle-panel {
-	height: 30%;
+	margin-left: 10px;
+	height: 20%;
 	width: 100%;
 }
 
 #bottom-panel {
-	height: 30%;
+	margin-left: 10px;
+	height: 20%;
 	width: 100%;
+}
+
+.subsection-title {
+	margin-left: 10px;
 }
 
 #editor {
@@ -105,13 +111,17 @@ html, body {
   	height: 100%;
 }
 
+button {
+       margin-left: 10px;
+}
+
 .assembly-content {
  	margin-left: 20px;
-	margin-top: 20px;
 	background-color: black;
 	color: white;
 	border-style: solid;
 	border-width: 1px;
 	border-color: black;
-	font-size: small; 
+	font-size: 11pt;;
 }
+
