@@ -11,16 +11,20 @@ $( document ).ready(function() {
 	stackVisualizer = new StackVisualizer("stack-visualizer");
 	stackVisualizer.push("STACK VALUE TEST1");
 	stackVisualizer.push("STACK VALUE TEST2");
-	stackVisualizer.push("STACK VALUE TEST3");
-	p = stackVisualizer.pop();
-	stackVisualizer.pop();
-	stackVisualizer.push("STACK VALUE TEST4");
-	stackVisualizer.push("STACK VALUE TEST4.5");
-	p = stackVisualizer.remove(3);
-	stackVisualizer.insert("STACK VALUE TEST5", 2);
-	p = stackVisualizer.remove(3);
-	p = stackVisualizer.pop();
-	stackVisualizer.push("STACK VALUE TEST6");
+	// stackVisualizer.push("STACK VALUE TEST3");
+	// p = stackVisualizer.pop();
+	// stackVisualizer.pop();
+	// stackVisualizer.push("STACK VALUE TEST4");
+	// stackVisualizer.push("STACK VALUE TEST4.5");
+	// p = stackVisualizer.remove(2);
+	// stackVisualizer.insert("STACK VALUE TEST5", 3);
+	// p = stackVisualizer.remove(2);
+	// p = stackVisualizer.pop();
+	stackVisualizer.insert("STACK VALUE TOP", 1);
+	stackVisualizer.insert("STACK VALUE BOTTOM", 2);
+	// stackVisualizer.push("STACK VALUE TEST6");
+	// stackVisualizer.pop();
+	console.log(stackVisualizer.stack);
 
 
 	// Attach event listeners to the assemble and disassemble button
