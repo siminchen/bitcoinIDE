@@ -1,16 +1,23 @@
 var stackAnimationTime = 400;
 var stackElementBorderWidth = 1;
 
+
 function StackVisualizer (elemID) {
     this.name = "Bitcoin Stack Visualizer";
     this.parentID = elemID;
-   // this.grandparentID = ;
     this.stackID = 'stack-diagram';
 
     this.parentElement = $("#"+elemID);
     this.stack = new Array();
     this.createStackDiagram();
+    this.animQueue = $({});
 }
+
+StackVisualizer.prototype.animToQueue = function(selector, animationprops, callback) {
+    this.animQueue.queue(function(next) {
+        $(selector).animate(animationprops, stackAnimationTime, next).promise().done(callback);
+    });
+};
  
 StackVisualizer.prototype.getInfo = function() {
     return this.name;
@@ -22,6 +29,10 @@ StackVisualizer.prototype.push = function(value) {
 };
 
 StackVisualizer.prototype.pop = function() {
+	if(this.numStackElements() == 0) {
+		console.error("WARNING: Stack underflow! Attempted to pop empty stack.");
+		return;
+	}
 	this.popElementFromDiagram();
     return this.stack.pop();
 };
@@ -46,7 +57,6 @@ StackVisualizer.prototype.createStackDiagram = function() {
 
 	stackDiv.css({
 		'height' : '100%',
-		//'width' : '10%',
 		'display' : 'table-cell', //for IE8+
 		'margin' : '0 auto',
 		'position' : 'relative',
@@ -59,9 +69,6 @@ StackVisualizer.prototype.createStackDiagram = function() {
 };
 
 StackVisualizer.prototype.createStackElement = function(value) {
-	// var parentWidth = this.element.width();
-	// var stackElementWidth = 0.95;
-
     var stackElement = $('<div/>', {
 	    text: value
 	});
@@ -78,9 +85,12 @@ StackVisualizer.prototype.createStackElement = function(value) {
 		'color' : 'white',
 		'text-align' : 'center',
 		'bottom' : '0',
-		'background-color' : 'blue',
+		'background-color' : '#E89A2C',
 		'border-style' : 'solid',
-		'border-width' : stackElementBorderWidth+'px'
+		'border-width' : stackElementBorderWidth+'px',
+
+		'-moz-border-radius' : '10px',
+		'border-radius' : '10px'
 	});
 
 	return stackElement;
@@ -92,27 +102,27 @@ StackVisualizer.prototype.pushElementOnDiagram = function(stackElement) {
 
 	var heightToFallFrom = this.getStackRemainingHeight()*0.75;
 
-	//console.log(maxHeight);
-	console.log('Num elements: ' + this.numStackElements());
-	console.log('Each elem height: ' + this.getStackElementHeight());
-	console.log('Max height: ' + this.getStackMaxHeight());
-	console.log('Current height: ' + this.getStackCurrHeight());
-	console.log('Remaining height: ' + this.getStackRemainingHeight());
+	// console.log('Num elements: ' + this.numStackElements());
+	// console.log('Each elem height: ' + this.getStackElementHeight());
+	// console.log('Max height: ' + this.getStackMaxHeight());
+	// console.log('Current height: ' + this.getStackCurrHeight());
+	// console.log('Remaining height: ' + this.getStackRemainingHeight());
 
 	//Set starting state and then animation
 	stackElement.css({
 		'opacity' : '0.0',
 		'margin' : '0',
-		'border-width' : '1px',
 		'bottom' : heightToFallFrom
-		//'margin-bottom' : '10px'//maxHeight+'px'
-	}).animate({
+	});
+
+	this.animToQueue(stackElement, {
 		opacity: 1.0,
 		'bottom' : '0px'
-		//'margin-bottom' : '0'
-	}, stackAnimationTime, function() {
+	}, function(){
 		//animation complete
 	});
+
+	this.top = stackElement;
 };
 
 StackVisualizer.prototype.getStackRemainingHeight = function() {
@@ -138,16 +148,17 @@ StackVisualizer.prototype.numStackElements = function() {
 
 
 StackVisualizer.prototype.popElementFromDiagram = function() {
-	popped = $('#' + this.stackID + ' :first-child');
+	popped = this.top;
+	this.top = $(this.top).next();
+	//popped = $('#' + this.stackID + ' :first-child');
 
 	var heightToFlyTo = this.getStackRemainingHeight()*0.95;
 
-	popped.animate({
+	this.animToQueue(popped, {
 		opacity: 0.0,
 		'bottom' : heightToFlyTo+'px'
-	}, stackAnimationTime, function() {
-		//animation complete
-		popped.remove();
+	}, function() {
+		$(this).remove();
 	});
 	
 };
