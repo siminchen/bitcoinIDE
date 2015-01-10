@@ -17,6 +17,10 @@ html, body {
 	height: 100%;
 }
 
+.section {
+	/*overflow: hidden;*/
+}
+
 #top-panel {
 	height: 60%;
 	width: 100%;

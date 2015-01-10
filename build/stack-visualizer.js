@@ -3,7 +3,7 @@ function StackVisualizer (elemID) {
     this.parentID = elemID;
     this.stackID = 'stack-diagram';
 
-    this.element = $("#"+elemID);
+    this.parentElement = $("#"+elemID);
     this.stack = new Array();
     this.createStackDiagram();
 }
@@ -25,9 +25,14 @@ StackVisualizer.prototype.pop = function() {
 StackVisualizer.prototype.createStackDiagram = function() {
     console.log("Creating stack diagram...");
 
+    this.parentElement.css({
+    	'position' : 'relative',
+    	'min-width':'100%',
+    	'display' : 'table'
+    });
+
     var stackDiv = $('<div/>', {
-	    id: this.stackID,
-	    text: 'This is where the diagram will go!'
+	    id: this.stackID
 	});
 
 	stackDiv.addClass("test-box");
@@ -35,13 +40,13 @@ StackVisualizer.prototype.createStackDiagram = function() {
 	stackDiv.css({
 		'height' : '100%',
 		'width' : '80%',
-		'display' : 'table', //for IE8+
+		'display' : 'table-cell', //for IE8+
 		'margin' : '0 auto',
 		'position' : 'relative',
 		'vertical-align' :'bottom'
 	});
 
-	stackDiv.appendTo(this.element);
+	stackDiv.appendTo(this.parentElement);
 	this.stackDiagram = stackDiv;
 };
 
@@ -58,16 +63,15 @@ StackVisualizer.prototype.createStackElement = function(value) {
 	stackElement.css({
 		'height' : '10%',
 		'width' : '100%',
+		'position' : 'relative',
 		'display' : 'table', //for IE8+
 		//'margin-left' : '50%', //parentWidth/2
 
 		'color' : 'white',
-		//'position' : 'absolute',
 		'text-align' : 'center',
 		'bottom' : '0',
 		'background-color' : 'blue'
 	});
-
 
 	return stackElement;
 };
@@ -78,6 +82,5 @@ StackVisualizer.prototype.pushElementOnDiagram = function(stackElement) {
 };
 
 StackVisualizer.prototype.popElementFromDiagram = function() {
-	console.log('#'+this.elemID+':first-child');
 	$('#' + this.stackID + ' :first-child').remove();
 };
