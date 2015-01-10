@@ -1,6 +1,7 @@
 function StackVisualizer (elemID) {
     this.name = "Bitcoin Stack Visualizer";
     this.parentID = elemID;
+   // this.grandparentID = ;
     this.stackID = 'stack-diagram';
 
     this.parentElement = $("#"+elemID);
@@ -27,8 +28,11 @@ StackVisualizer.prototype.createStackDiagram = function() {
 
     this.parentElement.css({
     	'position' : 'relative',
-    	'min-width':'100%',
-    	'display' : 'table'
+    	'display' : 'table',
+    	'height' : '90%',
+    	'width' : '80%',
+    	'margin' : '0 auto',
+    	//'overflow' : 'scroll'
     });
 
     var stackDiv = $('<div/>', {
@@ -39,11 +43,12 @@ StackVisualizer.prototype.createStackDiagram = function() {
 
 	stackDiv.css({
 		'height' : '100%',
-		'width' : '80%',
+		//'width' : '10%',
 		'display' : 'table-cell', //for IE8+
 		'margin' : '0 auto',
 		'position' : 'relative',
-		'vertical-align' :'bottom'
+		'vertical-align' :'bottom',
+		//'overflow-y' : 'scroll'
 	});
 
 	stackDiv.appendTo(this.parentElement);
