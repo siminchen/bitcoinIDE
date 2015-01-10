@@ -1,4 +1,4 @@
-var stackAnimationTime = 400;
+var stackAnimationTime = 500;
 var stackElementBorderWidth = 1;
 var curvedness = 8;
 var percentHeightToFallFrom = 0.95;
@@ -21,10 +21,11 @@ StackVisualizer.prototype.animToQueue = function(selector, animationprops, callb
     	if(concurrentFunc !== undefined) {
     		// concurrentFunc(args);
     		$.when( newSelector = concurrentFunc(args) ).done(function() {
-    			console.log("Animating for " + selector + " : " + $(selector).text());
-    			console.log("RET: " + newSelector);
+    			console.log("Animating for " + selector + " => " + $(selector).text());
+    			// console.log("RET: " + newSelector + " => " + newSelector.text());
     			if(newSelector != undefined)
     			{
+    				console.log("RET: " + newSelector + " => " + newSelector.text());
     				selector = newSelector;
     			}
 		       $(selector).animate(animationprops, stackAnimationTime, next).promise().done(callback);
@@ -40,19 +41,6 @@ StackVisualizer.prototype.getInfo = function() {
     return this.name;
 };
 
-StackVisualizer.prototype.push = function(value) {
-	this.pushElementOnDiagram(this.createStackElement(value));
-	this.stack.push(value);
-};
-
-StackVisualizer.prototype.pop = function() {
-	if(this.numStackElements() == 0) {
-		console.error("WARNING: Stack underflow! Attempted to pop empty stack.");
-		return;
-	}
-	this.popElementFromDiagram();
-    return this.stack.pop();
-};
 
 StackVisualizer.prototype.createStackDiagram = function() {
     console.log("Creating stack diagram...");
@@ -146,9 +134,10 @@ StackVisualizer.prototype.pushElementOnDiagram = function(stackElement) {
 	}, function(){
 		//animation complete
 		// this.top = stackElement;
-	}, function(a) {
+	}, function(s) {
 		$(stackSelector).prepend(stackElement);
-		a.top = stackElement;
+		s.top = stackElement;
+		// s.push(value);
 	}, this);
 
 	// this.top = stackElement;
@@ -170,12 +159,12 @@ StackVisualizer.prototype.popElementFromDiagram = function() {
 	}, function() {
 		//animation complete
 		$(this).remove();
-	}, function(a) {
-		var poppedTop = a.top;
+	}, function(s) {
+		var poppedTop = s.top;
 		console.log("Now popping: " + $(poppedSelector).text());
-		console.log("Original Top: " + a.top.text());
-		a.top = $(a.top).next();
-		console.log("New Top: " + a.top.text());
+		console.log("Original Top: " + s.top.text());
+		s.top = $(s.top).next();
+		console.log("New Top: " + s.top.text());
 
 		return poppedTop;
 	}, this);
@@ -188,34 +177,41 @@ StackVisualizer.prototype.removeElementFromDiagram = function(idx) {
 		this.popElementFromDiagram();
 	} else {
 		popped = $('#' + this.stackID + ' :nth-child(' + idx + ')');
+		
+
+		var heightToFlyTo = this.getStackRemainingHeight()*percentHeightToFlyUp;
+
+		// popped.css({
+		// 	padding: "0"
+		// });
+
+		poppedSelector = '#' + this.stackID + ' :nth-child(' + idx + ')';
+		this.animToQueue(poppedSelector, {
+			'opacity' : '0.0',
+			'bottom' : heightToFlyTo+'px'
+		}, function() {
+			//animation complete
+			$(this).animate({
+				"height": "toggle",
+				'font-size': '0',
+			}, stackAnimationTime, function(){
+				$(this).remove();
+				console.log($(this).text() + " DELETED.");
+			});
+		}, function(s){
+			//concurrent function
+			console.log($(poppedSelector).text());
+			//get nth sibling of the current top
+			//return sibling
+			console.log("Current top (Remove): " + $(s.top).text());
+			var newSelector = $(s.top).nextAll().eq(idx-2);
+			console.log("Removing: " + $(newSelector).text());
+			$(newSelector).css({
+				padding: "0"
+			});
+			return newSelector;
+		}, this);
 	}
-
-	//console.log(popped.text());
-
-	var heightToFlyTo = this.getStackRemainingHeight()*percentHeightToFlyUp;
-
-	popped.css({
-		padding: "0"
-	});
-
-	poppedSelector = '#' + this.stackID + ' :nth-child(' + idx + ')';
-	this.animToQueue(poppedSelector, {
-		'opacity' : '0.0',
-		'bottom' : heightToFlyTo+'px'
-	}, function() {
-		//animation complete
-		$(this).animate({
-			"height": "toggle",
-			'font-size': '0',
-		}, stackAnimationTime, function(){
-			$(this).remove();
-		});
-	}, function(){
-		//concurrent function
-		console.log($(poppedSelector).text());
-		//get nth sibling of the current top
-		//return sibling
-	});
 };
 
 //1-indexed from top
@@ -239,7 +235,7 @@ StackVisualizer.prototype.insertElementInDiagram = function(stackElement, idx) {
 
 		//Append element
 		//$('#' + this.stackID + ' :nth-child(' + idx + ')').after(stackElement);
-		var appendSelector = '#' + this.stackID + ' :nth-child(' + idx + ')';
+		var appendSelector = '#' + this.stackID + ' :nth-child(' + (idx-1) + ')';
 		
 		this.animToQueue(stackElement, {
 			"height": "10%",
@@ -253,12 +249,18 @@ StackVisualizer.prototype.insertElementInDiagram = function(stackElement, idx) {
 				'opacity' : '1.0',
 				'bottom' : '0px',
 			}, stackAnimationTime);
-		}, function() {
+		}, function(s) {
 			// console.log(stackElement.text());
 			// console.log(appendSelector);
 			$(appendSelector).after(stackElement);
-		});
+		}, this);
 	}
+};
+
+StackVisualizer.prototype.consistentSize = function() {
+	//Is the visual consistent with the actual stack data?
+	var sizeVisualStack = $('#' + this.stackID + ' > *').length;
+	return this.size() == sizeVisualStack;
 };
 
 StackVisualizer.prototype.getStackRemainingHeight = function() {
@@ -302,6 +304,20 @@ StackVisualizer.prototype.peek = function(idx) {
 			return this.stack[this.size()-idx];
 		}
 	}
+};
+
+StackVisualizer.prototype.push = function(value) {
+	this.pushElementOnDiagram(this.createStackElement(value));
+	this.stack.push(value);
+};
+
+StackVisualizer.prototype.pop = function() {
+	if(this.numStackElements() == 0) {
+		console.error("WARNING: Stack underflow! Attempted to pop empty stack.");
+		return;
+	}
+	this.popElementFromDiagram();
+    return this.stack.pop();
 };
 
 //1-indexed from the top of the stack
