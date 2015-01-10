@@ -1,6 +1,7 @@
 //console.log("BITCOIN IDE! YEAH!");
 
 var stackVisualizer;
+var scriptDebugger;
 
 /* All javascript manipulation for the page goes in here: */
 $( document ).ready(function() {
@@ -60,5 +61,19 @@ $( document ).ready(function() {
 	$( "body" ).delegate( "#disassemble-button", "click", function() {
 		var hex = $(".assembly-content").val();
 		editor.getSession().setValue(disassembleFromHex(hex));
+	});
+
+	// Attach event listeners to the debugging buttons
+	scriptDebugger = new ScriptDebugger();
+	$( "body" ).delegate( "#run-button", "click", function() {
+		scriptDebugger.runFromBeginning();
+	});
+
+	$( "body" ).delegate( "#next-button", "click", function() {
+		scriptDebugger.nextStep();
+	});
+
+	$( "body" ).delegate( "#continue-button", "click", function() {
+		scriptDebugger.continueExecution();
 	});
 });

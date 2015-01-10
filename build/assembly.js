@@ -251,7 +251,7 @@ var opcodeToCommand = {
 var opcodeToHex = function(opcode) {
     var hexcode = opcode.toString(BASE_16);
 
-    // Convert the hex code two 2 characters
+    // Convert the hex code to 2 characters
     if (hexcode.length == 1) {
 	hexcode = "0" + hexcode;
     }
@@ -262,19 +262,44 @@ var opcodeToHex = function(opcode) {
 
 // Convert a constant in the Bitcoin script to its hexcode in Bitcoin
 // Return a string on success, and null on failure
-// Arguments: hexstring: string
+// Arguments: constant: string in the format of <...>
+// If it's heximal, constant must be in the format of <0x...>
 // Return: string or null
-var constantToHexcode = function(hexstring) {
-    // Extract the constant inside the < ... >
-    var num = parseInt(hexstring.substring(1, hexstring.length - 1));
+var constantToHexcode = function(constant) {
+    var numBytes;
+    // If the number is hexadecimal, just take the characters directly
+    if (constant.substring(1, 3) == "0x" ||
+	constant.substring(1, 3) == "0X") {
+        // Remove the leading <0x and the trailing >
+	constant = constant.substring(3, constant.length - 1);
+	
+	// If the number of characters is not even, add a leading zero.
+	// This is because every two hex digits correspond to a byte.
+	if (constant.length % 2) {
+	    constant = "0" +  constant;
+	}
+
+	numBytes = opcodeToHex(constant.length / 2);
+	return numBytes + constant;
+    }
+	
+    // Otherwise, the constant is in decimal, parse it as integer
+    var num = parseInt(constant.substring(1, constant.length - 1));
+
     if (isNaN(num)) {
 	return null;
     }
 
     num = num.toString(BASE_16);
+    
+    // If the number of characters is not even, add a leading zero.                                                                                                               
+    // This is because every two hex digits correspond to a byte.                                                                                                                 
+    if (num.length % 2) {
+	num = "0" +  num;
+    }
 
     // Determine the number of bytes of the constant
-    var numBytes = num.length;
+    numBytes = opcodeToHex(num.length / 2);
     numBytes = opcodeToHex(numBytes);
 
     return numBytes + num;
@@ -289,7 +314,7 @@ function assembleToHex(script) {
     var commands = script.split(/\s+/);
     
     for (var i = 0; i < commands.length; i++) {
-	var opcode = commandToOpcode[commands[i]];
+	var opcode = commandToOpcode[commands[i].toUpperCase()];
 
 	// This is a valid command
 	if (opcode != null) {
@@ -323,8 +348,8 @@ function disassembleFromHex(hexstring) {
 	    script += "<";
 	    script += "0x";
 	    while (opcodeValue > 0) {
-		script += hexstring[index];
-		index += 1;
+		script += hexstring[index] + hexstring[index + 1];
+		index += 2;
 		opcodeValue -= 1;
 	    }
 	    script += ">";
