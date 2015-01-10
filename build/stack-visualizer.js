@@ -48,7 +48,7 @@ StackVisualizer.prototype.createStackDiagram = function() {
 		'margin' : '0 auto',
 		'position' : 'relative',
 		'vertical-align' :'bottom',
-		//'overflow-y' : 'scroll'
+		'overflow-y' : 'hidden'
 	});
 
 	stackDiv.appendTo(this.parentElement);
@@ -81,11 +81,39 @@ StackVisualizer.prototype.createStackElement = function(value) {
 	return stackElement;
 };
 
+var stackAnimationTime = 400;
 
 StackVisualizer.prototype.pushElementOnDiagram = function(stackElement) {
 	this.stackDiagram.prepend(stackElement);
+
+	maxHeight = this.stackDiagram.height();
+	maxHeight -= maxHeight*0.50;
+
+	console.log(maxHeight);
+
+	//Set starting state and then animation
+	stackElement.css({
+		'opacity' : '0.0',
+		'margin' : '0',
+		'border-width' : '1px',
+		//'margin-bottom' : '10px'//maxHeight+'px'
+	}).animate({
+		opacity: 1.0,
+		//'margin-bottom' : '0'
+	}, stackAnimationTime, function() {
+		//animation complete
+	});
 };
 
 StackVisualizer.prototype.popElementFromDiagram = function() {
-	$('#' + this.stackID + ' :first-child').remove();
+	popped = $('#' + this.stackID + ' :first-child');
+
+	popped.animate({
+		opacity: 0.0,
+		//'margin-bottom' : '0'
+	}, stackAnimationTime, function() {
+		//animation complete
+		popped.remove();
+	});
+	
 };
