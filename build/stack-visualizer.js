@@ -1,6 +1,8 @@
 var stackAnimationTime = 400;
 var stackElementBorderWidth = 1;
 var curvedness = 8;
+var percentHeightToFallFrom = 0.95;
+var percentHeightToFlyUp = 0.95;
 
 
 function StackVisualizer (elemID) {
@@ -14,9 +16,23 @@ function StackVisualizer (elemID) {
     this.animQueue = $({});
 }
 
-StackVisualizer.prototype.animToQueue = function(selector, animationprops, callback) {
+StackVisualizer.prototype.animToQueue = function(selector, animationprops, callback, concurrentFunc, args) {
     this.animQueue.queue(function(next) {
-        $(selector).animate(animationprops, stackAnimationTime, next).promise().done(callback);
+    	if(concurrentFunc !== undefined) {
+    		// concurrentFunc(args);
+    		$.when( newSelector = concurrentFunc(args) ).done(function() {
+    			console.log("Animating for " + selector + " : " + $(selector).text());
+    			console.log("RET: " + newSelector);
+    			if(newSelector != undefined)
+    			{
+    				selector = newSelector;
+    			}
+		       $(selector).animate(animationprops, stackAnimationTime, next).promise().done(callback);
+			});
+    	} else {
+    		console.log("Animating for " + selector + " : " + $(selector).text());
+	        $(selector).animate(animationprops, stackAnimationTime, next).promise().done(callback);
+	    }
     });
 };
  
@@ -112,9 +128,10 @@ StackVisualizer.prototype.createStackElement = function(value) {
 
 
 StackVisualizer.prototype.pushElementOnDiagram = function(stackElement) {
-	this.stackDiagram.prepend(stackElement);
+	// this.stackDiagram.prepend(stackElement);
 
-	var heightToFallFrom = this.getStackRemainingHeight()*0.75;
+	var heightToFallFrom = this.getStackRemainingHeight()*percentHeightToFallFrom;
+	var stackSelector = '#' + this.stackID;
 
 	//Set starting state and then animation
 	stackElement.css({
@@ -128,27 +145,121 @@ StackVisualizer.prototype.pushElementOnDiagram = function(stackElement) {
 		'bottom' : '0px'
 	}, function(){
 		//animation complete
-	});
+		// this.top = stackElement;
+	}, function(a) {
+		$(stackSelector).prepend(stackElement);
+		a.top = stackElement;
+	}, this);
 
-	this.top = stackElement;
+	// this.top = stackElement;
 };
 
 StackVisualizer.prototype.popElementFromDiagram = function() {
-	popped = this.top;
-	this.top = $(this.top).next();
+	//popped = this.top;
+	poppedSelector = '#' + this.stackID + ' :first-child';
 
-	var heightToFlyTo = this.getStackRemainingHeight()*0.95;
+	var heightToFlyTo = this.getStackRemainingHeight()*percentHeightToFlyUp;
 
-	this.animToQueue(popped, {
+	console.log("Top: " + this.top.text());
+
+	var top = this.top;
+
+	this.animToQueue(poppedSelector, {
 		opacity: 0.0,
 		'bottom' : heightToFlyTo+'px'
 	}, function() {
 		//animation complete
 		$(this).remove();
-	});
+	}, function(a) {
+		var poppedTop = a.top;
+		console.log("Now popping: " + $(poppedSelector).text());
+		console.log("Original Top: " + a.top.text());
+		a.top = $(a.top).next();
+		console.log("New Top: " + a.top.text());
+
+		return poppedTop;
+	}, this);
 	
 };
 
+//1-indexed from top
+StackVisualizer.prototype.removeElementFromDiagram = function(idx) {
+	if(idx == 1) { //removing top element
+		this.popElementFromDiagram();
+	} else {
+		popped = $('#' + this.stackID + ' :nth-child(' + idx + ')');
+	}
+
+	//console.log(popped.text());
+
+	var heightToFlyTo = this.getStackRemainingHeight()*percentHeightToFlyUp;
+
+	popped.css({
+		padding: "0"
+	});
+
+	poppedSelector = '#' + this.stackID + ' :nth-child(' + idx + ')';
+	this.animToQueue(poppedSelector, {
+		'opacity' : '0.0',
+		'bottom' : heightToFlyTo+'px'
+	}, function() {
+		//animation complete
+		$(this).animate({
+			"height": "toggle",
+			'font-size': '0',
+		}, stackAnimationTime, function(){
+			$(this).remove();
+		});
+	}, function(){
+		//concurrent function
+		console.log($(poppedSelector).text());
+		//get nth sibling of the current top
+		//return sibling
+	});
+};
+
+//1-indexed from top
+StackVisualizer.prototype.insertElementInDiagram = function(stackElement, idx) {
+
+	if(idx == 1) { //inserting new top element
+		this.pushElementOnDiagram(stackElement);
+	} else {
+		var heightToFallFrom = this.getStackRemainingHeight()*percentHeightToFallFrom;
+		var padding = this.top.css("padding");
+
+		//Set starting state and then animation
+		stackElement.css({
+			'opacity' : '0.0',
+			'margin' : '0',
+			'bottom' : heightToFallFrom,
+			'padding' : '0',
+			'font-size' : '0',
+			'height' : '0'
+		});
+
+		//Append element
+		//$('#' + this.stackID + ' :nth-child(' + idx + ')').after(stackElement);
+		var appendSelector = '#' + this.stackID + ' :nth-child(' + idx + ')';
+		
+		this.animToQueue(stackElement, {
+			"height": "10%",
+			'font-size' : '100%',
+			// 'opacity' : '1.0',
+			// 'bottom' : '0px',
+			'padding' : padding
+		}, function() {
+			//when this animation is done
+			$(this).animate({
+				'opacity' : '1.0',
+				'bottom' : '0px',
+			}, stackAnimationTime);
+		}, function() {
+			// console.log(stackElement.text());
+			// console.log(appendSelector);
+			$(appendSelector).after(stackElement);
+		});
+	}
+};
 
 StackVisualizer.prototype.getStackRemainingHeight = function() {
 	return this.getStackMaxHeight() - this.getStackCurrHeight();
@@ -199,6 +310,7 @@ StackVisualizer.prototype.remove = function(idx) {
 	if(arrayIndex < 0 || arrayIndex >= this.size()) {
 		console.error("WARNING: Index out of bounds: remove(" + idx + ") called with stack size " + this.size() + ".");
 	} else {
+		this.removeElementFromDiagram(idx);
 		return this.stack.splice(arrayIndex, 1)[0];
 	}
 };
@@ -213,5 +325,6 @@ StackVisualizer.prototype.insert = function(value, idx) {
 		console.error("WARNING: Index out of bounds: insert(" + value + "," + idx + ") called with stack size " + this.size() + ".");
 	} else {
 		this.stack.splice(arrayIndex+1, 0, value);
+		this.insertElementInDiagram(this.createStackElement(value), idx);
 	}
 };
