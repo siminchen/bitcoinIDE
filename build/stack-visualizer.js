@@ -1,16 +1,15 @@
-var stackAnimationTime = 100;
-var stackElementBorderWidth = 1;
-var curvedness = 8;
-var percentHeightToFallFrom = 0.95;
-var percentHeightToFlyUp = 0.95;
-var msToWaitForAnim = 100;
+StackVisualizer.stackAnimationTime = 100;
+StackVisualizer.stackElementBorderWidth = 1;
+StackVisualizer.curvedness = 8;
+StackVisualizer.percentHeightToFallFrom = 0.95;
+StackVisualizer.percentHeightToFlyUp = 0.95;
+StackVisualizer.msToWaitForAnim = 100;
 
-var msToWaitBetweenAnimSections = 0;
-var msToWaitBeforeQueueing = 0; //setTimeout timer
-var msToWaitPerCall = 0; //delay between calls
-var callerCount = 0;
-var stackID = 'stack-diagram';
-var qname = 'stackAnimQueue';
+StackVisualizer.msToWaitBetweenAnimSections = 0;
+StackVisualizer.msToWaitBeforeQueueing = 0; //setTimeout timer
+StackVisualizer.msToWaitPerCall = 0; //delay between calls
+StackVisualizer.stackID = 'stack-diagram';
+StackVisualizer.qname = 'stackAnimQueue';
 
 /*
 //Have an element with id myQueue
@@ -45,12 +44,11 @@ function StackVisualizer (elemID, isHiddenStack) {
 
     if(isHiddenStack == undefined || !isHiddenStack) {
 	    this.parentID = elemID;
-	    this.stackID = 'stack-diagram';
+	    this.stackID = StackVisualizer.stackID;
 	    this.parentElement = $("#"+elemID);
 	    this.createStackDiagram();
-	    // this.animQueue = $({});
 	    this.isHiddenStack = false;
-	    // this.dfd = null;
+	    this.callerCount = 0;
 	} else {
 		this.isHiddenStack = true;
 	}
@@ -97,10 +95,10 @@ StackVisualizer.prototype.createStackDiagram = function() {
 		'border-color' : 'gray',
 		'border-width' : '0px 5px 5px 5px',
 
-		'-moz-border-radius-bottomright' : curvedness + 'px',
-		'border-bottom-right-radius' : curvedness + 'px',
-		'-moz-border-radius-bottomleft' : curvedness + 'px',
-		'border-bottom-left-radius' : curvedness + 'px'
+		'-moz-border-radius-bottomright' : StackVisualizer.curvedness + 'px',
+		'border-bottom-right-radius' : StackVisualizer.curvedness + 'px',
+		'-moz-border-radius-bottomleft' : StackVisualizer.curvedness + 'px',
+		'border-bottom-left-radius' : StackVisualizer.curvedness + 'px'
 	});
 
 	stackDiv.appendTo(this.parentElement);
@@ -126,10 +124,10 @@ StackVisualizer.prototype.createStackElement = function(value) {
 
 		'border-style' : 'groove',
 		'border-color' : 'white',
-		'border-width' : stackElementBorderWidth+'px',
+		'border-width' : StackVisualizer.stackElementBorderWidth+'px',
 
-		'-moz-border-radius' : curvedness+'px',
-		'border-radius' : curvedness+'px'
+		'-moz-border-radius' : StackVisualizer.curvedness+'px',
+		'border-radius' : StackVisualizer.curvedness+'px'
 	});
 
 	return stackElement;
@@ -137,7 +135,7 @@ StackVisualizer.prototype.createStackElement = function(value) {
 
 
 StackVisualizer.prototype.pushElementOnDiagram = function(stackElement) {
-	var heightToFallFrom = this.getStackRemainingHeight()*percentHeightToFallFrom;
+	var heightToFallFrom = this.getStackRemainingHeight()*StackVisualizer.percentHeightToFallFrom;
 	var stackSelector = '#' + this.stackID;
 
 	//Set starting state and then animation
@@ -150,7 +148,7 @@ StackVisualizer.prototype.pushElementOnDiagram = function(stackElement) {
 	var thisStack = this;
 	setTimeout(function() {
 		//Concurrent
-		$('#'+thisStack.stackID).queue(qname, function(next) {
+		$('#'+thisStack.stackID).queue(StackVisualizer.qname, function(next) {
 		    $(stackSelector).prepend(stackElement);
 		    // $('#'+thisStack.stackID).dequeue(qname); //THIS IS IMPORTANT TO CONTINUE THE QUEUE SEQUENCE
 
@@ -158,18 +156,18 @@ StackVisualizer.prototype.pushElementOnDiagram = function(stackElement) {
 		    $(stackElement).animate({
 					'bottom' : heightToFallFrom
 				}, {
-					duration: stackAnimationTime, 
+					duration: StackVisualizer.stackAnimationTime, 
 			     	queue: false, //so other anim queues are independent
 			        complete: next //THIS IS IMPORTANT FOR ANIMATION
 		    });
 
 		    // console.log("(1/2)Concurrent for PUSH done.");
-		}).queue(qname, function(next) {
+		}).queue(StackVisualizer.qname, function(next) {
 		    $(stackElement).animate({
 					opacity: 1.0,
 					'bottom' : '0px'
 				}, {
-					duration: stackAnimationTime, 
+					duration: StackVisualizer.stackAnimationTime, 
 			     	queue: false, //so other anim queues are independent
 			        complete: next //THIS IS IMPORTANT FOR ANIMATION
 		    });
@@ -178,30 +176,30 @@ StackVisualizer.prototype.pushElementOnDiagram = function(stackElement) {
 
 		thisStack.dequeueIfNotAnimating();
 
-	}, msToWaitBeforeQueueing+msToWaitBetweenAnimSections);
+	}, StackVisualizer.msToWaitBeforeQueueing+StackVisualizer.msToWaitBetweenAnimSections);
 
 	// this.dequeueIfNotAnimating();
 };
 
 StackVisualizer.prototype.popElementFromDiagram = function() {
 	var poppedSelector = '#' + this.stackID + ' :first-child';
-	var heightToFlyTo = this.getStackRemainingHeight()*percentHeightToFlyUp;
+	var heightToFlyTo = this.getStackRemainingHeight()*StackVisualizer.percentHeightToFlyUp;
 
 	var thisStack = this;
 	setTimeout(function() {
 		//Animation
-		$('#'+thisStack.stackID).queue(qname, function(next) {
+		$('#'+thisStack.stackID).queue(StackVisualizer.qname, function(next) {
 		    $(poppedSelector).animate({
 					opacity: 0.0,
 					'bottom' : heightToFlyTo+'px'
 				}, {
-					duration: stackAnimationTime, 
+					duration: StackVisualizer.stackAnimationTime, 
 			     	queue: false, //so other anim queues are independent
 			        complete: next //THIS IS IMPORTANT FOR ANIMATION
 		    });
 		    // console.log("(1/2)Animation for POP done.");
 		    //thisStack.dequeueIfNotAnimating();
-		}).queue(qname, function(next) {
+		}).queue(StackVisualizer.qname, function(next) {
 		    
 		    // $('#'+thisStack.stackID).dequeue(qname); //THIS IS IMPORTANT TO CONTINUE THE QUEUE SEQUENCE
 
@@ -209,7 +207,7 @@ StackVisualizer.prototype.popElementFromDiagram = function() {
 		    $(poppedSelector).animate({
 					opacity: 1.0,
 				}, {
-					duration: stackAnimationTime, 
+					duration: StackVisualizer.stackAnimationTime, 
 			     	queue: false, //so other anim queues are independent
 			        complete: next //THIS IS IMPORTANT FOR ANIMATION
 		    });
@@ -220,7 +218,7 @@ StackVisualizer.prototype.popElementFromDiagram = function() {
 		});
 
 		thisStack.dequeueIfNotAnimating();
-	}, msToWaitBeforeQueueing+msToWaitBetweenAnimSections);
+	}, StackVisualizer.msToWaitBeforeQueueing+StackVisualizer.msToWaitBetweenAnimSections);
 
 	// this.dequeueIfNotAnimating();
 };
@@ -232,13 +230,13 @@ StackVisualizer.prototype.removeElementFromDiagram = function(idx) {
 		return;
 	} 
 
-	var heightToFlyTo = this.getStackRemainingHeight()*percentHeightToFlyUp;
+	var heightToFlyTo = this.getStackRemainingHeight()*StackVisualizer.percentHeightToFlyUp;
 	var poppedSelector = '#' + this.stackID + ' :nth-child(' + idx + ')';
 
 	var thisStack = this;
 	setTimeout(function() {
 		//Concurrent
-		$('#'+thisStack.stackID).queue(qname, function(next) {
+		$('#'+thisStack.stackID).queue(StackVisualizer.qname, function(next) {
 		    $(poppedSelector).css({
 				padding: "0"
 			});
@@ -248,40 +246,40 @@ StackVisualizer.prototype.removeElementFromDiagram = function(idx) {
 		    $(poppedSelector).animate({
 					opacity: 1.0,
 				}, {
-					duration: stackAnimationTime, 
+					duration: StackVisualizer.stackAnimationTime, 
 			     	queue: false, //so other anim queues are independent
 			        complete: next //THIS IS IMPORTANT FOR ANIMATION
 		    });
 
 		    // console.log("(1/4)Concurrent for REMOVE done.");
-		}).queue(qname, function(next) {
+		}).queue(StackVisualizer.qname, function(next) {
 		    $(poppedSelector).animate({
 					'opacity' : '0.0',
 					'bottom' : heightToFlyTo+'px' //var heightToFlyTo = this.getStackRemainingHeight()*percentHeightToFlyUp;
 				}, {
-					duration: stackAnimationTime, 
+					duration: StackVisualizer.stackAnimationTime, 
 			     	queue: false, //so other anim queues are independent
 			        complete: next //THIS IS IMPORTANT FOR ANIMATION
 		    });
 		    // console.log("(2/4)Animation #1 for REMOVE done.");
-		}).queue(qname, function(next) {
+		}).queue(StackVisualizer.qname, function(next) {
 		    $(poppedSelector).animate({
 					"height": "toggle",
 					'font-size': '0',
 				}, {
-					duration: stackAnimationTime, 
+					duration: StackVisualizer.stackAnimationTime, 
 			     	queue: false, //so other anim queues are independent
 			        complete: next //THIS IS IMPORTANT FOR ANIMATION
 		    });
 		    // console.log("(3/4)Animation #2 for REMOVE done.");
-		}).queue(qname, function(next) {
+		}).queue(StackVisualizer.qname, function(next) {
 		    // $('#'+thisStack.stackID).dequeue(qname); //THIS IS IMPORTANT TO CONTINUE THE QUEUE SEQUENCE
 
 		    //filler animation
 		    $(poppedSelector).animate({
 					opacity: 1.0,
 				}, {
-					duration: stackAnimationTime, 
+					duration: StackVisualizer.stackAnimationTime, 
 			     	queue: false, //so other anim queues are independent
 			        complete: next //THIS IS IMPORTANT FOR ANIMATION
 		    });
@@ -293,7 +291,7 @@ StackVisualizer.prototype.removeElementFromDiagram = function(idx) {
 
 		thisStack.dequeueIfNotAnimating();
 
-	}, msToWaitBeforeQueueing+ 1*msToWaitBetweenAnimSections);	
+	}, StackVisualizer.msToWaitBeforeQueueing+ StackVisualizer.msToWaitBetweenAnimSections);	
 };
 
 //1-indexed from top
@@ -303,7 +301,7 @@ StackVisualizer.prototype.insertElementInDiagram = function(stackElement, idx) {
 		this.pushElementOnDiagram(stackElement);
 		return;
 	} 
-	var heightToFallFrom = this.getStackRemainingHeight()*percentHeightToFallFrom;
+	var heightToFallFrom = this.getStackRemainingHeight()*StackVisualizer.percentHeightToFallFrom;
 
 	//Set starting state and then animation
 	stackElement.css({
@@ -323,18 +321,18 @@ StackVisualizer.prototype.insertElementInDiagram = function(stackElement, idx) {
 	var thisStack = this;
 	setTimeout(function() {
 		//Concurrent
-		$('#'+thisStack.stackID).queue(qname, function(next) {
+		$('#'+thisStack.stackID).queue(StackVisualizer.qname, function(next) {
 		    $(appendSelector).after(stackElement);
 		    // $('#'+thisStack.stackID).dequeue(qname); //THIS IS IMPORTANT TO CONTINUE THE QUEUE SEQUENCE
 			$(stackElement).animate({
 					'opacity' : '0.0'
 				}, {
-					duration: stackAnimationTime, 
+					duration: StackVisualizer.stackAnimationTime, 
 			     	queue: false, //so other anim queues are independent
 			        complete: next //THIS IS IMPORTANT FOR ANIMATION
 		    });
 		    // console.log("(1/3)Concurrent for INSERT done.");
-		}).queue(qname, function(next) {
+		}).queue(StackVisualizer.qname, function(next) {
 		    $(stackElement).animate({
 					"height": "10%",
 					'font-size' : '100%',
@@ -342,17 +340,17 @@ StackVisualizer.prototype.insertElementInDiagram = function(stackElement, idx) {
 					// 'bottom' : '0px',
 					'padding' : padding
 				}, {
-					duration: stackAnimationTime, 
+					duration: StackVisualizer.stackAnimationTime, 
 			     	queue: false, //so other anim queues are independent
 			        complete: next //THIS IS IMPORTANT FOR ANIMATION
 		    });
 		    // console.log("(2/3)Animation #1 for INSERT done.");
-		}).queue(qname, function(next) {
+		}).queue(StackVisualizer.qname, function(next) {
 		    $(stackElement).animate({
 					'opacity' : '1.0',
 					'bottom' : '0px',
 				}, {
-					duration: stackAnimationTime, 
+					duration: StackVisualizer.stackAnimationTime, 
 			     	queue: false, //so other anim queues are independent
 			        complete: next //THIS IS IMPORTANT FOR ANIMATION
 		    });
@@ -361,7 +359,7 @@ StackVisualizer.prototype.insertElementInDiagram = function(stackElement, idx) {
 
 		thisStack.dequeueIfNotAnimating();
 
-	}, msToWaitBeforeQueueing+ 1*msToWaitBetweenAnimSections);
+	}, StackVisualizer.msToWaitBeforeQueueing+ StackVisualizer.msToWaitBetweenAnimSections);
 };
 
 StackVisualizer.prototype.consistentSize = function() {
@@ -384,7 +382,7 @@ StackVisualizer.prototype.getStackCurrHeight = function() {
 };
 
 StackVisualizer.prototype.getStackElementHeight = function() {
-	return $('#' + this.stackID + ' :first-child').height() + 2*stackElementBorderWidth;
+	return $('#' + this.stackID + ' :first-child').height() + 2*StackVisualizer.stackElementBorderWidth;
 };
 
 StackVisualizer.prototype.numStackElements = function() {
@@ -419,7 +417,7 @@ StackVisualizer.prototype.push = function(value) {
 	if(!this.isHiddenStack) {
 		setTimeout(function() {
 			thisStack.pushElementOnDiagram(thisStack.createStackElement(value));
-		}, msToWaitPerCall*(callerCount++));
+		}, StackVisualizer.msToWaitPerCall*(this.callerCount++));
 	}
 	this.stack.push(value);
 };
@@ -435,7 +433,7 @@ StackVisualizer.prototype.pop = function() {
 	if(!this.isHiddenStack) {
 		setTimeout(function() {
 			thisStack.popElementFromDiagram();
-		}, msToWaitPerCall*(callerCount++));
+		}, StackVisualizer.msToWaitPerCall*(this.callerCount++));
 	}
     return this.stack.pop();
 };
@@ -452,7 +450,7 @@ StackVisualizer.prototype.remove = function(idx) {
 		if(!this.isHiddenStack){
 			setTimeout(function() {
 				thisStack.removeElementFromDiagram(idx);
-			}, msToWaitPerCall*(callerCount++));
+			}, StackVisualizer.msToWaitPerCall*(this.callerCount++));
 		}
 
 		return this.stack.splice(arrayIndex, 1)[0];
@@ -474,7 +472,7 @@ StackVisualizer.prototype.insert = function(value, idx) {
 		if(!this.isHiddenStack) {
 			setTimeout(function() {
 				thisStack.insertElementInDiagram(thisStack.createStackElement(value), idx);
-			}, msToWaitPerCall*(callerCount++));
+			}, StackVisualizer.msToWaitPerCall*(this.callerCount++));
 		}
 	}
 };
@@ -503,13 +501,13 @@ StackVisualizer.prototype.clear = function() {
 		$('#'+this.stackID).clearQueue(qname);
 
 	    var stackElements = $('#' + this.stackID).children();
-	    var heightToFlyTo = this.getStackRemainingHeight()*percentHeightToFlyUp;
+	    var heightToFlyTo = this.getStackRemainingHeight()*StackVisualizer.percentHeightToFlyUp;
 
 	    //Pop all at once and remove
 	    $(stackElements).animate({
 			'opacity' : '0.0',
 			'bottom' : heightToFlyTo+'px'
-	    }, stackAnimationTime, function(){
+	    }, StackVisualizer.stackAnimationTime, function(){
 	    	stackElements.remove();
 	    });
 	    
@@ -518,15 +516,15 @@ StackVisualizer.prototype.clear = function() {
 };
 
 StackVisualizer.prototype.dequeueIfNotAnimating = function() {
-	callerCount = 0;
+	this.callerCount = 0;
 	if(!this.isAnimating()) {
-		$('#'+this.stackID).dequeue(qname);
+		$('#'+this.stackID).dequeue(StackVisualizer.qname);
 	}
 };
 
 StackVisualizer.prototype.isAnimating = function() {
 	var numAnimatingElements =  $('#' + this.stackID).children().filter(":animated").length;
-	
+
 	if(numAnimatingElements > 0) {
 		// console.log("ANIMATING");
 		return true;
