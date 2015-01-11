@@ -1,10 +1,43 @@
-var stackAnimationTime = 700;
+var stackAnimationTime = 100;
 var stackElementBorderWidth = 1;
 var curvedness = 8;
 var percentHeightToFallFrom = 0.95;
 var percentHeightToFlyUp = 0.95;
 var msToWaitForAnim = 100;
+
+var msToWaitBetweenAnimSections = 0;
+var msToWaitBeforeQueueing = 0; //setTimeout timer
+var msToWaitPerCall = 0; //delay between calls
+var callerCount = 0;
 var stackID = 'stack-diagram';
+var qname = 'stackAnimQueue';
+
+/*
+//Have an element with id myQueue
+var qname = 'stackAnimQueue';
+
+//Add animation to the queue
+$('#myQueue').queue(qname, function(next) {
+    $('#t1').animate({
+		left: 100
+		}, {
+		duration: stackAnimationTime, 
+     	queue: false, //so other anim queues are independent
+        complete: next //THIS IS IMPORTANT FOR ANIMATION
+    });
+});
+
+//Add variable actions to the queue
+$('#myQueue').queue(qname, function(next) {
+    console.log("Remove");
+    $('#t1').append(stackElement);
+    $('#t1').remove();
+    $('#myQueue').dequeue(qname); //THIS IS IMPORTANT TO CONTINUE THE QUEUE SEQUENCE
+});
+
+$('#myQueue').dequeue(qname); //Needed at some point to start the queue sequence
+
+*/
 
 function StackVisualizer (elemID, isHiddenStack) {
     this.name = "Bitcoin Stack Visualizer";
@@ -15,9 +48,9 @@ function StackVisualizer (elemID, isHiddenStack) {
 	    this.stackID = 'stack-diagram';
 	    this.parentElement = $("#"+elemID);
 	    this.createStackDiagram();
-	    this.animQueue = $({});
+	    // this.animQueue = $({});
 	    this.isHiddenStack = false;
-	    this.dfd = null;
+	    // this.dfd = null;
 	} else {
 		this.isHiddenStack = true;
 	}
@@ -125,9 +158,8 @@ StackVisualizer.prototype.getInfo = function() {
 StackVisualizer.prototype.createStackDiagram = function() {
     console.log("Creating new stack diagram...");
 
-    console.log(this.parentElement.children());
+    // console.log(this.parentElement.children());
     this.parentElement.children().remove();
-    // this.stackID = "NEW";
 
     this.parentElement.css({
     	'position' : 'relative',
@@ -208,15 +240,51 @@ StackVisualizer.prototype.pushElementOnDiagram = function(stackElement) {
 		'bottom' : heightToFallFrom
 	});
 
-	this.animToQueue(stackElement, {
-		opacity: 1.0,
-		'bottom' : '0px'
-	}, function(){
-		//animation complete
-	}, function(s) {
-		$(stackSelector).prepend(stackElement);
-		s.top = stackElement;
-	}, this, this);
+	// this.animToQueue(stackElement, {
+	// 	opacity: 1.0,
+	// 	'bottom' : '0px'
+	// }, function(){
+	// 	//animation complete
+	// }, function(s) {
+	// 	//concurrent
+	// 	$(stackSelector).prepend(stackElement);
+	// 	s.top = stackElement;
+	// }, this, this);
+	var thisStack = this;
+	setTimeout(function() {
+		//Concurrent
+		$('#'+thisStack.stackID).queue(qname, function(next) {
+		    $(stackSelector).prepend(stackElement);
+		    // $('#'+thisStack.stackID).dequeue(qname); //THIS IS IMPORTANT TO CONTINUE THE QUEUE SEQUENCE
+		    // console.log("Concurrent for PUSH done.");
+		    //filler animation
+		    $(stackElement).animate({
+					'bottom' : heightToFallFrom
+				}, {
+					duration: stackAnimationTime, 
+			     	queue: false, //so other anim queues are independent
+			        complete: next //THIS IS IMPORTANT FOR ANIMATION
+		    });
+
+		    console.log("Concurrent for PUSH done.");
+		}).queue(qname, function(next) {
+		    $(stackElement).animate({
+					opacity: 1.0,
+					'bottom' : '0px'
+				}, {
+					duration: stackAnimationTime, 
+			     	queue: false, //so other anim queues are independent
+			        complete: next //THIS IS IMPORTANT FOR ANIMATION
+		    });
+		     console.log("Animation for PUSH done.");
+		});
+
+		// $('#'+this.stackID).dequeue(qname); //start the queue sequence
+		thisStack.dequeueIfNotAnimating();
+
+	}, msToWaitBeforeQueueing+msToWaitBetweenAnimSections);
+
+	// this.dequeueIfNotAnimating();
 };
 
 StackVisualizer.prototype.popElementFromDiagram = function() {
@@ -226,57 +294,164 @@ StackVisualizer.prototype.popElementFromDiagram = function() {
 
 	var top = this.top;
 
-	this.animToQueue(poppedSelector, {
-		opacity: 0.0,
-		'bottom' : heightToFlyTo+'px'
-	}, function() {
-		//animation complete
-		$(this).remove();
-	}, function(s) {
-		var poppedTop = s.top;
-		s.top = $(s.top).next();
+	// this.animToQueue(poppedSelector, {
+	// 	opacity: 0.0,
+	// 	'bottom' : heightToFlyTo+'px'
+	// }, function() {
+	// 	//animation complete
+	// 	$(this).remove();
+	// }, function(s) {
+	// 	//concurrent
+	// 	var poppedTop = s.top;
+	// 	s.top = $(s.top).next();
+	// 	return poppedTop;
+	// }, this, this);
 
-		return poppedTop;
-	}, this, this);
-	
+	//Concurrent
+	// $('#'+this.stackID).queue(qname, function(next) {
+	//     $(stackSelector).prepend(stackElement);
+	//     // this.top = stackElement;
+	//     $('#'+stackID).dequeue(qname); //THIS IS IMPORTANT TO CONTINUE THE QUEUE SEQUENCE
+	//     console.log("Prepending for PUSH done.");
+	//      console.log(this);
+	// });
+
+	var thisStack = this;
+	setTimeout(function() {
+		//Animation
+		$('#'+thisStack.stackID).queue(qname, function(next) {
+		    $(poppedSelector).animate({
+					opacity: 0.0,
+					'bottom' : heightToFlyTo+'px'
+				}, {
+					duration: stackAnimationTime, 
+			     	queue: false, //so other anim queues are independent
+			        complete: next //THIS IS IMPORTANT FOR ANIMATION
+		    });
+		    console.log("Animation for POP done.");
+		    //thisStack.dequeueIfNotAnimating();
+		}).queue(qname, function(next) {
+		    
+		    // $('#'+thisStack.stackID).dequeue(qname); //THIS IS IMPORTANT TO CONTINUE THE QUEUE SEQUENCE
+
+			//filler animation
+		    $(poppedSelector).animate({
+					opacity: 1.0,
+				}, {
+					duration: stackAnimationTime, 
+			     	queue: false, //so other anim queues are independent
+			        complete: next //THIS IS IMPORTANT FOR ANIMATION
+		    });
+
+		    $(poppedSelector).remove();
+
+		    console.log("After for POP done.");
+		});
+
+		thisStack.dequeueIfNotAnimating();
+	}, msToWaitBeforeQueueing+msToWaitBetweenAnimSections);
+
+	// this.dequeueIfNotAnimating();
 };
 
 //1-indexed from top
 StackVisualizer.prototype.removeElementFromDiagram = function(idx) {
 	if(idx == 1) { //removing top element
 		this.popElementFromDiagram();
-	} else {
-		// popped = $('#' + this.stackID + ' :nth-child(' + idx + ')');
+		return;
+	} 
+	// popped = $('#' + this.stackID + ' :nth-child(' + idx + ')');
 
-		var heightToFlyTo = this.getStackRemainingHeight()*percentHeightToFlyUp;
+	var heightToFlyTo = this.getStackRemainingHeight()*percentHeightToFlyUp;
 
-		poppedSelector = '#' + this.stackID + ' :nth-child(' + idx + ')';
-		this.animToQueue(poppedSelector, {
-			'opacity' : '0.0',
-			'bottom' : heightToFlyTo+'px'
-		}, function() {
-			//animation complete
-			$(this).animate({
-				"height": "toggle",
-				'font-size': '0',
-			}, stackAnimationTime, function(){
-				$(this).remove();
-			});
-		}, function(s){
-			//concurrent function
-			//get nth sibling of the current top
-			//return sibling
-			var elementsPrecedingTop = s.top.prevAll().length;
-			var futureIdx = idx + elementsPrecedingTop;
-			// var newSelector = '#' + s.stackID + ' :nth-child(' + futureIdx + ')';
+	poppedSelector = '#' + this.stackID + ' :nth-child(' + idx + ')';
+	// this.animToQueue(poppedSelector, {
+	// 	'opacity' : '0.0',
+	// 	'bottom' : heightToFlyTo+'px'
+	// }, function() {
+	// 	//animation complete
+	// 	$(this).animate({
+	// 		"height": "toggle",
+	// 		'font-size': '0',
+	// 	}, stackAnimationTime, function(){
+	// 		$(this).remove();
+	// 	});
+	// }, function(s){
+	// 	//concurrent function
+	// 	//get nth sibling of the current top
+	// 	//return sibling
+	// 	var elementsPrecedingTop = s.top.prevAll().length;
+	// 	var futureIdx = idx + elementsPrecedingTop;
+	// 	// var newSelector = '#' + s.stackID + ' :nth-child(' + futureIdx + ')';
 
-			var newSelector = $(s.top).nextAll().eq(idx-2);
-			$(newSelector).css({
+	// 	var newSelector = $(s.top).nextAll().eq(idx-2);
+	// 	$(newSelector).css({
+	// 		padding: "0"
+	// 	});
+	// 	return newSelector;
+	// }, this, this);
+
+	var thisStack = this;
+	setTimeout(function() {
+
+		//Concurrent
+		$('#'+thisStack.stackID).queue(qname, function(next) {
+		    $(poppedSelector).css({
 				padding: "0"
 			});
-			return newSelector;
-		}, this, this);
-	}
+		    // $('#'+thisStack.stackID).dequeue(qname); //THIS IS IMPORTANT TO CONTINUE THE QUEUE SEQUENCE
+
+			//filler animation
+		    $(poppedSelector).animate({
+					opacity: 1.0,
+				}, {
+					duration: stackAnimationTime, 
+			     	queue: false, //so other anim queues are independent
+			        complete: next //THIS IS IMPORTANT FOR ANIMATION
+		    });
+
+		    console.log("Concurrent for REMOVE done.");
+		}).queue(qname, function(next) {
+		    $(poppedSelector).animate({
+					'opacity' : '0.0',
+					'bottom' : heightToFlyTo+'px' //var heightToFlyTo = this.getStackRemainingHeight()*percentHeightToFlyUp;
+				}, {
+					duration: stackAnimationTime, 
+			     	queue: false, //so other anim queues are independent
+			        complete: next //THIS IS IMPORTANT FOR ANIMATION
+		    });
+		    console.log("Animation #1 for REMOVE done.");
+		}).queue(qname, function(next) {
+		    $(poppedSelector).animate({
+					"height": "toggle",
+					'font-size': '0',
+				}, {
+					duration: stackAnimationTime, 
+			     	queue: false, //so other anim queues are independent
+			        complete: next //THIS IS IMPORTANT FOR ANIMATION
+		    });
+		    console.log("Animation #2 for REMOVE done.");
+		}).queue(qname, function(next) {
+		    
+		    // $('#'+thisStack.stackID).dequeue(qname); //THIS IS IMPORTANT TO CONTINUE THE QUEUE SEQUENCE
+
+		    //filler animation
+		    $(poppedSelector).animate({
+					opacity: 1.0,
+				}, {
+					duration: stackAnimationTime, 
+			     	queue: false, //so other anim queues are independent
+			        complete: next //THIS IS IMPORTANT FOR ANIMATION
+		    });
+
+		    $(poppedSelector).remove();
+
+		    console.log("After for REMOVE done.");
+		});
+
+		thisStack.dequeueIfNotAnimating();
+
+	}, msToWaitBeforeQueueing+ 1*msToWaitBetweenAnimSections);	
 };
 
 //1-indexed from top
@@ -284,75 +459,126 @@ StackVisualizer.prototype.insertElementInDiagram = function(stackElement, idx) {
 
 	if(idx == 1) { //inserting new top element
 		this.pushElementOnDiagram(stackElement);
-	} else {
-		var heightToFallFrom = this.getStackRemainingHeight()*percentHeightToFallFrom;
-		var padding = this.top.css("padding");
+		return;
+	} 
+	// else {
+	var heightToFallFrom = this.getStackRemainingHeight()*percentHeightToFallFrom;
+	// 	var padding = this.top.css("padding");
 
-		//Set starting state and then animation
-		stackElement.css({
-			'opacity' : '0.0',
-			'margin' : '0',
-			'bottom' : heightToFallFrom,
-			'padding' : '0',
-			'font-size' : '0',
-			'height' : '0'
+	//Set starting state and then animation
+	stackElement.css({
+		'opacity' : '0.0',
+		'margin' : '0',
+		'bottom' : heightToFallFrom,
+		'padding' : '0',
+		'font-size' : '0',
+		'height' : '0'
+	});
+
+	// 	//Append element
+	// 	// var appendSelector = '#' + this.stackID + ' :nth-child(' + (idx-1) + ')';
+		
+	// 	this.animToQueue(stackElement, {
+	// 		"height": "10%",
+	// 		'font-size' : '100%',
+	// 		// 'opacity' : '1.0',
+	// 		// 'bottom' : '0px',
+	// 		'padding' : padding
+	// 	}, function() {
+	// 		//when this animation is done
+	// 		$(this).animate({
+	// 			'opacity' : '1.0',
+	// 			'bottom' : '0px',
+	// 		}, stackAnimationTime);
+	// 	}, function(s) {
+	// 		// Append element
+	// 		var appendSelector = '#' + s.stackID + ' :nth-child(' + (idx-1) + ')';
+			
+	// 		// exit();
+	// 		//If something is currently animating, then WAIT! You're behind!
+	// 		var children = $('#' + s.stackID).children();
+	// 		if(children.not(':animated').length != children.length) {
+	// 			var checkExist = setInterval(function() {
+	// 				console.log("Animation wait for insert!");
+	// 				// if(!$(selector).is(':animated')) {
+	// 				var children = $('#' + s.stackID).children();
+	// 				if(children.not(':animated').length == children.length) {
+	// 					clearInterval(checkExist);
+	// 					//Call the waiting function
+	// 					//func(selector, oldSelector, animationprops, callback, concurrentFunc);
+	// 					$(appendSelector).after(stackElement);
+
+	// 					console.log("Animation wait DONE for insert2 for " + $(stackElement).text() + "! Target: ");
+	// 					console.log(appendSelector);
+	// 				}
+	// 			}, msToWaitForAnim);
+	// 			// return true;
+				
+	// 		} else {
+	// 			$(appendSelector).after(stackElement);
+	// 			console.log("Nothing anim for insert" +  $(stackElement).text() + ". Target:");
+	// 			console.log(appendSelector);
+	// 		}
+
+	// 		console.log("End of insert concurrent call for " + $(stackElement).text());
+
+	// 		// $(appendSelector).after(stackElement);
+
+	// 		return $(appendSelector);
+	// 	}, this, this);
+	// }
+
+	var children = $('#'+this.stackID).children();
+	var padding = '5px'; //default?
+	if(children.length > 0) //there are children elements in the stack
+		padding = $('#'+this.stackID+' :nth-child(1)').css("padding");
+	var appendSelector = '#' + this.stackID + ' :nth-child(' + (idx-1) + ')';
+	var thisStack = this;
+	setTimeout(function() {
+
+
+		//Concurrent
+		$('#'+thisStack.stackID).queue(qname, function(next) {
+
+
+		    $(appendSelector).after(stackElement);
+		    // $('#'+thisStack.stackID).dequeue(qname); //THIS IS IMPORTANT TO CONTINUE THE QUEUE SEQUENCE
+			$(stackElement).animate({
+					'opacity' : '0.0'
+				}, {
+					duration: stackAnimationTime, 
+			     	queue: false, //so other anim queues are independent
+			        complete: next //THIS IS IMPORTANT FOR ANIMATION
+		    });
+		    console.log("Concurrent for INSERT done.");
+		}).queue(qname, function(next) {
+		    $(stackElement).animate({
+					"height": "10%",
+					'font-size' : '100%',
+					// 'opacity' : '1.0',
+					// 'bottom' : '0px',
+					'padding' : padding
+				}, {
+					duration: stackAnimationTime, 
+			     	queue: false, //so other anim queues are independent
+			        complete: next //THIS IS IMPORTANT FOR ANIMATION
+		    });
+		    console.log("Animation #1 for INSERT done.");
+		}).queue(qname, function(next) {
+		    $(stackElement).animate({
+					'opacity' : '1.0',
+					'bottom' : '0px',
+				}, {
+					duration: stackAnimationTime, 
+			     	queue: false, //so other anim queues are independent
+			        complete: next //THIS IS IMPORTANT FOR ANIMATION
+		    });
+		    console.log("Animation #2 for INSERT done.");
 		});
 
-		//Append element
-		// var appendSelector = '#' + this.stackID + ' :nth-child(' + (idx-1) + ')';
-		
-		this.animToQueue(stackElement, {
-			"height": "10%",
-			'font-size' : '100%',
-			// 'opacity' : '1.0',
-			// 'bottom' : '0px',
-			'padding' : padding
-		}, function() {
-			//when this animation is done
-			$(this).animate({
-				'opacity' : '1.0',
-				'bottom' : '0px',
-			}, stackAnimationTime);
-		}, function(s) {
-			// Append element
-			var appendSelector = '#' + s.stackID + ' :nth-child(' + (idx-1) + ')';
-			
-			// exit();
-			//If something is currently animating, then WAIT! You're behind!
-			var children = $('#' + s.stackID).children();
-			if(children.not(':animated').length != children.length) {
-				var checkExist = setInterval(function() {
-					console.log("Animation wait for insert!");
-					// if(!$(selector).is(':animated')) {
-					var children = $('#' + s.stackID).children();
-					if(children.not(':animated').length == children.length) {
-						clearInterval(checkExist);
-						//Call the waiting function
-						//func(selector, oldSelector, animationprops, callback, concurrentFunc);
-						$(appendSelector).after(stackElement);
+		thisStack.dequeueIfNotAnimating();
 
-						console.log("Animation wait DONE for insert2 for " + $(stackElement).text() + "! Target: ");
-						console.log(appendSelector);
-					}
-				}, msToWaitForAnim);
-				// return true;
-				
-			} else {
-				$(appendSelector).after(stackElement);
-				console.log("Nothing anim for insert" +  $(stackElement).text() + ". Target:");
-				console.log(appendSelector);
-			}
-
-			console.log("End of insert concurrent call for " + $(stackElement).text());
-
-			// $(appendSelector).after(stackElement);
-
-
-
-
-			return $(appendSelector);
-		}, this, this);
-	}
+	}, msToWaitBeforeQueueing+ 1*msToWaitBetweenAnimSections);
 };
 
 StackVisualizer.prototype.consistentSize = function() {
@@ -405,29 +631,46 @@ StackVisualizer.prototype.peek = function(idx) {
 };
 
 StackVisualizer.prototype.push = function(value) {
-	if(!this.isHiddenStack)
-		this.pushElementOnDiagram(this.createStackElement(value));
+	console.log('callerCount: ' + callerCount);
+	var thisStack = this;
+	if(!this.isHiddenStack) {
+		setTimeout(function() {
+			thisStack.pushElementOnDiagram(thisStack.createStackElement(value));
+		}, msToWaitPerCall*(callerCount++));
+	}
 	this.stack.push(value);
 };
 
 StackVisualizer.prototype.pop = function() {
+	console.log('callerCount: ' + callerCount);
 	if(this.numStackElements() == 0) {
 		console.error("WARNING: Stack underflow! Attempted to pop empty stack.");
 		return;
 	}
-	if(!this.isHiddenStack)
-		this.popElementFromDiagram();
+
+	var thisStack = this;
+	if(!this.isHiddenStack) {
+		setTimeout(function() {
+			thisStack.popElementFromDiagram();
+		}, msToWaitPerCall*(callerCount++));
+	}
     return this.stack.pop();
 };
 
 //1-indexed from the top of the stack
 StackVisualizer.prototype.remove = function(idx) {
+	console.log('callerCount: ' + callerCount);
 	var arrayIndex = this.size() - idx;
 	if(arrayIndex < 0 || arrayIndex >= this.size()) {
 		console.error("WARNING: Index out of bounds: remove(" + idx + ") called with stack size " + this.size() + ".");
 	} else {
-		if(!this.isHiddenStack)
-			this.removeElementFromDiagram(idx);
+
+		var thisStack = this;
+		if(!this.isHiddenStack){
+			setTimeout(function() {
+				thisStack.removeElementFromDiagram(idx);
+			}, msToWaitPerCall*(callerCount++));
+		}
 
 		return this.stack.splice(arrayIndex, 1)[0];
 	}
@@ -444,8 +687,12 @@ StackVisualizer.prototype.insert = function(value, idx) {
 	} else {
 		this.stack.splice(arrayIndex+1, 0, value);
 
-		if(!this.isHiddenStack)
-			this.insertElementInDiagram(this.createStackElement(value), idx);
+		var thisStack = this;
+		if(!this.isHiddenStack) {
+			setTimeout(function() {
+				thisStack.insertElementInDiagram(thisStack.createStackElement(value), idx);
+			}, msToWaitPerCall*(callerCount++));
+		}
 	}
 };
 
@@ -465,44 +712,44 @@ StackVisualizer.prototype.visualizationMatchesStack = function() {
 }
 
 StackVisualizer.prototype.clear = function() {
-
     this.stack = new Array();
 
     if(!this.isHiddenStack) {
-	    this.animQueue.clearQueue();
-	    $('#' + stackID).children().remove();
+	    // this.animQueue.clearQueue();
+	    //Clear the queue
+		$('#'+this.stackID).clearQueue(qname);
+
+	    var stackElements = $('#' + this.stackID).children();
+	    var heightToFlyTo = this.getStackRemainingHeight()*percentHeightToFlyUp;
+
+	    //Pop all at once and remove
+	    $(stackElements).animate({
+			'opacity' : '0.0',
+			'bottom' : heightToFlyTo+'px'
+	    }, stackAnimationTime, function(){
+	    	stackElements.remove();
+	    });
+	    
 	}
-    // return;
 
-    /*
+};
 
-    //If something is currently animating, then WAIT! You're behind!
-	var children = $('#' + this.stackID).children();
-	// console.log(children);
-	// console.log(children.not(':animated'));
-	// if(children.not(':animated').length == children.length) {
-	if(!this.visualizationMatchesStack()) {
-		console.log("ANIMATIONS WAITING FOR CLEAR.");
-		var checkExist = setInterval(function() {
-			// if(!$(selector).is(':animated')) {
-			var	stackID = 'stack-diagram';
-			var children = $('#' + stackID).children();
-			console.log("CheckExist done.");
-			// console.log(this);
-			// if(children.not(':animated').length == children.length) {
-			if(stackVisualizer.visualizationMatchesStack()) {
-				clearInterval(checkExist);
-				//Call the waiting function
-				// func(selector, oldSelector, animationprops, callback, concurrentFunc);
-				$('#' + stackID).children().remove();
-			}
-		}, msToWaitForAnim+1000);
+StackVisualizer.prototype.dequeueIfNotAnimating = function() {
+	callerCount = 0;
+	if(!this.isAnimating()) {
+		$('#'+this.stackID).dequeue(qname);
+	}
+};
+
+StackVisualizer.prototype.isAnimating = function() {
+	var numAnimatingElements =  $('#' + this.stackID).children().filter(":animated").length;
+	//console.log(animatingElements);
+	//console.log(animatingElements.length + " animating elements")
+	if(numAnimatingElements > 0) {
+		console.log("ANIMATING");
 		return true;
-		
 	} else {
-		//Nothing currently animating. Animate this element
-		console.log("NOTHING ANIMATING. CLEAR!")
-       	$('#' + this.stackID).children().remove();
-   }
-   */
+		console.log("NOT animating");
+		return false;
+	}
 };
