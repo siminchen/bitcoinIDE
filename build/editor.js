@@ -22,7 +22,7 @@ $( document ).ready(function() {
 	stackVisualizer.push("STACK VALUE TEST3");
 	stackVisualizer.push("STACK VALUE TEST3");
 	stackVisualizer.insert("STACK VALUE TEST11",4);
-	stackVisualizer.remove(3);
+	stackVisualizer.remove(4);
 	stackVisualizer.push("STACK VALUE TEST7");
 	stackVisualizer.insert("STACK VALUE TEST8",4);
 	p = stackVisualizer.pop();
@@ -30,7 +30,7 @@ $( document ).ready(function() {
 	stackVisualizer.pop();
 	stackVisualizer.push("STACK VALUE TEST9");
 	stackVisualizer.push("STACK VALUE TEST4.5");
-	p = stackVisualizer.remove(2);
+	p = stackVisualizer.remove(6);
 	stackVisualizer.insert("STACK VALUE TEST5", 3);
 	p = stackVisualizer.remove(2);
 	p = stackVisualizer.pop();
