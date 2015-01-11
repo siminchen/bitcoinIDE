@@ -10,8 +10,8 @@ body {
 }
 
 .section-title {
-	border-style: solid;
-  	border-width: 1px;
+/*	border-style: solid;
+  	border-width: 1px;*/
   	font-family: Verdana; 
   	font-size: 2.0em;
 
@@ -37,10 +37,25 @@ body {
 
  	-moz-border-radius: 8px;
 	border-radius: 8px;
+
+	border-style: inset;
+  	border-width: 2px;
 }
 
 #top-panel {
-	height: 60%;
+	height: 70%;
+	/*width: 100%;*/
+}
+
+#middle-panel {
+	/*margin-left: 10px;*/
+	height: 30%;
+	/*width: 100%;*/
+}
+
+#bottom-panel {
+	/*margin-left: 10px;*/
+	height: 0%;
 	/*width: 100%;*/
 }
 
@@ -51,13 +66,17 @@ body {
 	/*overflow: hidden;*/
 }
 
-/*#editor-section-title {
-	height: 10%;
-	display: block;
-	margin: 0;
-	padding: 0;
-	text-align: center;
-}*/
+#editor-tabs {
+	position: relative;
+	/*height: 12%;*/
+	/*height: 10px;*/
+}
+
+#editor-tabs li a {
+	position: relative;	
+	/*padding-top: 6px;*/
+	/*height: 70%;*/
+}
 
 #editor-holder {
 	width: 100%;
@@ -72,14 +91,7 @@ body {
 	float:right;
 }
 
-/*#stack-section-title {
-	height: 10%;
-	display: block;
-	margin: 0;
-	padding: 0;
-	text-align: center;
-}
-*/
+
 #stack-visualizer-holder {
 	width: 100%;
 	height: 90%;
@@ -91,17 +103,6 @@ body {
 	height: 100%;*/
 }
 
-#middle-panel {
-	/*margin-left: 10px;*/
-	height: 20%;
-	/*width: 100%;*/
-}
-
-#bottom-panel {
-	/*margin-left: 10px;*/
-	height: 20%;
-	/*width: 100%;*/
-}
 
 .subsection-title {
 	margin-left: 10px;
@@ -121,8 +122,8 @@ body {
 
 .test-box {
 	background-color: #b0c4de;
-	border-style: solid;
-  	border-width: 1px;
+	/*border-style: solid;*/
+  	/*border-width: 1px;*/
   	height: 100%;
 }
 
