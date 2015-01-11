@@ -13,7 +13,7 @@ StackVisualizer.percentHeightToFallFrom = 0.95;
 StackVisualizer.percentHeightToFlyUp = 0.95;
 
 //Animation speeds
-StackVisualizer.stackAnimationTime = 100; // speed of animations
+StackVisualizer.stackAnimationTime = 200; // speed of animations
 StackVisualizer.SMALLESTstackAnimationTime = 10; // speed of animations
 StackVisualizer.LARGESTstackAnimationTime = 1500; // speed of animations
 StackVisualizer.msToWaitForAnim = 100;
@@ -550,10 +550,12 @@ StackVisualizer.prototype.clear = function() {
     this.stack = new Array();
 
     if(!this.isHiddenStack) {
-	    //Clear the queue
-		$('#'+this.stackID).clearQueue(qname);
+    	var stackElements = $('#' + this.stackID).children();
 
-	    var stackElements = $('#' + this.stackID).children();
+	    //Clear the queue
+	    stackElements.stop(); //stop animation
+		$('#'+this.stackID).clearQueue(StackVisualizer.qname);
+
 	    var heightToFlyTo = this.getStackRemainingHeight()*StackVisualizer.percentHeightToFlyUp;
 
 	    //Pop all at once and remove

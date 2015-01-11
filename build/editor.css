@@ -5,6 +5,10 @@ html, body {
 	overflow: hidden;
 }
 
+body {
+	background : white;
+}
+
 .section-title {
 	border-style: solid;
   	border-width: 1px;
@@ -19,18 +23,25 @@ html, body {
 	overflow: hidden;
 }
 
-.row {
+.ide-panel {
+	width: 100%;
+}
+
+.panel-row {
 	width: 100%;
 	height: 100%;
 }
 
 .section {
 	overflow: hidden;
+
+ 	-moz-border-radius: 8px;
+	border-radius: 8px;
 }
 
 #top-panel {
 	height: 60%;
-	width: 100%;
+	/*width: 100%;*/
 }
 
 #editor-section {
@@ -52,6 +63,7 @@ html, body {
 	width: 100%;
 	height: 90%;
 	display: block;
+
 }
 
 #stack-visualizer-section {
@@ -80,15 +92,15 @@ html, body {
 }
 
 #middle-panel {
-	margin-left: 10px;
+	/*margin-left: 10px;*/
 	height: 20%;
-	width: 100%;
+	/*width: 100%;*/
 }
 
 #bottom-panel {
-	margin-left: 10px;
+	/*margin-left: 10px;*/
 	height: 20%;
-	width: 100%;
+	/*width: 100%;*/
 }
 
 .subsection-title {
@@ -97,11 +109,14 @@ html, body {
 
 #editor {
 	height: 100%;
-    	margin: 0;
-   	 top: 0;
-    	 bottom: 0;
-    	 left: 0;
-    	 right: 0;
+	margin: 0;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+
+/* 	-moz-border-radius: 8px;
+	border-radius: 8px;*/
 }
 
 .test-box {

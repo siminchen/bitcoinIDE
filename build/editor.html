@@ -25,13 +25,23 @@
 <body>
     <!-- LAYOUT: -->
     <!-- Panels are horizontal groupings -->
-    <!-- Rows contain all elements in a panel (horizontal group) -->
+    <!-- panel-row contain all elements in a panel (horizontal group) -->
     <!-- Each row contains adjacent sections -->
 
-    <div id="top-panel">
-        <div class="row">
+    <div id="top-panel" class="ide-panel">
+        <div class="panel-row">
             <div id="editor-section" class="section">
                 <h2 id="editor-section-title" class="section-title">Script Editor</h2>
+
+                <ul class="nav nav-tabs nav-justified">
+                  <li role="presentation" class="active">
+                    <a id="editor-tab-script" data-toggle="tab" href="#">Script</a>
+                  </li>
+                  <li role="presentation">
+                    <a id="editor-tab-assembly" data-toggle="tab" href="#">Assembly</a>
+                  </li>
+                </ul> 
+
                 <div id="editor-holder">
                     <div id="editor" style="position: relative;">OP_HASH256 &lt;0x6fe28c0ab6f1b372c1a6a246ae63f74f931e8365e15a089c68d6190000000000&gt; OP_EQUAL
                     </div>
@@ -47,8 +57,8 @@
         </div>
     </div>
 
-    <div id="middle-panel">
-        <div class="row">
+    <div id="middle-panel" class="ide-panel">
+        <div class="panel-row">
             <div id="executor-section" class="section test-box">
 	        <h3 id="debugger-subsection" class="subsection-title"> Debugger </h3>
                 <button id="run-button" type="button" class="btn btn-primary">Run</button>
@@ -58,8 +68,8 @@
         </div>
     </div>
 
-    <div id="bottom-panel">
-        <div class="row">
+    <div id="bottom-panel" class="ide-panel">
+        <div class="panel-row">
             <div id="assembly-section" class="section test-box">
 	        <h3 id="assembler-subsection" class="subsection-title"> Assembler </h3>
                 <button id="assemble-button" type="button" class="btn btn-primary">Script To Assembly</button>
@@ -82,9 +92,14 @@
         editor.getSession().setMode("ace/mode/script");
         //Set options for auto-completion
         editor.setOptions({
+            fontSize: 16,
+            wrap: true,
+            highlightActiveLine: true,
+            fixedWidthGutter : false,
+            dragEnabled : true,
             enableBasicAutocompletion: true,
             enableSnippets: true,
-            enableLiveAutocompletion: false //suggests words as you type
+            enableLiveAutocompletion: true //suggests words as you type
         });
     </script>
 
