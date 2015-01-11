@@ -92,6 +92,7 @@ $( document ).ready(function() {
 		}
 	});
 
+	//Hide the slider after a delay
 	setTimeout(function() {
 		$("#stack-visualizer-holder").trigger("mouseout");
 	}, 400);

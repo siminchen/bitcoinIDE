@@ -12,6 +12,7 @@ StackVisualizer.stackElementBorderWidth = 1;
 StackVisualizer.curvedness = 8;
 StackVisualizer.percentHeightToFallFrom = 0.95;
 StackVisualizer.percentHeightToFlyUp = 0.95;
+StackVisualizer.speedSliderMarginTop = '10px';
 
 //Animation speeds
 StackVisualizer.stackAnimationTime = 200; // speed of animations
@@ -148,7 +149,7 @@ StackVisualizer.prototype.createStackDiagram = function() {
 		'width' : '90%',
 		'display' : 'block',
 		'margin' : '0 auto',
-		'margin-top' : '10px'
+		'margin-top' : StackVisualizer.speedSliderMarginTop
 	});
 
 
@@ -175,7 +176,7 @@ StackVisualizer.prototype.createStackDiagram = function() {
 		$("#"+StackVisualizer.speedSliderHolderID).stop(true);
 		$("#"+StackVisualizer.speedSliderHolderID).animate({
 			opacity: 1.0,
-			'margin-top' : '10px'
+			'margin-top' : StackVisualizer.speedSliderMarginTop
 		}, 200);
 	});
 
