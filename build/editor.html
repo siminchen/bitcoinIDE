@@ -40,6 +40,11 @@
                   <li role="presentation">
                     <a id="editor-tab-assembly" data-toggle="tab" href="#">Assembly</a>
                   </li>
+                  <li role="presentation">
+                    <a id="editor-tab-options" data-toggle="tab" href="#">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                        Editor Options</a>
+                  </li>
                 </ul> 
 
                 <div id="editor-holder">
@@ -59,12 +64,30 @@
 
     <div id="middle-panel" class="ide-panel">
         <div class="panel-row">
-            <div id="executor-section" class="section test-box">
-	        <h3 id="debugger-subsection" class="subsection-title"> Debugger </h3>
-                <button id="run-button" type="button" class="btn btn-primary">Run</button>
-                <button id="next-button" type="button" class="btn btn-primary">Next</button>
-                <button id="continue-button" type="button" class="btn btn-primary">Continue</button>
+            <div id="executor-section" class="section centeredParent test-box">
+                <div id="debugger-centered">
+                    <div id="debugger-container">
+        	            <h2 id="debugger-subsection-title" class="subsection-title"> Debugger </h2>
+                        <button id="run-button" type="button" class="btn btn-success">
+                            <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+                            Run
+                        </button>
+                        <button id="next-button" type="button" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span>
+                            Step
+                        </button>
+                        <button id="continue-button" type="button" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-forward" aria-hidden="true"></span>
+                            Continue
+                        </button>
+                    </div>
+                    <span id="current-execution-arrow"class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                    <div id="current-execution-container" class="">
+                        Current executed op goes here
+                    </div>
+                </div>
             </div>
+
         </div>
     </div>
 

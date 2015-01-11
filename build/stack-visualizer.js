@@ -13,6 +13,7 @@ StackVisualizer.curvedness = 8;
 StackVisualizer.percentHeightToFallFrom = 0.95;
 StackVisualizer.percentHeightToFlyUp = 0.95;
 StackVisualizer.speedSliderMarginTop = '10px';
+StackVisualizer.fontFamily = 'Verdana';
 
 //Animation speeds
 StackVisualizer.stackAnimationTime = 200; // speed of animations
@@ -138,8 +139,15 @@ StackVisualizer.prototype.createStackDiagram = function() {
 		'text-align' : 'center',
 		'margin' : 'auto',
 		'margin-top' : '5px',
-		'font-size' : '1.2em'
+		'font-size' : '1.2em',
+		'font-family' : StackVisualizer.fontFamily
 	});
+
+	speedSliderTitle.prepend($('<span/>', {
+    	'class': 'glyphicon glyphicon-flash',
+	    'aria-hidden': "true"
+	}));
+	//<span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
 
 	//Speed slider under diagram
     var speedSliderHolder = $('<div/>', {
@@ -172,7 +180,7 @@ StackVisualizer.prototype.createStackDiagram = function() {
 
 	//Slider hiding animation
 	$( "body" ).delegate("#"+this.grandParentID, "mouseover", function() {
-		console.log("Mouse over");
+		// console.log("Mouse over");
 		$("#"+StackVisualizer.speedSliderHolderID).stop(true);
 		$("#"+StackVisualizer.speedSliderHolderID).animate({
 			opacity: 1.0,
@@ -181,7 +189,7 @@ StackVisualizer.prototype.createStackDiagram = function() {
 	});
 
 	$( "body" ).delegate("#"+this.grandParentID, "mouseout", function() {
-		console.log("Mouse out");
+		// console.log("Mouse out");
 		$("#"+StackVisualizer.speedSliderHolderID).stop(true);
 		$("#"+StackVisualizer.speedSliderHolderID).animate({
 			opacity: 0,
@@ -194,7 +202,8 @@ StackVisualizer.prototype.createStackDiagram = function() {
 
 StackVisualizer.prototype.createStackElement = function(value) {
     var stackElement = $('<div/>', {
-	    text: value
+	    text: value,
+	    'class' : 'stackElement'
 	});
 
 	stackElement.css({
@@ -208,6 +217,7 @@ StackVisualizer.prototype.createStackElement = function(value) {
 		'text-align' : 'center',
 		'bottom' : '0',
 		'background-color' : '#E89A2C',
+		'font-family' : StackVisualizer.fontFamily,
 
 		'border-style' : 'groove',
 		'border-color' : 'white',
