@@ -68,7 +68,14 @@ body {
 	/*width: 100%;*/
 	height: 100%;
 
-	margin: 40px auto auto 25%;
+	margin: 20px auto auto 24%;
+
+	color: green;
+	font-size: 3.0em;
+
+	/*-webkit-box-shadow: 7px 10px 5px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 7px 10px 5px 0px rgba(0,0,0,0.75);
+	box-shadow: 7px 10px 5px 0px rgba(0,0,0,0.75);*/
 }
 
 #debugger-container{

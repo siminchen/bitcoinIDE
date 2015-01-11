@@ -88,7 +88,7 @@ StackVisualizer.prototype.createStackDiagram = function() {
     	'height' : StackVisualizer.diagramHeight,
     	'width' : StackVisualizer.diagramWidth,
     	'margin' : '0 auto',
-		'margin-top' : '2%',
+		'margin-top' : '3%',
     	//'overflow' : 'scroll'
     });
 
