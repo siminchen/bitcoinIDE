@@ -40,7 +40,7 @@ $( document ).ready(function() {
 	stackVisualizer.push("STACK VALUE TEST6");
 	stackVisualizer.pop();
 
-	stackVisualizer.clear();
+	// stackVisualizer.clear();
 	console.log(stackVisualizer.stack);
 
 
