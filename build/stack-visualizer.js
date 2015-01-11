@@ -3,6 +3,7 @@ StackVisualizer.stackID = 'stack-diagram';
 StackVisualizer.qname = 'stackAnimQueue';
 StackVisualizer.speedSliderID = 'speedSlider';
 StackVisualizer.speedSliderTitleID = 'speedSliderTitle';
+StackVisualizer.speedSliderHolderID = 'speedSliderHolder';
 
 //Diagram appearance
 StackVisualizer.diagramHeight = '80%';
@@ -75,9 +76,9 @@ StackVisualizer.prototype.createStackDiagram = function() {
     console.log("Creating new stack diagram...");
 
     // Remove previous diagram
+    this.grandParentID = this.parentElement.parent().attr("id");
     this.parentElement.children().remove();
-    $('#'+StackVisualizer.speedSliderID ).remove();
-    $('#'+StackVisualizer.speedSliderTitleID).remove();
+    $('#'+StackVisualizer.speedSliderHolderID ).remove();
 
     this.parentElement.css({
     	'position' : 'relative',
@@ -85,7 +86,6 @@ StackVisualizer.prototype.createStackDiagram = function() {
     	'height' : StackVisualizer.diagramHeight,
     	'width' : StackVisualizer.diagramWidth,
     	'margin' : '0 auto',
-
 		'margin-top' : '2%',
     	//'overflow' : 'scroll'
     });
@@ -102,7 +102,6 @@ StackVisualizer.prototype.createStackDiagram = function() {
 		'vertical-align' :'bottom',
 		'overflow-y' : 'hidden',
 		'background-color' : 'white',
-		// 'float' : 'left',
 		
 		//border
 		'border-style' : 'double',
@@ -124,26 +123,38 @@ StackVisualizer.prototype.createStackDiagram = function() {
 	    id: StackVisualizer.speedSliderID
 	}).css({
 		// 'height' : '100%',
-		'width' : '90%',
+		'width' : '100%',
 		'display' : 'block',
 		'margin' : '0 auto',
-		'margin-top' : '10px'
+		// 'margin-top' : '10px'
 	});
 
     var speedSliderTitle = $('<h3/>', {
     	id: StackVisualizer.speedSliderTitleID,
 	    text: 'Animation Speed'
 	}).css({
-		'width' : '90%',
+		// 'width' : '90%',
 		'text-align' : 'center',
 		'margin' : 'auto',
 		'margin-top' : '5px',
 		'font-size' : '1.2em'
 	});
 
-	// padder.appendTo(this.parentElement);
-	speedSlider.appendTo('#'+'stack-visualizer-holder');
-	speedSliderTitle.appendTo('#'+'stack-visualizer-holder');
+	//Speed slider under diagram
+    var speedSliderHolder = $('<div/>', {
+	    id: StackVisualizer.speedSliderHolderID
+	}).css({
+		// 'height' : '100%',
+		'width' : '90%',
+		'display' : 'block',
+		'margin' : '0 auto',
+		'margin-top' : '10px'
+	});
+
+
+	speedSlider.appendTo(speedSliderHolder);
+	speedSliderTitle.appendTo(speedSliderHolder);
+	speedSliderHolder.appendTo('#'+'stack-visualizer-holder');
 	
 	$( "#"+StackVisualizer.speedSliderID ).slider({
       range: false,
@@ -156,6 +167,28 @@ StackVisualizer.prototype.createStackDiagram = function() {
         // console.log(StackVisualizer.stackAnimationTime);
       }
     });
+
+
+	//Slider hiding animation
+	$( "body" ).delegate("#"+this.grandParentID, "mouseover", function() {
+		console.log("Mouse over");
+		$("#"+StackVisualizer.speedSliderHolderID).stop(true);
+		$("#"+StackVisualizer.speedSliderHolderID).animate({
+			opacity: 1.0,
+			'margin-top' : '10px'
+		}, 200);
+	});
+
+	$( "body" ).delegate("#"+this.grandParentID, "mouseout", function() {
+		console.log("Mouse out");
+		$("#"+StackVisualizer.speedSliderHolderID).stop(true);
+		$("#"+StackVisualizer.speedSliderHolderID).animate({
+			opacity: 0,
+			'margin-top' : '30%'
+		}, 500);
+	});
+
+	// $("#"+this.grandParentID).trigger("mouseout");
 };
 
 StackVisualizer.prototype.createStackElement = function(value) {

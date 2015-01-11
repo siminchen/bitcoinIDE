@@ -91,4 +91,8 @@ $( document ).ready(function() {
 			$("#editor").removeClass("assembly");
 		}
 	});
+
+	setTimeout(function() {
+		$("#stack-visualizer-holder").trigger("mouseout");
+	}, 400);
 });
