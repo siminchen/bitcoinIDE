@@ -1,15 +1,26 @@
-StackVisualizer.stackAnimationTime = 100;
+//ID/name
+StackVisualizer.stackID = 'stack-diagram';
+StackVisualizer.qname = 'stackAnimQueue';
+StackVisualizer.speedSliderID = 'speedSlider';
+StackVisualizer.speedSliderTitleID = 'speedSliderTitle';
+
+//Diagram appearance
+StackVisualizer.diagramHeight = '80%';
+StackVisualizer.diagramWidth = '80%';
 StackVisualizer.stackElementBorderWidth = 1;
 StackVisualizer.curvedness = 8;
 StackVisualizer.percentHeightToFallFrom = 0.95;
 StackVisualizer.percentHeightToFlyUp = 0.95;
-StackVisualizer.msToWaitForAnim = 100;
 
+//Animation speeds
+StackVisualizer.stackAnimationTime = 100; // speed of animations
+StackVisualizer.SMALLESTstackAnimationTime = 10; // speed of animations
+StackVisualizer.LARGESTstackAnimationTime = 1500; // speed of animations
+StackVisualizer.msToWaitForAnim = 100;
 StackVisualizer.msToWaitBetweenAnimSections = 0;
 StackVisualizer.msToWaitBeforeQueueing = 0; //setTimeout timer
 StackVisualizer.msToWaitPerCall = 0; //delay between calls
-StackVisualizer.stackID = 'stack-diagram';
-StackVisualizer.qname = 'stackAnimQueue';
+
 
 /*
 //Have an element with id myQueue
@@ -63,14 +74,16 @@ StackVisualizer.prototype.getInfo = function() {
 StackVisualizer.prototype.createStackDiagram = function() {
     console.log("Creating new stack diagram...");
 
-    // console.log(this.parentElement.children());
+    // Remove previous diagram
     this.parentElement.children().remove();
+    $('#'+StackVisualizer.speedSliderID ).remove();
+    $('#'+StackVisualizer.speedSliderTitleID).remove();
 
     this.parentElement.css({
     	'position' : 'relative',
     	'display' : 'table',
-    	'height' : '90%',
-    	'width' : '80%',
+    	'height' : StackVisualizer.diagramHeight,
+    	'width' : StackVisualizer.diagramWidth,
     	'margin' : '0 auto',
 
 		'margin-top' : '2%',
@@ -89,6 +102,7 @@ StackVisualizer.prototype.createStackDiagram = function() {
 		'vertical-align' :'bottom',
 		'overflow-y' : 'hidden',
 		'background-color' : 'white',
+		// 'float' : 'left',
 		
 		//border
 		'border-style' : 'double',
@@ -103,6 +117,45 @@ StackVisualizer.prototype.createStackDiagram = function() {
 
 	stackDiv.appendTo(this.parentElement);
 	this.stackDiagram = stackDiv;
+
+
+	//Speed slider under diagram
+    var speedSlider = $('<div/>', {
+	    id: StackVisualizer.speedSliderID
+	}).css({
+		// 'height' : '100%',
+		'width' : '90%',
+		'display' : 'block',
+		'margin' : '0 auto',
+		'margin-top' : '10px'
+	});
+
+    var speedSliderTitle = $('<h3/>', {
+    	id: StackVisualizer.speedSliderTitleID,
+	    text: 'Animation Speed'
+	}).css({
+		'width' : '90%',
+		'text-align' : 'center',
+		'margin' : 'auto',
+		'margin-top' : '5px',
+		'font-size' : '1.2em'
+	});
+
+	// padder.appendTo(this.parentElement);
+	speedSlider.appendTo('#'+'stack-visualizer-holder');
+	speedSliderTitle.appendTo('#'+'stack-visualizer-holder');
+	
+	$( "#"+StackVisualizer.speedSliderID ).slider({
+      range: false,
+      min: StackVisualizer.SMALLESTstackAnimationTime,
+      max: StackVisualizer.LARGESTstackAnimationTime-5,
+      animate : 'slow',
+      value: StackVisualizer.LARGESTstackAnimationTime - StackVisualizer.stackAnimationTime,
+      slide: function( event, ui ) {
+      	StackVisualizer.stackAnimationTime = StackVisualizer.LARGESTstackAnimationTime - ui.value;
+        // console.log(StackVisualizer.stackAnimationTime);
+      }
+    });
 };
 
 StackVisualizer.prototype.createStackElement = function(value) {

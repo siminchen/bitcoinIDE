@@ -41,7 +41,7 @@ $( document ).ready(function() {
 	stackVisualizer.pop();
 
 	// stackVisualizer.clear();
-	console.log(stackVisualizer.stack);
+	// console.log(stackVisualizer.stack);
 
 
 	// Attach event listeners to the assemble and disassemble button
