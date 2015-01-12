@@ -319,6 +319,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			break;
 		case "OP_NEGATE":
 			mainstack.push(mainstack.pop() * -1);
+			break;
 		case "OP_ABS":
 			top = mainstack.pop();
 			if (top >= 0)
