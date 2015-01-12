@@ -58,7 +58,7 @@ interpreter.prototype.search = function (script, tracker, if_index) {
 }
 
 interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
-	var current_command = script[index];
+	var current_command = script[index].toUpperCase();
 	console.log('script ' + script);
 	console.log(' index ' + index);
 	switch (current_command) {
