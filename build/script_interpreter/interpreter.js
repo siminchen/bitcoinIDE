@@ -58,6 +58,7 @@ interpreter.prototype.search = function (script, tracker, if_index) {
 }
 
 interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
+	console.log("HEY");
     var current_command = script[index].toUpperCase();
 	switch (current_command) {
 		case "OP_0":
@@ -121,7 +122,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 		case "OP_NOP":
 		case "OP_NOP1":
 		case "OP_NOP2":
-      		case "OP_NOP3":
+      	case "OP_NOP3":
 		case "OP_NOP4":
 		case "OP_NOP5":
 		case "OP_NOP6":
@@ -281,6 +282,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 		case "OP_SIZE":
 			var size = mainstack.peek(1).length();
 			mainstack.push(size);
+			break;
 
 		/* bitwise logic*/
 		case "OP_EQUAL":
@@ -535,11 +537,13 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			// this search might not be necessary if we decide to do some preprocessing
 			// e.g. if there is an unrecognized term in the script, and it's not surrounded
 			// by arrow brackets, that's a syntax failure.
+			console.log("HI");
 			var val = current_command.search(/[A-Za-z0-9]+/);
 			//console.log('val ' + current_command.match(/0x[A-Za-z0-9]+/));
 			if (val == -1) break;
 			val = current_command.match(/[A-Za-z0-9]+/);
-			val = parseInt(val);
+			val = parseInt(val, 16);
+			console.log(val);
 			mainstack.push(val);
 			break;
 	}
