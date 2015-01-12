@@ -6,8 +6,6 @@ function interpreter () {
 	var top;
 	var n;
 	var code_separator_index;
-	var if_counter = 0;
-	var in_if = false;
 }
 
 interpreter.prototype.validateScript = function (script) {
@@ -489,9 +487,17 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			mainstack.push(Sha256.hash(mainstack.pop()));
 			break;
 		case "OP_CODESEPARATOR":
-			codeSeparatorIndex = index;
+			code_separator_index = index;
 			break;
 		case "OP_CHECKSIG":
+			var pubKey = mainstack.pop();
+			var sig = mainstack.pop();
+
+			var sub_script = new Array();
+			for (var i = code_separator_index; i < script.length; i++) {
+				if (script[i] !== sig) sub_script.push(script[i]);
+			}
+
 			break;
 		// uh... looks complicated. see https://en.bitcoin.it/wiki/OP_CHECKSIG
 		// use secp256k1 elliptic curve for signature verification
@@ -526,6 +532,14 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			break; */
 
 		default:
+			// this search might not be necessary if we decide to do some preprocessing
+			// e.g. if there is an unrecognized term in the script, and it's not surrounded
+			// by arrow brackets, that's a syntax failure.
+			var val = current_command.search(/0x[A-Za-z0-9]+/);
+			if (val == -1) break;
+			else mainstack.push(current_command.match(/0x[A-Za-z0-9]+/));
 			break;
 	}
+
+	return i + 1;
 }
