@@ -58,9 +58,13 @@ interpreter.prototype.search = function (script, tracker, if_index) {
 }
 
 interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
+<<<<<<< HEAD
 	var current_command = script[index].toUpperCase();
 	console.log('script ' + script);
 	console.log(' index ' + index);
+=======
+	var current_command = script[index];
+>>>>>>> 35944a5abf2b050b7a7b451e77f56462f4402c14
 	switch (current_command) {
 		case "OP_0":
 		case "OP_FALSE":
@@ -123,7 +127,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 		case "OP_NOP":
 		case "OP_NOP1":
 		case "OP_NOP2":
-		case "OP_NOP3":
+      		case "OP_NOP3":
 		case "OP_NOP4":
 		case "OP_NOP5":
 		case "OP_NOP6":
@@ -133,9 +137,13 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 		case "OP_NOP10":
 			break;
 		case "OP_IF":
+			console.log("Mainstack's stack");
+			console.log(mainstack.stack);
 			top = mainstack.pop();
+			console.log(top);
 			if (top == 0)
 			{
+			    console.log("Top == 0 is true");
 				for (var j = index; j < script.length; j++) {
 					// if the if condition is false and there is an else
 					// execute the opcodes right after the OP_ELSE
@@ -533,7 +541,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			// e.g. if there is an unrecognized term in the script, and it's not surrounded
 			// by arrow brackets, that's a syntax failure.
 			var val = current_command.search(/0x[A-Za-z0-9]+/);
-			console.log('val ' + current_command.match(/0x[A-Za-z0-9]+/));
+			//console.log('val ' + current_command.match(/0x[A-Za-z0-9]+/));
 			if (val == -1) break;
 			val = current_command.match(/0x[A-Za-z0-9]+/);
 			val = parseInt(val);
@@ -541,7 +549,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			break;
 	}
 
-	console.log('returns i + 1: ' + (index + 1) );
+	//	console.log('returns i + 1: ' + (index + 1) );
 
 	if (index + 1 == script.length) {
 	    return -2;
