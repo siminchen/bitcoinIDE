@@ -25,6 +25,8 @@ var Sha256 = {};
  */
 Sha256.hash = function(msg) {
     // convert string to UTF-8, as SHA only deals with byte-streams
+    msg = msg.toString(16);
+    console.log('msg ' + msg);
     msg = msg.utf8Encode();
     
     // constants [§4.2.2]
