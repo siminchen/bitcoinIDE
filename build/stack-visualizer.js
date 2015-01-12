@@ -8,7 +8,7 @@ StackVisualizer.speedSliderHolderID = 'speedSliderHolder';
 //Diagram appearance
 StackVisualizer.diagramHeight = '85%';
 StackVisualizer.diagramWidth = '80%';
-StackVisualizer.diagramMarginTop = '5%';
+StackVisualizer.diagramMarginTop = '6%';
 StackVisualizer.stackElementBorderWidth = 1;
 StackVisualizer.curvedness = 8;
 StackVisualizer.percentHeightToFallFrom = 0.95;
