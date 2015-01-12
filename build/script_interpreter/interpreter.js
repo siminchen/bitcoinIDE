@@ -535,7 +535,9 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			var val = current_command.search(/0x[A-Za-z0-9]+/);
 			console.log('val ' + current_command.match(/0x[A-Za-z0-9]+/));
 			if (val == -1) break;
-			else mainstack.push(current_command.match(/0x[A-Za-z0-9]+/));
+			val = current_command.match(/0x[A-Za-z0-9]+/);
+			val = parseInt(val);
+			mainstack.push(val);
 			break;
 	}
 
