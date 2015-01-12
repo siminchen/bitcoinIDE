@@ -76,7 +76,7 @@ var ScriptHighlightRules = function() {
             }]
         }, {
             token : "constant.numeric", // float
-            regex : "[+-]?\\d+(?:(?:\\.\\d*)?(?:[eE][+-]?\\d+)?)?\\b"
+            regex : "0?[xX]?[0-9a-fA-F]+\\b"
         }, {
             token : keywordMapper,
             regex : "[a-zA-Z_$][a-zA-Z0-9_$]*\\b"

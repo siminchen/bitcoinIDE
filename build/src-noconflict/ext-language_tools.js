@@ -1080,6 +1080,8 @@ var AcePopup = function(parentNode) {
     popup.session.$computeWidth = function() {
         return this.screenWidth = 0;
     };
+
+    popup.$blockScrolling = Infinity;
     popup.isOpen = false;
     popup.isTopdown = false;
 
@@ -1111,6 +1113,7 @@ var AcePopup = function(parentNode) {
     popup.on("changeSelection", function() {
         if (popup.isOpen)
             popup.setRow(popup.selection.lead.row);
+        popup.renderer.scrollCursorIntoView();
     });
 
     popup.hide = function() {
