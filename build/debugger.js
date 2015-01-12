@@ -6,10 +6,12 @@
 
 function ScriptDebugger() {
     this.pause = 1000; // Number of milliseconds of pause between commands
-    this.initialize();
-    this.visibleStack = new StackVisualizer("visible");
-    this.hiddenStack = new StackVisualizer("hidden", true); // set the hidden flag to true
+    this.visibleStack = new StackVisualizer("stack-visualizer");
+//    this.hiddenStack = new StackVisualizer("stack-visualizer", true); // set the hidden flag to true
+	this.hiddenStack = 0;
     this.interpreter = new interpreter();
+    this.firstStep = true;
+    this.initialize();
 }
 
 
@@ -24,7 +26,12 @@ ScriptDebugger.prototype.initialize = function() {
     // this.hiddenStack.clear();
     this.index = 0; // The current index in the commands array to execute
     this.needToInitialize = false;
-    // Display the next opcode to execute                                                                                                                                         
+
+    console.log(this.hiddenStack);
+    //this.visibleStack.clear();
+    //    this.hiddenStack.clear();
+
+    // Display the next opcode to execute                                                                                   
     $( "#next-opcode-container" ).text(this.commands[this.index]);
 };
 
@@ -40,12 +47,17 @@ ScriptDebugger.prototype.runFromBeginning = function() {
 
 
 ScriptDebugger.prototype.nextStep = function(){
-    if (this.needToInitialize == true) {
+    if (this.needToInitialize) {
 	this.initialize();
     }  
 
-    this.index = this.interpreter.nextStep(this.visibleStack, this.hiddenStack, this.commands, this.index);    
+    if (this.firstStep) {
+	this.initialize();
+	this.firstStep = false;
+    }
 
+    this.index = this.interpreter.nextStep(this.visibleStack, this.hiddenStack, this.commands, this.index);    
+    console.log("index " + this.index);
     if (this.index == -1) {
 	$( "#next-opcode-container").text("Execution unsuccessful");
 	$( "#next-opcode-container").css("background-color", "red");
