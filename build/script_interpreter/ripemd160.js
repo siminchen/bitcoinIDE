@@ -1,7 +1,4 @@
 
-module.exports = ripemd160
-
-
 
 /*
 CryptoJS v3.1.2
@@ -199,6 +196,7 @@ function ripemd160(message) {
   }
 
   var digestbytes = wordsToBytes(H);
+  console.log(digestbytes);
   return new Buffer(digestbytes);
 }
 
