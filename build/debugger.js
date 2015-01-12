@@ -70,18 +70,26 @@ ScriptDebugger.prototype.nextStep = function(){
     }  
 
     this.index = this.interpreter.nextStep(this.visibleStack, this.hiddenStack, this.commands, this.index);    
-    
+
+    if (this.index == -2) { // Execution Success
+	this.needToInitialize = true;
+	// If the stack isn't empty, this means the execution failed
+	if (this.visibleStack.size() != 0) {
+	    this.index = -1;
+	} else {
+	    $( "#next-opcode-container").text("Execution successful");
+	    $( "#next-opcode-container").css({"background-color": "green", "color":"white"});
+	    $( "#current-execution-pass").animate({ 'opacity': '1.0' });
+	    $( "#current-execution-fail").animate({ 'opacity': '0.0' });
+	}
+    }
+
     if (this.index == -1) { // Execution Failure
 	$( "#next-opcode-container").text("Execution unsuccessful");
 	$( "#next-opcode-container").css({"background-color": "red", "color":"white"});
-    $( "#current-execution-fail").animate({ 'opacity': '1.0' });
-    $( "#current-execution-pass").animate({ 'opacity': '0.0' });
-	this.needToInitialize = true;
-    } else if (this.index == -2) { // Execution Success
-	$( "#next-opcode-container").text("Execution successful");
-	$( "#next-opcode-container").css({"background-color": "green", "color":"white"});
-    $( "#current-execution-pass").animate({ 'opacity': '1.0' });
-    $( "#current-execution-fail").animate({ 'opacity': '0.0' });
+	$( "#current-execution-fail").animate({ 'opacity': '1.0' });
+	$( "#current-execution-pass").animate({ 'opacity': '0.0' });
+	this.visibleStack.highlightFailure();
 	this.needToInitialize = true;
     } else {
 	// Display the next opcode to execute

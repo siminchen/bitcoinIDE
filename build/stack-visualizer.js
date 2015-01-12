@@ -642,7 +642,6 @@ StackVisualizer.prototype.flush = function() {
 };
 
 StackVisualizer.prototype.highlightFailure = function() {
-	console.log();
 	$('#' + this.stackID).children().css({
 		'background-color':'red'
 	});
