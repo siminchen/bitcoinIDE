@@ -1,7 +1,7 @@
 function interpreter () {
-	var top;
-	var n;
-	var code_separator_index;
+	//this.top = 0;
+	//var n;
+	this.code_separator_index = 0;
 }
 
 interpreter.prototype.validateScript = function (script) {
@@ -58,6 +58,7 @@ interpreter.prototype.search = function (script, tracker, if_index) {
 }
 
 interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
+	console.log("HEY");
     var current_command = script[index].toUpperCase();
 	switch (current_command) {
 		case "OP_0":
@@ -121,7 +122,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 		case "OP_NOP":
 		case "OP_NOP1":
 		case "OP_NOP2":
-      		case "OP_NOP3":
+      	case "OP_NOP3":
 		case "OP_NOP4":
 		case "OP_NOP5":
 		case "OP_NOP6":
@@ -133,7 +134,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 		case "OP_IF":
 			console.log("Mainstack's stack");
 			console.log(mainstack.stack);
-			top = mainstack.pop();
+			var top = mainstack.pop();
 			console.log(top);
 			if (top == 0)
 			{
@@ -161,7 +162,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 					return j + 1;
 			}	
 		case "OP_NOTIF":
-			top = mainstack.pop();
+			var top = mainstack.pop();
 			if (top != 0)
 			{
 				for (var j = index; j < script.length; j++) {
@@ -179,7 +180,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 		case "OP_ENDIF":
 			break;
 		case "OP_VERIFY":
-			top = mainstack.pop();
+			var top = mainstack.pop();
 			if (top == 0)
 				return -1;
 			break;
@@ -189,15 +190,15 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 
 		/* stack */
 		case "OP_TOALTSTACK":
-			top = mainstack.pop();
+			var top = mainstack.pop();
 			altstack.push(top);
 			break;
 		case "OP_FROMALTSTACK":
-			top = altstack.pop();
+			var top = altstack.pop();
 			mainstack.push(top);
 			break;
 		case "OP_IFDUP":
-			top = mainstack.pop();
+			var top = mainstack.pop();
 			if (top != 0) 
 				mainstack.push(top);
 			maintack.push(top);
@@ -215,29 +216,29 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			mainstack.remove(2);
 			break;
 		case "OP_OVER":
-			top = mainstack.peek(2);
+			var top = mainstack.peek(2);
 			mainstack.push(top);
 			break;
 		case "OP_PICK":
-			n = mainstack.pop();
-			top = mainstack.peek(n);
+			var n = mainstack.pop();
+			var top = mainstack.peek(n);
 			mainstack.push(top);
 			break;
 		case "OP_ROLL":
-			n = mainstack.pop();
-			top = mainstack.remove(n);
+			var n = mainstack.pop();
+			var top = mainstack.remove(n);
 			mainstack.push(top);
 			break;
 		case "OP_ROT":
-			top = mainstack.remove(3);
+			var top = mainstack.remove(3);
 			mainstack.push(top);
 			break;
 		case "OP_SWAP":
-			top = mainstack.remove(2);
+			var top = mainstack.remove(2);
 			mainstack.push(top);
 			break;
 		case "OP_TUCK":
-			top = mainstack.peek(1);
+			var top = mainstack.peek(1);
 			mainstack.insert(top, 3);
 			break;
 		case "OP_2DROP":
@@ -246,33 +247,33 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			break;
 		case "OP_2DUP":
 			var second = mainstack.peek(2);
-			top = mainstack.peek(1);
+			var top = mainstack.peek(1);
 			mainstack.push(second);
 			mainstack.push(top);
 			break;
 		case "OP_3DUP":
 			var third = mainstack.peek(3);
 			var second = mainstack.peek(2);
-			top = mainstack.peek(1);
+			var top = mainstack.peek(1);
 			mainstack.push(third);
 			mainstack.push(second);
 			mainstack.push(top);
 			break;
 		case "OP_2OVER":
 			var second = mainstack.peek(4);
-			top = mainstack.peek(3);
+			var top = mainstack.peek(3);
 			mainstack.push(second);
 			mainstack.push(top);
 			break;
 		case "OP_2ROT":
 			var second = mainstack.remove(6);
-			top = mainstack.remove(5);
+			var top = mainstack.remove(5);
 			mainstack.push(second);
 			mainstack.push(top);
 			break;
 		case "OP_2SWAP":
 		    var second = mainstack.remove(4);
-			top = mainstack.remove(3);
+			var top = mainstack.remove(3);
 			mainstack.push(second);
 			mainstack.push(top);
 			break;
@@ -281,6 +282,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 		case "OP_SIZE":
 			var size = mainstack.peek(1).length();
 			mainstack.push(size);
+			break;
 
 		/* bitwise logic*/
 		case "OP_EQUAL":
@@ -319,22 +321,23 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			break;
 		case "OP_NEGATE":
 			mainstack.push(mainstack.pop() * -1);
+			break;
 		case "OP_ABS":
-			top = mainstack.pop();
+			var top = mainstack.pop();
 			if (top >= 0)
 				mainstack.push(top);
 			else
 				mainstack.pop(top * -1);
 			break;
 		case "OP_NOT":
-			top = mainstack.pop();
+			var top = mainstack.pop();
 			if (top === 0)
 				mainstack.push(1);
 			else
 				mainstack.push(0);
 			break;
 		case "OP_0NOTEQUAL":
-			top = mainstack.pop();
+			var top = mainstack.pop();
 			if (top === 0)
 				mainstack.push(0);
 			else
@@ -344,7 +347,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			mainstack.push(mainstack.pop() + mainstack.pop());
 			break;
 		case "OP_SUB":
-			top = mainstack.pop();
+			var top = mainstack.pop();
 			var second = mainstack.pop();
 			mainstack.push(second - top);
 			break;
@@ -352,27 +355,27 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			mainstack.push(mainstack.pop() * mainstack.pop());
 			break;
 		case "OP_SUB":
-			top = mainstack.pop();
+			var top = mainstack.pop();
 			var second = mainstack.pop();
 			mainstack.push(second / top);
 			break;
 		case "OP_MOD":
-			top = mainstack.pop();
+			var top = mainstack.pop();
 			var second = mainstack.pop();
 			mainstack.push(second % top);
 			break;
 		case "OP_LSHIFT":
-			top = mainstack.pop();
+			var top = mainstack.pop();
 			var second = mainstack.pop();
 			mainstack.push(second << top);
 			break;
 		case "OP_RSHIFT":
-			top = mainstack.pop();
+			var top = mainstack.pop();
 			var second = mainstack.pop();
 			mainstack.push(second >> top);
 			break;
 		case "OP_BOOLAND":
-			top = mainstack.pop();
+			var top = mainstack.pop();
 			var second = mainstack.pop();
 			if (a !== 0 && b !== 0)
 				mainstack.push(1);
@@ -380,7 +383,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 				mainstack.push(0);
 			break;
 		case "OP_BOOLOR":
-			top = mainstack.pop();
+			var top = mainstack.pop();
 			var second = mainstack.pop();
 			if (a !== 0 || b !== 0)
 				mainstack.push(1);
@@ -388,7 +391,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 				mainstack.push(0);
 			break;
 		case "OP_NUMEQUAL":
-			top = mainstack.pop();
+			var top = mainstack.pop();
 			var second = mainstack.pop();
 			if (top === second) 
 				mainstack.push(1);
@@ -396,7 +399,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 				mainstack.push(0);
 			break;
 		case "OP_NUMEQUALVERIFY":
-			top = mainstack.pop();
+			var top = mainstack.pop();
 			var second = mainstack.pop();
 			if (top === second) 
 				mainstack.push(1);
@@ -407,7 +410,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 				return -1;
 			break;
 		case "OP_NUMNOTEQUAL":
-			top = mainstack.pop();
+			var top = mainstack.pop();
 			var second = mainstack.pop();
 			if (top === second) 
 				mainstack.push(0);
@@ -415,7 +418,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 				mainstack.push(1);
 			break;
 		case "OP_LESSTHAN":
-			top = mainstack.pop();
+			var top = mainstack.pop();
 			var second = mainstack.pop();
 			if (second < top) 
 				mainstack.push(1);
@@ -423,7 +426,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 				mainstack.push(0);
 			break;
 		case "OP_GREATERTHAN":
-			top = mainstack.pop();
+			var top = mainstack.pop();
 			var second = mainstack.pop();
 			if (second > top) 
 				mainstack.push(1);
@@ -431,7 +434,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 				mainstack.push(0);
 			break;
 		case "OP_LESSTHANOREQUAL":
-			top = mainstack.pop();
+			var top = mainstack.pop();
 			var second = mainstack.pop();
 			if (second <= top) 
 				mainstack.push(1);
@@ -439,7 +442,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 				mainstack.push(0);
 			break;
 		case "OP_GREATERTHANOREQUAL":
-			top = mainstack.pop();
+			var top = mainstack.pop();
 			var second = mainstack.pop();
 			if (second >= top) 
 				mainstack.push(1);
@@ -447,17 +450,17 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 				mainstack.push(0);
 			break;
 		case "OP_MIN":
-			top = mainstack.pop();
+			var top = mainstack.pop();
 			var second = mainstack.pop();
 			mainstack.push(Math.min(top, second));
 			break;
 		case "OP_MAX":
-			top = mainstack.pop();
+			var top = mainstack.pop();
 			var second = mainstack.pop();
 			mainstack.push(Math.max(top, second));
 			break;
 		case "OP_WITHIN":
-			top = mainstack.pop();
+			var top = mainstack.pop();
 			var max = mainstack.pop();
 			var min = mainstack.pop();
 
@@ -534,11 +537,13 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			// this search might not be necessary if we decide to do some preprocessing
 			// e.g. if there is an unrecognized term in the script, and it's not surrounded
 			// by arrow brackets, that's a syntax failure.
-			var val = current_command.search(/0X[A-Za-z0-9]+/);
+			console.log("HI");
+			var val = current_command.search(/[A-Za-z0-9]+/);
 			//console.log('val ' + current_command.match(/0x[A-Za-z0-9]+/));
 			if (val == -1) break;
-			val = current_command.match(/0X[A-Za-z0-9]+/);
-			val = parseInt(val);
+			val = current_command.match(/[A-Za-z0-9]+/);
+			val = parseInt(val, 16);
+			console.log(val);
 			mainstack.push(val);
 			break;
 	}
