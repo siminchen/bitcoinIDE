@@ -5,8 +5,6 @@
 // call assembleToHex. To disassemble a hex string into a bitcoin
 // script (string), call disassembleFromHex.
 
-var BASE_16 = 16;
-
 var commandToOpcode = {
     "OP_0": 0,
     "OP_FALSE": 0,
@@ -249,7 +247,7 @@ var opcodeToCommand = {
 // Arguments: opcode: integer
 // Return: string with two characters
 var opcodeToHex = function(opcode) {
-    var hexcode = opcode.toString(BASE_16);
+    var hexcode = opcode.toString(16);
 
     // Convert the hex code to 2 characters
     if (hexcode.length == 1) {
@@ -262,47 +260,20 @@ var opcodeToHex = function(opcode) {
 
 // Convert a constant in the Bitcoin script to its hexcode in Bitcoin
 // Return a string on success, and null on failure
-// Arguments: constant: string in the format of <...>
-// If it's heximal, constant must be in the format of <0x...>
+// Arguments: constant: string in hexadecimal format (without the 0x)
 // Return: string or null
 var constantToHexcode = function(constant) {
     var numBytes;
-    // If the number is hexadecimal, just take the characters directly
-    if (constant.substring(1, 3) == "0x" ||
-	constant.substring(1, 3) == "0X") {
-        // Remove the leading <0x and the trailing >
-	constant = constant.substring(3, constant.length - 1);
+
+    // If the number of characters is not even, add a leading zero.
+    // This is because every two hex digits correspond to a byte.
+    if (constant.length % 2) {
+	constant = "0" +  constant;
+    }
+
+    numBytes = opcodeToHex(constant.length / 2);
+    return numBytes + constant;
 	
-	// If the number of characters is not even, add a leading zero.
-	// This is because every two hex digits correspond to a byte.
-	if (constant.length % 2) {
-	    constant = "0" +  constant;
-	}
-
-	numBytes = opcodeToHex(constant.length / 2);
-	return numBytes + constant;
-    }
-	
-    // Otherwise, the constant is in decimal, parse it as integer
-    var num = parseInt(constant.substring(1, constant.length - 1));
-
-    if (isNaN(num)) {
-	return null;
-    }
-
-    num = num.toString(BASE_16);
-    
-    // If the number of characters is not even, add a leading zero.                                                                                                               
-    // This is because every two hex digits correspond to a byte.                                                                                                                 
-    if (num.length % 2) {
-	num = "0" +  num;
-    }
-
-    // Determine the number of bytes of the constant
-    numBytes = opcodeToHex(num.length / 2);
-    numBytes = opcodeToHex(numBytes);
-
-    return numBytes + num;
 };
 
 // Convert a Bitcoin script to its hex code
@@ -345,14 +316,11 @@ function disassembleFromHex(hexstring) {
 	if (opcodeValue < 1 || opcodeValue > 75) {
 	    script += opcodeToCommand[opcodeValue];
 	} else { // Opcode represents constants
-	    script += "<";
-	    script += "0x";
 	    while (opcodeValue > 0) {
 		script += hexstring[index] + hexstring[index + 1];
 		index += 2;
 		opcodeValue -= 1;
 	    }
-	    script += ">";
 	}
 
 	script += " ";
