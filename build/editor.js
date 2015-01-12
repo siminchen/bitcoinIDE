@@ -74,6 +74,11 @@ $( document ).ready(function() {
 		scriptDebugger.continueExecution();
 	});
 
+	// If the user changes the code, initialize the stack the next time they step or run.
+	editor.on("change", function() {
+		scriptDebugger.needToInitialize = true;
+	});
+
 	// Attach event listeners to the toggling between assembly and script
 	$( "body" ).delegate( "#editor-tab-assembly", "click", function() {
 		if(!$("#editor").hasClass("assembly")) {
