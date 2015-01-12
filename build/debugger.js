@@ -53,10 +53,12 @@ ScriptDebugger.prototype.nextStep = function(){
     if (this.index == -1) { // Failure
 	$( "#next-opcode-container").text("Execution unsuccessful");
 	$( "#next-opcode-container").css("background-color", "red");
+    $( "#current-execution-fail").animate({ 'opacity': '1.0' });
 	this.needToInitialize = true;
     } else if (this.index == -2) { // Success
 	$( "#next-opcode-container").text("Execution successful");
 	$( "#next-opcode-container").css("background-color", "green");
+    $( "#current-execution-pass").animate({ 'opacity': '1.0' });
 	this.needToInitialize = true;
     } else {
 	// Display the next opcode to execute
