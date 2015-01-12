@@ -28,10 +28,72 @@
     <!-- panel-row contain all elements in a panel (horizontal group) -->
     <!-- Each row contains adjacent sections -->
 
+
+    <!-- NAV BAR START -->
+    <nav class="navbar navbar-custom">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">
+            <img id="ide-logo" alt="Bitcoin Script ID" src="images/bIDE_logo.png">
+            <h2 id="ide-title"> Bitcoin IDE</h2>
+          </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+            <li><a href="#">Link</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+                <li class="divider"></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+          <form class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Link</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+    <!-- NAV BAR END -->
+
+
+
     <div id="top-panel" class="ide-panel">
         <div class="panel-row">
             <div id="editor-section" class="section">
-                <h2 id="editor-section-title" class="section-title">Script Editor</h2>
+                <!-- <h2 id="editor-section-title" class="section-title">Script Editor</h2> -->
 
                 <ul id="editor-tabs" class="nav nav-tabs nav-justified">
                   <li role="presentation" class="active">
@@ -48,14 +110,13 @@
                 </ul> 
 
                 <div id="editor-holder">
-                    <div id="editor" class="script" style="position: relative;">OP_HASH256 &lt;0x6fe28c0ab6f1b372c1a6a246ae63f74f931e8365e15a089c68d6190000000000&gt; OP_EQUAL
-                    </div>
+                    <div id="editor" class="script" style="position: relative;">OP_HASH256 &lt;0x6fe28c0ab6f1b372c1a6a246ae63f74f931e8365e15a089c68d6190000000000&gt; OP_EQUAL</div>
                 </div>
             </div>
 
             <div id="stack-visualizer-section" class="section">
-                <h2 id="stack-section-title" class="section-title">Stack Visualizer</h2>
-                <div id="stack-visualizer-holder" class="test-box">
+                <!-- <h2 id="stack-section-title" class="section-title">Stack Visualizer</h2> -->
+                <div id="stack-visualizer-holder" class="">
                     <div id="stack-visualizer" class=""></div>
                 </div>
             </div>
@@ -64,10 +125,10 @@
 
     <div id="middle-panel" class="ide-panel">
         <div class="panel-row">
-            <div id="executor-section" class="section centeredParent test-box">
+            <div id="executor-section" class="section centeredParent">
                 <div id="debugger-centered">
                     <div id="debugger-container">
-        	            <h2 id="debugger-subsection-title" class="subsection-title"> Debugger </h2>
+        	            <!-- <h2 id="debugger-subsection-title" class="subsection-title"> Debugger </h2> -->
                         <button id="run-button" type="button" class="btn btn-success">
                             <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
                             Run
@@ -85,8 +146,8 @@
 		    <div id="next-opcode-container" class="">
                         Next opcode to execute
                     </div>
-                    <span id="current-execution-pass" class="glyphicon glyphicon-ok" aria-hidden="true" style="color:green;"></span>
-                    <span id="current-execution-fail" class="glyphicon glyphicon-remove" aria-hidden="true" style="color:red;"></span>
+                    <span id="current-execution-pass" class="glyphicon glyphicon-ok completion-icon" aria-hidden="true" style="color:green;"></span>
+                    <span id="current-execution-fail" class="glyphicon glyphicon-remove completion-icon" aria-hidden="true" style="color:red;"></span>
                 </div>
             </div>
 
@@ -113,7 +174,8 @@
     <script> 
         ace.require("ace/ext/language_tools");
         var editor = ace.edit("editor");
-        editor.setTheme("ace/theme/twilight");
+        //editor.setTheme("ace/theme/twilight");
+        editor.setTheme("ace/theme/merbivore");
         editor.getSession().setMode("ace/mode/script");
         //Set options for auto-completion
         editor.setOptions({

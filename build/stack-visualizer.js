@@ -6,13 +6,14 @@ StackVisualizer.speedSliderTitleID = 'speedSliderTitle';
 StackVisualizer.speedSliderHolderID = 'speedSliderHolder';
 
 //Diagram appearance
-StackVisualizer.diagramHeight = '80%';
+StackVisualizer.diagramHeight = '85%';
 StackVisualizer.diagramWidth = '80%';
+StackVisualizer.diagramMarginTop = '5%';
 StackVisualizer.stackElementBorderWidth = 1;
 StackVisualizer.curvedness = 8;
 StackVisualizer.percentHeightToFallFrom = 0.95;
 StackVisualizer.percentHeightToFlyUp = 0.95;
-StackVisualizer.speedSliderMarginTop = '10px';
+StackVisualizer.speedSliderMarginTop = '14px';
 StackVisualizer.fontFamily = 'Verdana';
 
 //Animation speeds
@@ -88,7 +89,7 @@ StackVisualizer.prototype.createStackDiagram = function() {
     	'height' : StackVisualizer.diagramHeight,
     	'width' : StackVisualizer.diagramWidth,
     	'margin' : '0 auto',
-		'margin-top' : '3%',
+		'margin-top' : StackVisualizer.diagramMarginTop,
     	//'overflow' : 'scroll'
     });
 
@@ -138,7 +139,7 @@ StackVisualizer.prototype.createStackDiagram = function() {
 		// 'width' : '90%',
 		'text-align' : 'center',
 		'margin' : 'auto',
-		'margin-top' : '5px',
+		'margin-top' : '8px',
 		'font-size' : '1.2em',
 		'font-family' : StackVisualizer.fontFamily
 	});
