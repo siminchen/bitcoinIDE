@@ -275,6 +275,7 @@ StackVisualizer.prototype.pushElementOnDiagram = function(stackElement) {
 			     	queue: false, //so other anim queues are independent
 			        complete: next //THIS IS IMPORTANT FOR ANIMATION
 		    });
+		    // thisStack.checkForAndHighlightFailure();
 		     // console.log("(2/2)Animation for PUSH done.");
 		});
 
@@ -645,8 +646,16 @@ StackVisualizer.prototype.highlightFailure = function() {
 	$('#' + this.stackID).children().css({
 		'background-color':'red'
 	});
-	this.hasFailed = false;
+	this.hasFailed = true;
 };
+
+StackVisualizer.prototype.checkForAndHighlightFailure = function() {
+	console.log(this.hasFailed);
+	if(this.hasFailed) {
+		this.highlightFailure();
+	}	
+};
+
 
 StackVisualizer.prototype.isAnimating = function() {
 	var numAnimatingElements =  $('#' + this.stackID).children().filter(":animated").length;
