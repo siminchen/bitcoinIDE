@@ -1,8 +1,8 @@
-function interpreter (mainstack, altstack, script) {
-	this.mainstack = mainstack;
-	this.altstack = altstack;
-	this.script = script;
-	this.index = 0;
+function interpreter () {
+    //this.mainstack = mainstack;
+    //this.altstack = altstack;
+    //this.script = script;
+    //this.index = 0;
 	var top;
 	var n;
 	var code_separator_index;
@@ -65,6 +65,7 @@ interpreter.prototype.search = function (script, tracker, if_index) {
 
 interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 	var current_command = script[index];
+	console.log("Here");
 	switch (current_command) {
 		case "OP_0":
 		case "OP_FALSE":
@@ -498,7 +499,6 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			break;
 		// same as above, but with OP_VERIFY after
 		case "OP_CHECKMULTISIG":
-			var 
 			break;
 		// derp
 		case "OP_CHECKMULTISIGVERIFY":

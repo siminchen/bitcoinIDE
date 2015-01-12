@@ -74,6 +74,7 @@ $( document ).ready(function() {
 		scriptDebugger.continueExecution();
 	});
 
+	// Attach event listeners to the toggling between assembly and script
 	$( "body" ).delegate( "#editor-tab-assembly", "click", function() {
 		if(!$("#editor").hasClass("assembly")) {
 			var script = editor.getSession().getValue();

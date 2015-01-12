@@ -81,9 +81,9 @@
                             Continue
                         </button>
                     </div>
-                    <span id="current-execution-arrow"class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-                    <div id="current-execution-container" class="">
-                        Current executed op goes here
+                    <span id="next-opcode-arrow" class="glyphicon glyphicon-arrow-down" aria-hidden="true"> Next opcode to execute</span> 
+		    <div id="next-opcode-container" class="">
+                        Next opcode to execute
                     </div>
                 </div>
             </div>
@@ -129,6 +129,11 @@
     <!-- Our Javascript/CSS -->
     <script src="stack-visualizer.js"></script>
     <script src="assembly.js"></script>
+    <script src="script_interpreter/interpreter.js"></script>
+<!--    <script src="script_interpreter/script_interpreter.js"></script> -->
+    <script src="script_interpreter/sha1.js"></script>
+    <script src="script_interpreter/sha256.js"></script>
+<!--    <script src="script_interpreter/ripemd160.js"></script> -->
     <script src="debugger.js"></script>
     <script src="editor.js"></script>
     <link rel="stylesheet" type="text/css" href="editor.css">
