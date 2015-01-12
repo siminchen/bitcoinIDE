@@ -29,7 +29,9 @@ ScriptDebugger.prototype.initialize = function() {
 
     // Display the next opcode to execute                                                                                   
     $( "#next-opcode-container" ).text(this.commands[this.index]);
-    $( "#next-opcode-container").css("background-color", "#dddddd");    
+    $( "#next-opcode-container").css({"background-color": "#dddddd", "color":"black"});
+    $( "#current-execution-pass").animate({ 'opacity': '0.0' });
+    $( "#current-execution-fail").animate({ 'opacity': '0.0' });
 };
 
 ScriptDebugger.prototype.runFromBeginning = function() {
@@ -52,13 +54,15 @@ ScriptDebugger.prototype.nextStep = function(){
     
     if (this.index == -1) { // Failure
 	$( "#next-opcode-container").text("Execution unsuccessful");
-	$( "#next-opcode-container").css("background-color", "red");
+	$( "#next-opcode-container").css({"background-color": "red", "color":"white"});
     $( "#current-execution-fail").animate({ 'opacity': '1.0' });
+    $( "#current-execution-pass").animate({ 'opacity': '0.0' });
 	this.needToInitialize = true;
     } else if (this.index == -2) { // Success
 	$( "#next-opcode-container").text("Execution successful");
-	$( "#next-opcode-container").css("background-color", "green");
+	$( "#next-opcode-container").css({"background-color": "green", "color":"white"});
     $( "#current-execution-pass").animate({ 'opacity': '1.0' });
+    $( "#current-execution-fail").animate({ 'opacity': '0.0' });
 	this.needToInitialize = true;
     } else {
 	// Display the next opcode to execute

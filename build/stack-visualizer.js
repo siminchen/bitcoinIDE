@@ -497,12 +497,14 @@ StackVisualizer.prototype.peek = function(idx) {
 	if(idx === undefined) {
 		if(this.size() <= 0) {
 			console.error("WARNING: peek() called with empty stack.");
+			return null;
 		} else {
 			return this.stack[this.size()-1];
 		}
 	} else {
 		if(this.size()-idx < 0 || this.size()-idx >= this.size()) {
 			console.error("WARNING: Index out of bounds: peek(" + idx + ") called with stack size " + this.size() + ".");
+			return null;
 		} else {
 			return this.stack[this.size()-idx];
 		}
@@ -524,7 +526,7 @@ StackVisualizer.prototype.pop = function() {
 	// console.log('callerCount: ' + callerCount);
 	if(this.numStackElements() == 0) {
 		console.error("WARNING: Stack underflow! Attempted to pop empty stack.");
-		return;
+		return null;
 	}
 
 	var thisStack = this;
@@ -544,6 +546,7 @@ StackVisualizer.prototype.remove = function(idx) {
 	var arrayIndex = this.size() - idx;
 	if(arrayIndex < 0 || arrayIndex >= this.size()) {
 		console.error("WARNING: Index out of bounds: remove(" + idx + ") called with stack size " + this.size() + ".");
+		return null;
 	} else {
 
 		var thisStack = this;
