@@ -11,13 +11,13 @@ body {
 
 .navbar {
 	height: 62px;
-	margin-bottom: 1px;
+	margin-bottom: -1px;
 	/*background-color: blue;*/
 }
 
 .navbar-brand {
 	padding: 8px;
-	width: 400px;
+	width: 800px;
 	/*position: relative;*/
 
 }
@@ -30,26 +30,9 @@ body {
     border-radius:0;
 }
 
-/*.navbar-custom .navbar-brand:hover, .navbar-custom .navbar-brand:focus {
-	color: #aae3ff;
-}*/
-
-/*.navbar-custom .navbar-nav > .active > a, .navbar-custom .navbar-nav > .active > a:hover, .navbar-custom .navbar-nav > .active > a:focus {
-	color: #aae3ff;
-	background-color: #005cb9;
-}*/
-
-/*.navbar-custom .navbar-nav > li > a {
-    color:#fff;
-}
-.navbar-custom .navbar-nav > .active > a, .navbar-nav > .active > a:hover, .navbar-nav > .active > a:focus {
-    color: #ffffff;
-    background-color:transparent;
-}*/
 .navbar-custom .navbar-brand {
     color:#eeeeee;
 }
-
 
 .navbar-custom .navbar-brand:hover, .navbar-custom .navbar-brand:focus {
 	color: #aae3ff;
@@ -108,11 +91,11 @@ body {
 
 
 
-
 #ide-logo {
 	width: 45px;
 	display: inline-block;
 	/*vertical-align: middle;*/
+	
 }
 
 #ide-title {
@@ -124,6 +107,23 @@ body {
 	padding-left: 5px;
 	padding-top: 3px;
 	vertical-align: middle;
+
+	font-family: "Georgia";
+}
+
+#ide-subtitle {
+	display: inline-block;
+	/*margin: 5px;*/
+	height: 100%;
+	margin: 0px;
+	margin-top: 22px;
+	margin-left: 8px;
+	height: 20px;
+	color: #C4F4FF;
+	vertical-align: middle;
+	font-size: 0.8em;
+
+	font-family: "Georgia";
 }
 
 .section-title {
