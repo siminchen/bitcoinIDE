@@ -612,14 +612,12 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 		case "OP_HASH160":
 			var top = mainstack.pop();
 			if (top == null) return -1;
-			mainstack.push(Sha256.hash(top));
-			mainstack.push(ripemd160(top));
+			mainstack.push(ripemd160(Sha256.hash(top)));
 			break;
 		case "OP_HASH256":
 			var top = mainstack.pop();
 			if (top == null) return -1;
-			mainstack.push(Sha256.hash(top));
-			mainstack.push(Sha256.hash(top));
+			mainstack.push(Sha256.hash(Sha256.hash(top)));
 			break;
 		case "OP_CODESEPARATOR":
 			code_separator_index = index;
