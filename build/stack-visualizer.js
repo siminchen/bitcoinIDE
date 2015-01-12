@@ -605,12 +605,14 @@ StackVisualizer.prototype.clear = function() {
 
 	    var heightToFlyTo = this.getStackRemainingHeight()*StackVisualizer.percentHeightToFlyUp;
 
+	    var thisStack = this;
 	    //Pop all at once and remove
 	    $(stackElements).animate({
 			'opacity' : '0.0',
 			'bottom' : heightToFlyTo+'px'
 	    }, StackVisualizer.stackAnimationTime, function(){
 	    	stackElements.remove();
+	    	thisStack.dequeueIfNotAnimating();
 	    });
 	    
 	}
