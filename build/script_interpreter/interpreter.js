@@ -136,7 +136,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 		case "OP_NOP10":
 			break;
 		case "OP_IF":
-			top = pop();
+			top = mainstack.pop();
 			if (top == 0)
 			{
 				for (var j = index; j < script.length; j++) {
@@ -162,7 +162,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 					return j + 1;
 			}	
 		case "OP_NOTIF":
-			top = pop();
+			top = mainstack.pop();
 			if (top != 0)
 			{
 				for (var j = index; j < script.length; j++) {
