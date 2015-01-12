@@ -629,6 +629,17 @@ StackVisualizer.prototype.dequeueIfNotAnimating = function() {
 	}
 };
 
+StackVisualizer.prototype.flush = function() {
+	this.dequeueIfNotAnimating();
+};
+
+StackVisualizer.prototype.highlightFailure = function() {
+	console.log();
+	$('#' + this.stackID).children().css({
+		'background-color':'red'
+	});
+};
+
 StackVisualizer.prototype.isAnimating = function() {
 	var numAnimatingElements =  $('#' + this.stackID).children().filter(":animated").length;
 
