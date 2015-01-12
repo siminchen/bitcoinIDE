@@ -28,7 +28,7 @@ interpreter.prototype.validateScript = function (script) {
 		// ELSEs should be found and marked in the tracker array
 		// through the search() method. Thus if you come across an ELSE 
 		// that hasn't been marked, it must be invalid.
-		else if (command[i] === "OP_ELSE") {
+		else if (script[i] === "OP_ELSE") {
 			if (tracker[i] == null || tracker[i] !== "OP_ELSE") return false;
 		}
 
@@ -36,9 +36,12 @@ interpreter.prototype.validateScript = function (script) {
 		// ENDIFs should be found and marked in the tracker array
 		// through the search() method. Thus if you come across an ENDIFs 
 		// that hasn't been marked, it must be invalid.
-		else if (command[i] === "OP_ENDIF") {
+		else if (script[i] === "OP_ENDIF") {
 			if (tracker[i] == null || tracker[i] !== "OP_ENDIF") return false;
 		}
+
+		// These opcodes are not allowed
+		else if (script[i] == "OP_VERIF" || script[i] == "OP_VERNOTIF") return false;
 	}
 
 	return true;
