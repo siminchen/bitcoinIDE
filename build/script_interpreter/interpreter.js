@@ -62,7 +62,7 @@ interpreter.prototype.search = function (script, tracker, if_index) {
 			// if you come across an ELSE and you haven't seen one yet
 			// then set the flag, and mark it in the tracker array
 			if (tracker[i] == null) {
-				array_tracker[i] = "OP_ELSE";
+				tracker[i] = "OP_ELSE";
 				seenElse = true;
 			}
 		}
@@ -82,7 +82,7 @@ interpreter.prototype.search = function (script, tracker, if_index) {
 			// otherwise, recurse.
 			if (tracker[i] != null && tracker[i] === "OP_IF") continue;
 			tracker[i] = "OP_IF";
-			if (search(script, tracker, i) === false) return false;;
+			if (this.search(script, tracker, i) === false) return false;;
 		}
 	}
 

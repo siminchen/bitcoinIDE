@@ -37,6 +37,7 @@ ScriptDebugger.prototype.runFromBeginning = function() {
     if (!this.interpreter.validateScript(this.commands)) {
 	$( "#next-opcode-container").text("The script is invalid");
 	$( "#next-opcode-container").css("background-color", "orange");
+	return;
     }
 
     while (this.index != -1 && this.index != -2) {
@@ -54,6 +55,7 @@ ScriptDebugger.prototype.nextStep = function(){
 	    $( "#next-opcode-container").text("The script is invalid");
 	    $( "#next-opcode-container").css("background-color", "orange");
 	}
+	return;
     }  
 
     this.index = this.interpreter.nextStep(this.visibleStack, this.hiddenStack, this.commands, this.index);    
@@ -61,12 +63,12 @@ ScriptDebugger.prototype.nextStep = function(){
     if (this.index == -1) { // Failure
 	$( "#next-opcode-container").text("Execution unsuccessful");
 	$( "#next-opcode-container").css("background-color", "red");
-    $( "#current-execution-fail").animate({ 'opacity': '1.0' });
+	$( "#current-execution-fail").animate({ 'opacity': '1.0' });
 	this.needToInitialize = true;
     } else if (this.index == -2) { // Success
 	$( "#next-opcode-container").text("Execution successful");
 	$( "#next-opcode-container").css("background-color", "green");
-    $( "#current-execution-pass").animate({ 'opacity': '1.0' });
+	$( "#current-execution-pass").animate({ 'opacity': '1.0' });
 	this.needToInitialize = true;
     } else {
 	// Display the next opcode to execute
