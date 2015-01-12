@@ -1,8 +1,4 @@
 function interpreter () {
-    //this.mainstack = mainstack;
-    //this.altstack = altstack;
-    //this.script = script;
-    //this.index = 0;
 	var top;
 	var n;
 	var code_separator_index;
@@ -63,7 +59,8 @@ interpreter.prototype.search = function (script, tracker, if_index) {
 
 interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 	var current_command = script[index];
-	console.log("Here");
+	console.log('script ' + script);
+	console.log(' index ' + index);
 	switch (current_command) {
 		case "OP_0":
 		case "OP_FALSE":
@@ -536,10 +533,16 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			// e.g. if there is an unrecognized term in the script, and it's not surrounded
 			// by arrow brackets, that's a syntax failure.
 			var val = current_command.search(/0x[A-Za-z0-9]+/);
+			console.log('val ' + current_command.match(/0x[A-Za-z0-9]+/));
 			if (val == -1) break;
 			else mainstack.push(current_command.match(/0x[A-Za-z0-9]+/));
 			break;
 	}
 
-	return i + 1;
+	console.log('returns i + 1: ' + (index + 1) );
+
+	if (index + 1 == script.length) {
+	    return -2;
+	}
+	return index + 1;
 }
