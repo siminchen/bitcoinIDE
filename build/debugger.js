@@ -49,7 +49,7 @@ ScriptDebugger.prototype.nextStep = function(){
     }  
 
     this.index = this.interpreter.nextStep(this.visibleStack, this.hiddenStack, this.commands, this.index);    
-    console.log("index " + this.index);
+    
     if (this.index == -1) { // Failure
 	$( "#next-opcode-container").text("Execution unsuccessful");
 	$( "#next-opcode-container").css("background-color", "red");
