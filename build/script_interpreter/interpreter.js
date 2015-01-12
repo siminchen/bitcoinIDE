@@ -58,7 +58,7 @@ interpreter.prototype.search = function (script, tracker, if_index) {
 }
 
 interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
-	var current_command = script[index].toUpperCase();
+    var current_command = script[index].toUpperCase();
 	switch (current_command) {
 		case "OP_0":
 		case "OP_FALSE":
@@ -534,10 +534,10 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			// this search might not be necessary if we decide to do some preprocessing
 			// e.g. if there is an unrecognized term in the script, and it's not surrounded
 			// by arrow brackets, that's a syntax failure.
-			var val = current_command.search(/0x[A-Za-z0-9]+/);
+			var val = current_command.search(/0X[A-Za-z0-9]+/);
 			//console.log('val ' + current_command.match(/0x[A-Za-z0-9]+/));
 			if (val == -1) break;
-			val = current_command.match(/0x[A-Za-z0-9]+/);
+			val = current_command.match(/0X[A-Za-z0-9]+/);
 			val = parseInt(val);
 			mainstack.push(val);
 			break;
