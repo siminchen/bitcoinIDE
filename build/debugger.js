@@ -28,7 +28,7 @@ ScriptDebugger.prototype.initialize = function() {
     this.needToInitialize = false;
 
     console.log(this.hiddenStack);
-    //this.visibleStack.clear();
+    this.visibleStack.clear();
     //    this.hiddenStack.clear();
 
     // Display the next opcode to execute                                                                                   
