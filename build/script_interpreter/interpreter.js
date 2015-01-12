@@ -1,6 +1,4 @@
 function interpreter () {
-	//this.top = 0;
-	//var n;
 	this.code_separator_index = 0;
 }
 
@@ -20,7 +18,7 @@ interpreter.prototype.validateScript = function (script) {
 				tracker[i] = "OP_IF";
 
 				// if the search fails somehow, fail the script
-				if (search(script, tracker, i + 1) === false) return false;
+				if (this.search(script, tracker, i + 1) === false) return false;
 			}
 			
 			else continue;

@@ -34,6 +34,10 @@ ScriptDebugger.prototype.initialize = function() {
 
 ScriptDebugger.prototype.runFromBeginning = function() {
     this.initialize();
+    if (!this.interpreter.validateScript(this.commands)) {
+	$( "#next-opcode-container").text("The script is invalid");
+	$( "#next-opcode-container").css("background-color", "orange");
+    }
 
     while (this.index != -1 && this.index != -2) {
 	this.nextStep();
@@ -46,6 +50,10 @@ ScriptDebugger.prototype.runFromBeginning = function() {
 ScriptDebugger.prototype.nextStep = function(){
     if (this.needToInitialize) {
 	this.initialize();
+	if (!this.interpreter.validateScript(this.commands)) {
+	    $( "#next-opcode-container").text("The script is invalid");
+	    $( "#next-opcode-container").css("background-color", "orange");
+	}
     }  
 
     this.index = this.interpreter.nextStep(this.visibleStack, this.hiddenStack, this.commands, this.index);    
