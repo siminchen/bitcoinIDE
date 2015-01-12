@@ -8,7 +8,8 @@ function ScriptDebugger() {
     this.pause = 1000; // Number of milliseconds of pause between commands
     this.initialize();
     this.visibleStack = new StackVisualizer("visible");
-    this.hiddenStack = new StackVisualizer("hidden");
+    this.hiddenStack = new StackVisualizer("hidden", true); // set the hidden flag to true
+    this.interpreter = new interpreter();
 }
 
 
@@ -23,6 +24,8 @@ ScriptDebugger.prototype.initialize = function() {
     // this.hiddenStack.clear();
     this.index = 0; // The current index in the commands array to execute
     this.needToInitialize = false;
+    // Display the next opcode to execute                                                                                                                                         
+    $( "#next-opcode-container" ).text(this.commands[this.index]);
 };
 
 ScriptDebugger.prototype.runFromBeginning = function() {
@@ -40,14 +43,21 @@ ScriptDebugger.prototype.nextStep = function(){
     if (this.needToInitialize == true) {
 	this.initialize();
     }  
-    //
-    if (this.index != 5) {
-	this.index += 1;
+
+    this.index = this.interpreter.nextStep(this.visibleStack, this.hiddenStack, this.commands, this.index);    
+
+    if (this.index == -1) {
+	$( "#next-opcode-container").text("Execution unsuccessful");
+	$( "#next-opcode-container").css("background-color", "red");
+	this.needToInitialize = true;
+    } else if (this.index == -2) {
+	$( "#next-opcode-container").text("Execution successful");
+	$( "#next-opcode-container").css("background-color", "green");
+	this.needToInitialize = true;
     } else {
-	this.index = -1;
+	// Display the next opcode to execute
+	$( "#next-opcode-container" ).text(this.commands[this.index]);
     }
-    console.log(this.index);
-    //this.index = interpreter.nextStep(this.visibleStack, this.hiddenStack, this.commands, this.index);
 };
 
 
