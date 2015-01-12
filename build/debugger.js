@@ -29,14 +29,27 @@ ScriptDebugger.prototype.initialize = function() {
 
     // Display the next opcode to execute                                                                                   
     $( "#next-opcode-container" ).text(this.commands[this.index]);
-    $( "#next-opcode-container").css("background-color", "#dddddd");    
+    $( "#next-opcode-container").css({"background-color": "#dddddd", "color":"black"});
+    $( "#current-execution-pass").animate({ 'opacity': '0.0' });
+    $( "#current-execution-fail").animate({ 'opacity': '0.0' });
 };
 
-ScriptDebugger.prototype.runFromBeginning = function() {
-    this.initialize();
+
+// Returns true if the script is valid and false otherwise
+// Also notifies the user by setting the next opcode container
+ScriptDebugger.prototype.validate = function() {
     if (!this.interpreter.validateScript(this.commands)) {
 	$( "#next-opcode-container").text("The script is invalid");
 	$( "#next-opcode-container").css("background-color", "orange");
+	this.needToInitialize = true;
+	return false;
+    }
+    return true;
+}
+
+ScriptDebugger.prototype.runFromBeginning = function() {
+    this.initialize();
+    if (!this.validate()) {
 	return;
     }
 
@@ -51,24 +64,24 @@ ScriptDebugger.prototype.runFromBeginning = function() {
 ScriptDebugger.prototype.nextStep = function(){
     if (this.needToInitialize) {
 	this.initialize();
-	if (!this.interpreter.validateScript(this.commands)) {
-	    $( "#next-opcode-container").text("The script is invalid");
-	    $( "#next-opcode-container").css("background-color", "orange");
+	if (!this.validate()) {
+	    return;
 	}
-	return;
     }  
 
     this.index = this.interpreter.nextStep(this.visibleStack, this.hiddenStack, this.commands, this.index);    
     
-    if (this.index == -1) { // Failure
+    if (this.index == -1) { // Execution Failure
 	$( "#next-opcode-container").text("Execution unsuccessful");
-	$( "#next-opcode-container").css("background-color", "red");
-	$( "#current-execution-fail").animate({ 'opacity': '1.0' });
+	$( "#next-opcode-container").css({"background-color": "red", "color":"white"});
+    $( "#current-execution-fail").animate({ 'opacity': '1.0' });
+    $( "#current-execution-pass").animate({ 'opacity': '0.0' });
 	this.needToInitialize = true;
-    } else if (this.index == -2) { // Success
+    } else if (this.index == -2) { // Execution Success
 	$( "#next-opcode-container").text("Execution successful");
-	$( "#next-opcode-container").css("background-color", "green");
-	$( "#current-execution-pass").animate({ 'opacity': '1.0' });
+	$( "#next-opcode-container").css({"background-color": "green", "color":"white"});
+    $( "#current-execution-pass").animate({ 'opacity': '1.0' });
+    $( "#current-execution-fail").animate({ 'opacity': '0.0' });
 	this.needToInitialize = true;
     } else {
 	// Display the next opcode to execute
@@ -78,8 +91,8 @@ ScriptDebugger.prototype.nextStep = function(){
 
 
 ScriptDebugger.prototype.continueExecution = function() {
-    if (this.needToInitialize == true) {
-	this.initialize();
+    if (!this.validate()) {
+        return;
     }
 
     while (this.index != -1 && this.index != -2) {

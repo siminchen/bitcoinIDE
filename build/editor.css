@@ -195,6 +195,7 @@ body {
 	/*padding-bottom: -10px;*/
 	position: absolute;
 	margin-top: 2.5%;
+	width: 50px;
 }
 
 #next-opcode-arrow {
