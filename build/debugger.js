@@ -7,7 +7,8 @@
 function ScriptDebugger() {
     this.pause = 1000; // Number of milliseconds of pause between commands
     this.visibleStack = new StackVisualizer("stack-visualizer");
-    this.hiddenStack = new StackVisualizer("stack-visualizer", true); // set the hidden flag to true
+//    this.hiddenStack = new StackVisualizer("stack-visualizer", true); // set the hidden flag to true
+	this.hiddenStack = 0;
     this.interpreter = new interpreter();
     this.firstStep = true;
     this.initialize();
@@ -27,8 +28,8 @@ ScriptDebugger.prototype.initialize = function() {
     this.needToInitialize = false;
 
     console.log(this.hiddenStack);
-    this.visibleStack.clear();
-    this.hiddenStack.clear();
+    //this.visibleStack.clear();
+    //    this.hiddenStack.clear();
 
     // Display the next opcode to execute                                                                                   
     $( "#next-opcode-container" ).text(this.commands[this.index]);

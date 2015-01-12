@@ -533,6 +533,8 @@ StackVisualizer.prototype.pop = function() {
 			thisStack.popElementFromDiagram();
 		}, StackVisualizer.msToWaitPerCall*(this.callerCount++));
 	}
+console.log("STACK:");
+console.log(this.stack);
     return this.stack.pop();
 };
 
