@@ -9,19 +9,19 @@ $( document ).ready(function() {
 
 	//$("#stack-visualizer").text(editor.getSession().getValue());
 
-	stackVisualizer = new StackVisualizer("stack-visualizer");
+	//stackVisualizer = new StackVisualizer("stack-visualizer");
 	// stackVisualizer2 = new StackVisualizer("stack-visualizer", true);
-	stackVisualizer.push("STACK VALUE TEST1");
-	stackVisualizer.push("STACK VALUE TEST2 ");
-	stackVisualizer.push("STACK VALUE TEST3");
-	stackVisualizer.remove(2);
-	stackVisualizer.pop();
-	stackVisualizer.insert("STACK VALUE TEST2", 2);
-	stackVisualizer.push("STACK VALUE TEST2");
-	stackVisualizer.push("STACK VALUE TEST3");
+	//stackVisualizer.push("STACK VALUE TEST1");
+	//stackVisualizer.push("STACK VALUE TEST2 ");
+	//stackVisualizer.push("STACK VALUE TEST3");
+	//stackVisualizer.remove(2);
+	//stackVisualizer.pop();
+	//stackVisualizer.insert("STACK VALUE TEST2", 2);
+	//stackVisualizer.push("STACK VALUE TEST2");
+	//stackVisualizer.push("STACK VALUE TEST3");
 	// stackVisualizer.push("STACK VALUE TEST3");
-	stackVisualizer.insert("STACK VALUE TEST11",4);
-	stackVisualizer.remove(4);
+	//stackVisualizer.insert("STACK VALUE TEST11",4);
+	//stackVisualizer.remove(4);
 	// stackVisualizer.push("STACK VALUE TEST7");
 	// stackVisualizer.insert("STACK VALUE TEST8",4);
 	// p = stackVisualizer.pop();
