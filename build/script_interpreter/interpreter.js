@@ -359,9 +359,9 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 
 		/* Bitwise logic*/
 		case "OP_EQUAL":
-			var first = mainstack.peek(1);
+			var first = mainstack.pop();
 			if (first == null) return -1;
-			var second = mainstack.peek(2);
+			var second = mainstack.pop();
 			if (second == null) return -1;
 			if (first === second)
 				mainstack.push(1);
@@ -370,9 +370,9 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			break;
 
 		case "OP_EQUALVERIFY":
-			var first = mainstack.peek(1);
+			var first = mainstack.pop();
 			if (first == null) return -1;
-			var second = mainstack.peek(2);
+			var second = mainstack.pop();
 			if (second == null) return -1;
 			if (first === second)
 				mainstack.push(1);
@@ -640,7 +640,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			//for (var i = code_separator_index; i < script.length; i++) {
 			//	if (script[i] !== sig) sub_script.push(script[i]);
 			//}
-			mainstack.push("TRUE (CHECKSIG UNIMPLEMENTED)");
+			mainstack.push("1");
 			break;
 		// see https://en.bitcoin.it/wiki/OP_CHECKSIG
 		// use secp256k1 elliptic curve for signature verification
@@ -652,7 +652,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			mainstack.push(1);
 			break;
 		case "OP_CHECKMULTISIGVERIFY":
-			mainstack.push("TRUE (MULTISIG UNIMPLEMENTED)");
+			mainstack.push("1");
 			mainstack.pop();
 			break;
 
