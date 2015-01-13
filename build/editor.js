@@ -35,6 +35,13 @@ $( document ).ready(function() {
 	// If the user changes the code, initialize the stack the next time they step or run.
 	editor.on("change", function() {
 		scriptDebugger.needToInitialize = true;
+
+		var script = editor.getSession().getValue();
+		// Split the script based on space characters
+		scriptDebugger.commands = script.trim().split(/\s+/);
+		scriptDebugger.index = 0; // The current index in the commands array to execute    
+		// Display the next opcode to execute
+		$( "#next-opcode-container" ).text(scriptDebugger.commands[scriptDebugger.index]);
 	});
 
 	// Attach event listeners to the toggling between assembly and script
