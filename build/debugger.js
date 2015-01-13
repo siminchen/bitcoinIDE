@@ -19,7 +19,7 @@ function ScriptDebugger() {
 ScriptDebugger.prototype.initialize = function() {
     var script = editor.getSession().getValue();
     // Split the script based on space characters
-    this.commands = script.trim().split(/\s+/);
+    this.commands = script.toUpperCase().trim().split(/\s+/);
 
     this.index = 0; // The current index in the commands array to execute
     this.needToInitialize = false;

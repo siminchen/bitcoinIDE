@@ -42,6 +42,14 @@ interpreter.prototype.validateScript = function (script) {
 
 		// These opcodes are not allowed
 		else if (script[i] == "OP_VERIF" || script[i] == "OP_VERNOTIF") return false;
+
+		// Check whether the constant is an actual hex number of is in the format of <...>
+		else if (commandToOpcode[script[i]] == null && // the command is not a valid opcode
+			 script[i].match(/<.+>/) == null // the command is not a string literal
+			 && (script[i].match(/[0-9a-fA-F]+/) == null ||
+			     script[i].match(/[0-9a-fA-F]+/)[0] != script[i])) // the command isn't a valid hex number
+		    console.log(commandToOpcode[script[i]]);
+		    return false;
 	}
 
 	return true;
