@@ -11,13 +11,14 @@ StackVisualizer.diagramWidth = '80%';
 StackVisualizer.diagramMarginTop = '6%';
 StackVisualizer.stackElementBorderWidth = 1;
 StackVisualizer.curvedness = 8;
+StackVisualizer.borderWidth = '8px';
 StackVisualizer.percentHeightToFallFrom = 0.95;
 StackVisualizer.percentHeightToFlyUp = 0.95;
-StackVisualizer.speedSliderMarginTop = '14px';
+StackVisualizer.speedSliderMarginTop = '16px';
 StackVisualizer.fontFamily = 'Verdana';
 
 //Animation speeds
-StackVisualizer.stackAnimationTime = 200; // speed of animations
+StackVisualizer.stackAnimationTime = 400; // speed of animations
 StackVisualizer.SMALLESTstackAnimationTime = 10; // speed of animations
 StackVisualizer.LARGESTstackAnimationTime = 1500; // speed of animations
 StackVisualizer.msToWaitForAnim = 100;
@@ -110,7 +111,7 @@ StackVisualizer.prototype.createStackDiagram = function() {
 		//border
 		'border-style' : 'double',
 		'border-color' : 'gray',
-		'border-width' : '0px 5px 5px 5px',
+		'border-width' : '0px ' + StackVisualizer.borderWidth + ' ' + StackVisualizer.borderWidth + ' ' + StackVisualizer.borderWidth,
 
 		'-moz-border-radius-bottomright' : StackVisualizer.curvedness + 'px',
 		'border-bottom-right-radius' : StackVisualizer.curvedness + 'px',

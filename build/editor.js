@@ -101,14 +101,15 @@ $( document ).ready(function() {
 
 	//When window is resized, recalculate size of section panes
 	$( window ).resize(resizeSections);
+	$( window ).resize(resizeStackVisualizer);
 
 	//Resize section panes
 	resizeSections();
+	resizeStackVisualizer();
 });
 
 
 var resizeSections = function() {
-	// console.log("READY!");
 	var totalHeight = $("body").height();
 	var navbarHeight = $("nav.navbar").outerHeight(true);
 	var topPanelHeight = $("#top-panel").outerHeight(true);
@@ -120,4 +121,20 @@ var resizeSections = function() {
 	var areaUnderNav = totalHeight - navbarHeight;
 	$("#top-panel").css("height", areaUnderNav*0.70);
 	$("#middle-panel").css("height", areaUnderNav*0.30);
+};
+
+var resizeStackVisualizer = function() {
+	var totalHeight = $("#stack-visualizer-holder").outerHeight(true);
+	var speedSliderHeight = $("#speedSliderHolder").height();
+	var topMarginHeight = totalHeight*0.10;
+	var stackHeight = totalHeight - topMarginHeight - speedSliderHeight;
+	console.log(totalHeight);
+	console.log(topMarginHeight);
+	console.log(speedSliderHeight);
+	console.log(stackHeight);
+	$("#stack-visualizer").css({
+		"height": stackHeight,
+		"margin-top" : topMarginHeight,
+	});
+	// $("#speedSliderHolder").css("height", speedSliderHeight);
 };
