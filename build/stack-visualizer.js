@@ -141,13 +141,16 @@ StackVisualizer.prototype.createStackDiagram = function() {
 		'text-align' : 'center',
 		'margin' : 'auto',
 		'margin-top' : '8px',
+		'color' : '#0080ff',
 		'font-size' : '1.2em',
 		'font-family' : StackVisualizer.fontFamily
 	});
 
 	speedSliderTitle.prepend($('<span/>', {
     	'class': 'glyphicon glyphicon-flash',
-	    'aria-hidden': "true"
+	    'aria-hidden': 'true',
+	    'style' : 'color:#0080ff'
+
 	}));
 	//<span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
 

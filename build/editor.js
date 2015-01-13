@@ -7,48 +7,6 @@ var scriptDebugger;
 $( document ).ready(function() {
 	/* All javascript manipulation for the page goes in here */
 
-	//$("#stack-visualizer").text(editor.getSession().getValue());
-
-	//stackVisualizer = new StackVisualizer("stack-visualizer");
-	// stackVisualizer2 = new StackVisualizer("stack-visualizer", true);
-	//stackVisualizer.push("STACK VALUE TEST1");
-	//stackVisualizer.push("STACK VALUE TEST2 ");
-	//stackVisualizer.push("STACK VALUE TEST3");
-	//stackVisualizer.remove(2);
-	//stackVisualizer.pop();
-	//stackVisualizer.insert("STACK VALUE TEST2", 2);
-	//stackVisualizer.push("STACK VALUE TEST2");
-	//stackVisualizer.push("STACK VALUE TEST3");
-	// stackVisualizer.push("STACK VALUE TEST3");
-	//stackVisualizer.insert("STACK VALUE TEST11",4);
-	//stackVisualizer.remove(4);
-	// stackVisualizer.push("STACK VALUE TEST7");
-	// stackVisualizer.insert("STACK VALUE TEST8",4);
-	// p = stackVisualizer.pop();
-	// stackVisualizer.pop();
-	// stackVisualizer.pop();
-	// stackVisualizer.push("STACK VALUE TEST9");
-	// stackVisualizer.push("STACK VALUE TEST4.5");
-	// p = stackVisualizer.remove(6);
-	// stackVisualizer.insert("STACK VALUE TEST5", 3);
-	// p = stackVisualizer.remove(2);
-	// p = stackVisualizer.pop();
-	// stackVisualizer.insert("STACK VALUE T", 2);
-	// stackVisualizer.insert("STACK VALUE MIDDLE", 3);
-	// stackVisualizer.insert("STACK VALUE MIDDLE", 3);
-	// stackVisualizer.push("STACK VALUE TEST6");
-	// stackVisualizer.pop();
-	// stackVisualizer.pop();
-	// stackVisualizer.pop();
-	// stackVisualizer.pop();
-	// stackVisualizer.pop();
-	// stackVisualizer.pop();
-	// stackVisualizer.pop();
-
-	// stackVisualizer.clear();
-	// console.log(stackVisualizer.stack);
-
-
 	// Attach event listeners to the assemble and disassemble button
 	$( "body" ).delegate( "#assemble-button", "click", function() {
 		var script = editor.getSession().getValue();
@@ -102,4 +60,26 @@ $( document ).ready(function() {
 	setTimeout(function() {
 		$("#stack-visualizer-holder").trigger("mouseout");
 	}, 400);
+
+	//When window is resized, recalculate size of section panes
+	$( window ).resize(resizeSections);
+
+	//Resize section panes
+	resizeSections();
 });
+
+
+var resizeSections = function() {
+	console.log("READY!");
+	var totalHeight = $("body").height();
+	var navbarHeight = $("nav.navbar").outerHeight(true);
+	var topPanelHeight = $("#top-panel").outerHeight(true);
+	var middlePanelHeight = $("#middle-panel").outerHeight(true);
+	console.log(navbarHeight);
+	console.log(topPanelHeight);
+	console.log(middlePanelHeight);
+
+	var areaUnderNav = totalHeight - navbarHeight;
+	$("#top-panel").css("height", areaUnderNav*0.70);
+	$("#middle-panel").css("height", areaUnderNav*0.30);
+};
