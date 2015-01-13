@@ -16,9 +16,9 @@ Try it out!
 --------------------
 1. Open up IDE in http://www.cs.princeton.edu/~tongbinw/bitcoinIDE/build/editor.html
 2. In the **Script pane**, type in some script code:
-  *ex. 1  2  OP_ADD
-  *ex. 123  OP_HASH256
-  *ex. 1  OP_IF  2  OP_ELSE  3  OP_ENDIF
+  * ex. 1  2  OP_ADD
+  * ex. 123  OP_HASH256
+  * ex. 1  OP_IF  2  OP_ELSE  3  OP_ENDIF
 3. View the equivalent assembly code by clicking the **Assembly tab**
 4. To execute the script, return to the Script tab and hit the **Run** button on the bottom to run the code
 5. Note the stack operations in the **Stack pane** on the right.
