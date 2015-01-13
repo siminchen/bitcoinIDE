@@ -189,7 +189,7 @@ body {
 	margin: 0% auto auto 24%;
 
 	color: green;
-	font-size: 3.0em;
+	font-size: 2.0em;
 
 	/*-webkit-box-shadow: 7px 10px 5px 0px rgba(0,0,0,0.75);
 	-moz-box-shadow: 7px 10px 5px 0px rgba(0,0,0,0.75);
@@ -207,8 +207,11 @@ body {
 	border-style: inset;
   	border-width: 2px;
   	font-weight:bold;
+  	font-size: 1.2em;
 
-        background-color: #dddddd;
+    background-color: #dddddd;
+
+	text-shadow: 1px 1px #BFBFBF;
 }
 
 #top-panel {
