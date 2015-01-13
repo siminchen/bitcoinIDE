@@ -128,10 +128,10 @@ var resizeStackVisualizer = function() {
 	var speedSliderHeight = $("#speedSliderHolder").height();
 	var topMarginHeight = totalHeight*0.10;
 	var stackHeight = totalHeight - topMarginHeight - speedSliderHeight;
-	console.log(totalHeight);
-	console.log(topMarginHeight);
-	console.log(speedSliderHeight);
-	console.log(stackHeight);
+	// console.log(totalHeight);
+	// console.log(topMarginHeight);
+	// console.log(speedSliderHeight);
+	// console.log(stackHeight);
 	$("#stack-visualizer").css({
 		"height": stackHeight,
 		"margin-top" : topMarginHeight,

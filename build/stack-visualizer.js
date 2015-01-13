@@ -150,10 +150,9 @@ StackVisualizer.prototype.createStackDiagram = function() {
 	speedSliderTitle.prepend($('<span/>', {
     	'class': 'glyphicon glyphicon-flash',
 	    'aria-hidden': 'true',
-	    'style' : 'color:#0080ff'
+	    'style' : 'color:#0080ff; margin-right: 3px;'
 
 	}));
-	//<span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
 
 	//Speed slider under diagram
     var speedSliderHolder = $('<div/>', {
@@ -190,17 +189,17 @@ StackVisualizer.prototype.createStackDiagram = function() {
 		$("#"+StackVisualizer.speedSliderHolderID).stop(true);
 		$("#"+StackVisualizer.speedSliderHolderID).animate({
 			opacity: 1.0,
-			'margin-top' : StackVisualizer.speedSliderMarginTop
-		}, 200);
+			// 'margin-top' : StackVisualizer.speedSliderMarginTop
+		}, 150);
 	});
 
 	$( "body" ).delegate("#"+this.grandParentID, "mouseout", function() {
 		// console.log("Mouse out");
 		$("#"+StackVisualizer.speedSliderHolderID).stop(true);
 		$("#"+StackVisualizer.speedSliderHolderID).animate({
-			opacity: 0,
-			'margin-top' : '30%'
-		}, 500);
+			opacity: 0.3,
+			// 'margin-top' : '30%'
+		}, 400);
 	});
 
 	// $("#"+this.grandParentID).trigger("mouseout");
