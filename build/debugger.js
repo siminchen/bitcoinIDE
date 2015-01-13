@@ -19,7 +19,7 @@ function ScriptDebugger() {
 ScriptDebugger.prototype.initialize = function() {
     var script = editor.getSession().getValue();
     // Split the script based on space characters
-    this.commands = script.trim().split(/\s+/);
+    this.commands = script.toUpperCase().trim().split(/\s+/);
 
     this.index = 0; // The current index in the commands array to execute
     this.needToInitialize = false;
@@ -73,8 +73,8 @@ ScriptDebugger.prototype.nextStep = function(){
 
     if (this.index == -2) { // Execution Success
 	this.needToInitialize = true;
-	// If the stack isn't empty, this means the execution failed
-	if (this.visibleStack.size() != 0) {
+	// If the top of the stack isn't true (non-zero), this means the execution failed
+	if (this.visibleStack.peek() == 0) {
 	    this.index = -1;
 	} else {
 	    $( "#next-opcode-container").text("Execution successful");

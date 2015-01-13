@@ -38,10 +38,11 @@ $( document ).ready(function() {
 
 		var script = editor.getSession().getValue();
 		// Split the script based on space characters
-		scriptDebugger.commands = script.trim().split(/\s+/);
+		scriptDebugger.commands = script.toUpperCase().trim().split(/\s+/);
 		scriptDebugger.index = 0; // The current index in the commands array to execute    
 		// Display the next opcode to execute
 		$( "#next-opcode-container" ).text(scriptDebugger.commands[scriptDebugger.index]);
+		$( "#next-opcode-container" ).css({"background-color": "#dddddd", "color":"black"});
 	});
 
 	// Attach event listeners to the toggling between assembly and script

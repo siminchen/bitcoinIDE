@@ -11,6 +11,9 @@ interpreter.prototype.validateScript = function (script) {
 	var tracker = new Array(script.length);
 
 	for (var i = 0; i < script.length; i++) {
+	    console.log(script[i]);
+	    console.log(commandToOpcode[script[i]]);
+
 		if (script[i] === "OP_IF") {
 			// if you've already seen this IF due to recursion, ignore.
 			if (tracker[i] == null || tracker[i] !== "OP_IF")
@@ -42,6 +45,13 @@ interpreter.prototype.validateScript = function (script) {
 
 		// These opcodes are not allowed
 		else if (script[i] == "OP_VERIF" || script[i] == "OP_VERNOTIF") return false;
+
+		// Check whether the constant is an actual hex number of is in the format of <...>
+		else if (commandToOpcode[script[i]] == null && // the command is not a valid opcode
+			 script[i].match(/<.+>/) == null // the command is not a string literal
+			 && (script[i].match(/[0-9a-fA-F]+/) == null ||
+			     script[i].match(/[0-9a-fA-F]+/)[0] != script[i])) // the command isn't a valid hex number
+		    return false;
 	}
 
 	return true;
@@ -250,7 +260,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			if (mainstack.pop() == null) return -1;
 			break;
 		case "OP_DUP":
-			var toPeek = mainstack.peek(1);
+			var toPeek = mainstack.peek(0);
 			if (toPeek == null) return -1;
 			mainstack.push(toPeek);
 			break;
