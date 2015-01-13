@@ -169,7 +169,7 @@ body {
 #debugger-centered {
 	margin: 0 auto;
 	position: relative;
-	padding-top: 3%;
+	padding-top: 55px;
 	height: 100%;
     vertical-align: middle;
 }
@@ -182,18 +182,28 @@ body {
 }
 
 #next-opcode-arrow {
-	display: inline-block;
+	display: block;
 	position: absolute;
-	/*width: 100%;*/
 	height: 100%;
-	margin: 0% auto auto 24%;
+	margin: 10px auto auto 59%;
 
-	color: green;
-	font-size: 2.0em;
+	color: #337AB7;
+	font-size: 3.0em;
 
 	/*-webkit-box-shadow: 7px 10px 5px 0px rgba(0,0,0,0.75);
 	-moz-box-shadow: 7px 10px 5px 0px rgba(0,0,0,0.75);
 	box-shadow: 7px 10px 5px 0px rgba(0,0,0,0.75);*/
+}
+
+#next-opcode-text {
+	display: block;
+	position: absolute;
+	font-size: 1.7em;
+	/*font-weight: bold;*/
+	font-family: verdana;
+	color: #337AB7;
+	text-shadow: 1px 1px #BFBFBF;
+	margin: 5px auto auto 54%;
 }
 
 #debugger-container{
@@ -282,7 +292,8 @@ body {
 }
 
 button {
-       margin-left: 8px;
+       margin-left: 2px;
+       margin-right: 2px;
 }
 
 .assembly-content {
@@ -338,4 +349,10 @@ button {
   	font-size: 0.8em;
   	text-align: center;
   	color: #919191;
+}
+
+
+li.active a {
+	/*font-weight: bold;*/
+	text-shadow: 1px 1px #BFBFBF;
 }

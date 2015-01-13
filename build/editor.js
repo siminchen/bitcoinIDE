@@ -102,10 +102,12 @@ $( document ).ready(function() {
 	//When window is resized, recalculate size of section panes
 	$( window ).resize(resizeSections);
 	$( window ).resize(resizeStackVisualizer);
+	$( window ).resize(resizeDebuggerElements);
 
 	//Resize section panes
 	resizeSections();
 	resizeStackVisualizer();
+	resizeDebuggerElements();
 });
 
 
@@ -113,14 +115,11 @@ var resizeSections = function() {
 	var totalHeight = $("body").height();
 	var navbarHeight = $("nav.navbar").outerHeight(true);
 	var topPanelHeight = $("#top-panel").outerHeight(true);
-	var middlePanelHeight = $("#middle-panel").outerHeight(true);
-	// console.log(navbarHeight);
-	// console.log(topPanelHeight);
-	// console.log(middlePanelHeight);
+	var middlePanelHeight = 155; //$("#middle-panel").outerHeight(true);
 
-	var areaUnderNav = totalHeight - navbarHeight;
-	$("#top-panel").css("height", areaUnderNav*0.70);
-	$("#middle-panel").css("height", areaUnderNav*0.30);
+	var areaUnderNav = totalHeight - navbarHeight - middlePanelHeight;
+	$("#top-panel").css("height", areaUnderNav);
+	$("#middle-panel").css("height", middlePanelHeight);
 };
 
 var resizeStackVisualizer = function() {
@@ -128,13 +127,26 @@ var resizeStackVisualizer = function() {
 	var speedSliderHeight = $("#speedSliderHolder").height();
 	var topMarginHeight = totalHeight*0.10;
 	var stackHeight = totalHeight - topMarginHeight - speedSliderHeight;
-	// console.log(totalHeight);
-	// console.log(topMarginHeight);
-	// console.log(speedSliderHeight);
-	// console.log(stackHeight);
 	$("#stack-visualizer").css({
 		"height": stackHeight,
 		"margin-top" : topMarginHeight,
 	});
-	// $("#speedSliderHolder").css("height", speedSliderHeight);
+};
+
+var resizeDebuggerElements = function() {
+	var totalWidth = $("body").width();
+	var buttonsWidth = $("#debugger-container").outerWidth(true);
+	var debuggerCenteredWidth = buttonsWidth + $("#next-opcode-container").outerWidth(true);
+	var widthRemainingLeftSide = (totalWidth - debuggerCenteredWidth)/2;
+	var leftMarginForCenter = widthRemainingLeftSide + buttonsWidth + ($("#next-opcode-container").outerWidth(true)/2);
+	console.log(totalWidth);
+	console.log(debuggerCenteredWidth);
+	console.log(widthRemainingLeftSide);
+	console.log(leftMarginForCenter);
+	$("#next-opcode-arrow").css({
+		"margin-left" : leftMarginForCenter - 19
+	});
+	$("#next-opcode-text").css({
+		"margin-left" : leftMarginForCenter - 85
+	});
 };
