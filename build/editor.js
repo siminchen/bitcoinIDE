@@ -63,6 +63,36 @@ $( document ).ready(function() {
 		}
 	});
 
+	$("#editor-section").on("mouseover", function() {
+		// console.log("READ");
+		$("#editor-section-title-tip").stop(true);
+		$("#editor-section-title-tip").fadeOut(200);
+	}).on("mouseout", function() {
+		// console.log("READ");
+		$("#editor-section-title-tip").stop(true);
+		$("#editor-section-title-tip").fadeIn(200);
+	});
+
+	$("#stack-visualizer-section").on("mouseover", function() {
+		// console.log("READ");
+		$("#stack-section-title-tip").stop(true);
+		$("#stack-section-title-tip").fadeOut(200);
+	}).on("mouseout", function() {
+		// console.log("READ");
+		$("#stack-section-title-tip").stop(true);
+		$("#stack-section-title-tip").fadeIn(200);
+	});
+
+	$("#executor-section").on("mouseover", function() {
+		// console.log("READ");
+		$("#debugger-section-title-tip").stop(true);
+		$("#debugger-section-title-tip").fadeOut(200);
+	}).on("mouseout", function() {
+		// console.log("READ");
+		$("#debugger-section-title-tip").stop(true);
+		$("#debugger-section-title-tip").fadeIn(200);
+	});
+
 	//Hide the slider after a delay
 	setTimeout(function() {
 		$("#stack-visualizer-holder").trigger("mouseout");
@@ -77,14 +107,14 @@ $( document ).ready(function() {
 
 
 var resizeSections = function() {
-	console.log("READY!");
+	// console.log("READY!");
 	var totalHeight = $("body").height();
 	var navbarHeight = $("nav.navbar").outerHeight(true);
 	var topPanelHeight = $("#top-panel").outerHeight(true);
 	var middlePanelHeight = $("#middle-panel").outerHeight(true);
-	console.log(navbarHeight);
-	console.log(topPanelHeight);
-	console.log(middlePanelHeight);
+	// console.log(navbarHeight);
+	// console.log(topPanelHeight);
+	// console.log(middlePanelHeight);
 
 	var areaUnderNav = totalHeight - navbarHeight;
 	$("#top-panel").css("height", areaUnderNav*0.70);

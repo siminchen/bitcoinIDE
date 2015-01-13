@@ -320,7 +320,7 @@ body {
 }
 
 button {
-       margin-left: 10px;
+       margin-left: 8px;
 }
 
 .assembly-content {
@@ -333,3 +333,46 @@ button {
 	font-size: 11pt;;
 }
 
+#debugger-section-title-tip {
+	position: absolute;
+	display:block;
+	margin: 10px 0px 0px 10px;
+	width: 80px;
+
+}
+
+#stack-section-title-tip {
+	position: absolute;
+	display:block;
+	margin: 10px 0px 0px 10px;
+	width: 110px;
+}
+
+#editor-section-title-tip {
+	position: absolute;
+	display:block;
+	margin: 10px 0px 0px 10px;
+	width: 80px;
+}
+
+.title-tip {
+	height: 20px;
+	background-color: #F5F5F5;
+	border-style: solid;
+    border-width: 1px;
+    border-color: #EBEBEB;
+
+    -moz-border-radius: 4px;
+	border-radius: 4px;
+
+	z-index: 10;
+}
+
+.title-tip p {
+	margin: 0;
+	position: relative;
+  	top: 50%;
+  	transform: translateY(-50%);
+  	font-size: 0.8em;
+  	text-align: center;
+}
