@@ -389,3 +389,33 @@ li.active a {
 	/*font-weight: bold;*/
 	text-shadow: 1px 1px #BFBFBF;
 }
+
+#editor-options form {
+	padding-top: 18px;
+	padding-left: 15px;
+}
+
+#editor-options form label {
+	/*margin-left: 5px;*/
+}
+
+#editor-options form div.form-group > input {
+	/*margin-left: 10px;*/
+	display: inline-block;
+	position: relative;
+	/*width: 20%;*/
+}
+
+#editor-options div.form-group {
+	display: inline-block;
+	position: relative;
+	width: 80px;
+}
+
+#editor-options form div.dropdown {
+	margin-bottom: 8px;
+}
+
+.checkbox {
+	margin-top: 0px;
+}

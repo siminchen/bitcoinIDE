@@ -121,10 +121,91 @@
                     <div id="editor" class="script" style="position: relative;">1 2 OP_ADD</div>
                 </div>
                 <div id="editor-assembly-holder" class="tab-area inactive">
-                    <div id="editor-assembly" class="script" style="position: relative;">111</div>
+                    <div id="editor-assembly" class="script" style="position: relative;">0101010293</div>
                 </div>
                 <div id="editor-options" class="tab-area inactive">
-                    OPTIONS HERE
+                    <form>
+                        <div class="dropdown">
+                          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                            Editor Theme
+                            <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                            <li role="presentation"><a role="menuitem" tabindex="-1" option="theme" value="ace/theme/ambiance" href="#">Ambiance</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" option="theme" value="ace/theme/chaos" href="#">Chaos</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" option="theme" value="ace/theme/chrome" href="#">Chrome</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" option="theme" value="ace/theme/cobalt" href="#">Cobalt</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" option="theme" value="ace/theme/dawn" href="#">Dawn</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" option="theme" value="ace/theme/eclipse" href="#">Eclipse</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" option="theme" value="ace/theme/github" href="#">Github</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" option="theme" value="ace/theme/merbivore" href="#">Merbivore</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" option="theme" value="ace/theme/terminal" href="#">Terminal</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" option="theme" value="ace/theme/tomorrow" href="#">Tomorrow</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" option="theme" value="ace/theme/tomorrow_night_eighties" href="#">Tomorrow Night 80's</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" option="theme" value="ace/theme/twilight" href="#">Twilight</a></li>
+                          </ul>
+                        </div>
+                        <div class="dropdown">
+                          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                            Font Family
+                            <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                            <li role="presentation"><a role="menuitem" tabindex="-1" option="fontFamily" value="Arial" href="#">Arial</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" option="fontFamily" value="Comic Sans MS" href="#">Comic Sans</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" option="fontFamily" value="Courier" href="#">Courier</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" option="fontFamily" value="Georgia" href="#">Georgia</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" option="fontFamily" value="Impact" href="#">Impact</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" option="fontFamily" value="Lucida Sans Unicode" href="#">Lucida Sans Unicode</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" option="fontFamily" value="Tahoma" href="#">Tahoma</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" option="fontFamily" value="Times New Roman" href="#">Times New Roman</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" option="fontFamily" value="Trebuchet MS" href="#">Trebuchet MS</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" option="fontFamily" value="Verdana" href="#">Verdana</a></li>
+                          </ul>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" option="highlightActiveLine"> Highlight Active Line
+                            </label>
+                            <br>
+                            <label>
+                                <input type="checkbox" option="highlightSelectedWord"> Highlight Selected Word
+                            </label>
+                            <br>
+                            <label>
+                                <input type="checkbox" option="showGutter"> Show Gutter
+                            </label>
+                            <br>
+                            <label>
+                                <input type="checkbox" option="wrap"> Wrap Text
+                            </label>
+                            <br>
+                            <label>
+                                <input type="checkbox" option="enableBasicAutocompletion"> Enable Basic Autocompletion
+                            </label>
+                            <br>
+                            <label>
+                                <input type="checkbox" option="enableLiveAutocompletion"> Enable Live Autocompletion
+                            </label>
+                            <br>
+                            <label>
+                                <input type="checkbox" option="enableSnippets"> Enable Snippets
+                            </label>
+                            <br>
+                            <label>
+                                <input type="checkbox" option="useSoftTabs"> Use Soft Tabs
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Font size</label>
+                            <input type="text" class="form-control" id="" placeholder="14" option="fontSize">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Tab size</label>
+                            <input type="text" class="form-control" id="" placeholder="14" option="tabSize">
+                        </div>
+                        <!-- <button type="submit" class="btn btn-default">Submit</button> -->
+                    </form>
                 </div>
             </div>
 

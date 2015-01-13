@@ -77,6 +77,34 @@ $( document ).ready(function() {
 		$("#editor-holder.tab-area").removeClass("inactive").addClass("active");
 	});
 
+	$("body").delegate("#editor-options form", "change", function() {
+		$("#editor-options form input").each(function () {
+			if($(this).attr("type") == "checkbox") {
+				var val = false;
+				if($(this).is(":checked"))
+					val = true;
+				var op = $(this).attr('option');
+				console.log(op, val);
+				editorAssembly.setOption(op,val);
+				editor.setOption(op,val);
+			} else {
+			    var op = $(this).attr('option');
+				var val = parseInt($(this).val());
+				console.log(op, val);
+				editorAssembly.setOption(op,val);
+				editor.setOption(op,val);
+			}
+		});
+	});
+
+	$("body").delegate("#editor-options form .dropdown li > a", "click", function() {
+		var op = $(this).attr('option');
+		var val = $(this).attr('value');
+		editorAssembly.setOption(op,val);
+		editor.setOption(op,val);
+	});
+	
+
 	$( "body" ).delegate( "#editor-tab-options", "click", function() {
 		$("#editor-section div.tab-area").removeClass("active").addClass("inactive");
 		$("#editor-options.tab-area").removeClass("inactive").addClass("active");
@@ -126,6 +154,7 @@ $( document ).ready(function() {
 	resizeSections();
 	resizeStackVisualizer();
 	resizeDebuggerElements();
+	setEditorOptionValues();
 });
 
 
@@ -167,5 +196,21 @@ var resizeDebuggerElements = function() {
 	});
 	$(".completion-icon").css({
 		"margin-left" : leftMarginForRightEnd
+	});
+};
+
+var setEditorOptionValues = function() {
+	$("#editor-options form input").each(function () {
+		if($(this).attr("type") == "checkbox") {
+			var op = $(this).attr('option');
+			var val = editor.getOption(op);
+
+			if (val)
+				$(this).prop('checked', true);
+		} else {
+			var op = $(this).attr('option');
+			var val = editor.getOption(op);
+			$(this).val(val);
+		}
 	});
 };
