@@ -117,8 +117,14 @@
                   </li>
                 </ul> 
 
-                <div id="editor-holder">
+                <div id="editor-holder" class="tab-area active">
                     <div id="editor" class="script" style="position: relative;">1 2 OP_ADD</div>
+                </div>
+                <div id="editor-assembly-holder" class="tab-area inactive">
+                    <div id="editor-assembly" class="script" style="position: relative;">111</div>
+                </div>
+                <div id="editor-options" class="tab-area inactive">
+                    OPTIONS HERE
                 </div>
             </div>
 
@@ -183,8 +189,23 @@
     <!-- Set up the editor window -->
     <script> 
         ace.require("ace/ext/language_tools");
+
+        var editorAssembly = ace.edit("editor-assembly");
+        editorAssembly.setTheme("ace/theme/merbivore");
+        editorAssembly.getSession().setMode("ace/mode/script");
+        //Set options for auto-completion
+        editorAssembly.setOptions({
+            fontSize: 16,
+            wrap: true,
+            highlightActiveLine: true,
+            fixedWidthGutter : false,
+            dragEnabled : true,
+            // enableBasicAutocompletion: true,
+            // enableSnippets: true,
+            // enableLiveAutocompletion: true //suggests words as you type
+        });
+
         var editor = ace.edit("editor");
-        //editor.setTheme("ace/theme/twilight");
         editor.setTheme("ace/theme/merbivore");
         editor.getSession().setMode("ace/mode/script");
         //Set options for auto-completion

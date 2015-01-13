@@ -252,11 +252,34 @@ body {
 	position: relative;
 }
 
+#editor-section div.tab-area.active {
+	visibility: visible;
+}
+
+#editor-section div.tab-area.inactive {
+	visibility: hidden;
+}
+
 #editor-holder {
 	width: 100%;
 	height: 90%;
-	display: block;
+	display: inline-block;
+	position: absolute;
+}
 
+#editor-assembly-holder {
+	width: 100%;
+	height: 90%;
+	display: inline-block;
+	position: absolute;
+}
+
+#editor-options {
+	position: absolute;
+	display: inline-block;
+	width: 100%;
+	height: 90%;
+	margin: 0;
 }
 
 #stack-visualizer-section {
@@ -279,6 +302,16 @@ body {
 	bottom: 0;
 	left: 0;
 	right: 0;
+}
+
+#editor-assembly {
+	height: 100%;
+	margin: 0;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	visibility: inherit;
 }
 
 

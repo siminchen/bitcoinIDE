@@ -50,21 +50,36 @@ $( document ).ready(function() {
 
 	// Attach event listeners to the toggling between assembly and script
 	$( "body" ).delegate( "#editor-tab-assembly", "click", function() {
-		if(!$("#editor").hasClass("assembly")) {
-			var script = editor.getSession().getValue();
-			editor.setValue(assembleToHex(script), -1); //-1 for cursor at start, 1 for end
-			$("#editor").addClass("assembly");
-			$("#editor").removeClass("script");
-		}
+		// if(!$("#editor").hasClass("assembly")) {
+		// 	var script = editor.getSession().getValue();
+		// 	editor.setValue(assembleToHex(script), -1); //-1 for cursor at start, 1 for end
+		// 	$("#editor").addClass("assembly");
+		// 	$("#editor").removeClass("script");
+		// }
+		var script = editor.getSession().getValue();
+		editorAssembly.setValue(assembleToHex(script), -1); //-1 for cursor at start, 1 for end
+
+		$("#editor-section div.tab-area").removeClass("active").addClass("inactive");
+		$("#editor-assembly-holder.tab-area").removeClass("inactive").addClass("active");
 	});
 
 	$( "body" ).delegate( "#editor-tab-script", "click", function() {
-		if(!$("#editor").hasClass("script")) {
-			var hex = editor.getSession().getValue();
-			editor.setValue(disassembleFromHex(hex), -1); //-1 for cursor at start, 1 for end
-			$("#editor").addClass("script");
-			$("#editor").removeClass("assembly");
-		}
+		// if(!$("#editor").hasClass("script")) {
+		// 	var hex = editor.getSession().getValue();
+		// 	editor.setValue(disassembleFromHex(hex), -1); //-1 for cursor at start, 1 for end
+		// 	$("#editor").addClass("script");
+		// 	$("#editor").removeClass("assembly");
+		// }
+		var hex = editorAssembly.getSession().getValue();
+		editor.setValue(disassembleFromHex(hex), -1); //-1 for cursor at start, 1 for end
+
+		$("#editor-section div.tab-area").removeClass("active").addClass("inactive");
+		$("#editor-holder.tab-area").removeClass("inactive").addClass("active");
+	});
+
+	$( "body" ).delegate( "#editor-tab-options", "click", function() {
+		$("#editor-section div.tab-area").removeClass("active").addClass("inactive");
+		$("#editor-options.tab-area").removeClass("inactive").addClass("active");
 	});
 
 	$("#editor-section").on("mouseover", function() {
