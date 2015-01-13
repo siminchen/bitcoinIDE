@@ -27,39 +27,12 @@ StackVisualizer.msToWaitBeforeQueueing = 0; //setTimeout timer
 StackVisualizer.msToWaitPerCall = 0; //delay between calls
 
 
-/*
-//Have an element with id myQueue
-var qname = 'stackAnimQueue';
-
-//Add animation to the queue
-$('#myQueue').queue(qname, function(next) {
-    $('#t1').animate({
-		left: 100
-		}, {
-		duration: stackAnimationTime, 
-     	queue: false, //so other anim queues are independent
-        complete: next //THIS IS IMPORTANT FOR ANIMATION
-    });
-});
-
-//Add variable actions to the queue
-$('#myQueue').queue(qname, function(next) {
-    console.log("Remove");
-    $('#t1').append(stackElement);
-    $('#t1').remove();
-    $('#myQueue').dequeue(qname); //THIS IS IMPORTANT TO CONTINUE THE QUEUE SEQUENCE
-});
-
-$('#myQueue').dequeue(qname); //Needed at some point to start the queue sequence
-
-*/
-
 function StackVisualizer (elemID, isHiddenStack) {
     this.name = "Bitcoin Stack Visualizer";
     this.stack = new Array();
     this.hasFailed = false;
 
-    if(isHiddenStack == undefined || !isHiddenStack) {
+    if(elemID != undefined && (isHiddenStack == undefined || !isHiddenStack)) {
 	    this.parentID = elemID;
 	    this.stackID = StackVisualizer.stackID;
 	    this.parentElement = $("#"+elemID);
@@ -67,7 +40,7 @@ function StackVisualizer (elemID, isHiddenStack) {
 	    this.isHiddenStack = false;
 	    this.callerCount = 0;
 	} else {
-		this.isHiddenStack = true;
+		this.isHiddenStack = true; //Do not visualize this stack
 	}
 }
 

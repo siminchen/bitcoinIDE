@@ -177,7 +177,9 @@ body {
 .completion-icon {
 	font-size: 3.0em;
 	position: absolute;
-	margin-top: 2.5%;
+	display:block;
+	margin-top: 46px;
+	margin-left:87%;
 	width: 50px;
 }
 
@@ -221,7 +223,6 @@ body {
   	letter-spacing: 1px;
 
     background-color: #dddddd;
-
 	text-shadow: 1px 1px #BFBFBF;
 }
 
@@ -270,7 +271,6 @@ body {
 	height: 90%;
 	float:right;
 }
-
 
 #editor {
 	height: 100%;

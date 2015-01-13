@@ -32,6 +32,8 @@ ScriptDebugger.prototype.initialize = function() {
     $( "#next-opcode-container").css({"background-color": "#dddddd", "color":"black"});
     $( "#current-execution-pass").animate({ 'opacity': '0.0' });
     $( "#current-execution-fail").animate({ 'opacity': '0.0' });
+
+    $(" .next-opcode ").animate({ 'opacity': '1.0' }, 300);
 };
 
 
@@ -77,6 +79,7 @@ ScriptDebugger.prototype.nextStep = function(){
 	if (this.visibleStack.peek() == 0) {
 	    this.index = -1;
 	} else {
+        $(" .next-opcode ").animate({ 'opacity': '0.0' });
 	    $( "#next-opcode-container").text("Execution successful");
 	    $( "#next-opcode-container").css({"background-color": "green", "color":"white"});
 	    $( "#current-execution-pass").animate({ 'opacity': '1.0' });
@@ -85,6 +88,7 @@ ScriptDebugger.prototype.nextStep = function(){
     }
 
     if (this.index == -1) { // Execution Failure
+    $(" .next-opcode ").animate({ 'opacity': '0.0' });
 	$( "#next-opcode-container").text("Execution unsuccessful");
 	$( "#next-opcode-container").css({"background-color": "red", "color":"white"});
 	$( "#current-execution-fail").animate({ 'opacity': '1.0' });

@@ -139,10 +139,7 @@ var resizeDebuggerElements = function() {
 	var debuggerCenteredWidth = buttonsWidth + $("#next-opcode-container").outerWidth(true);
 	var widthRemainingLeftSide = (totalWidth - debuggerCenteredWidth)/2;
 	var leftMarginForCenter = widthRemainingLeftSide + buttonsWidth + ($("#next-opcode-container").outerWidth(true)/2);
-	console.log(totalWidth);
-	console.log(debuggerCenteredWidth);
-	console.log(widthRemainingLeftSide);
-	console.log(leftMarginForCenter);
+
 	$("#next-opcode-arrow").css({
 		"margin-left" : leftMarginForCenter - 19
 	});
