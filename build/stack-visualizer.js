@@ -31,6 +31,7 @@ function StackVisualizer (elemID, isHiddenStack) {
     this.name = "Bitcoin Stack Visualizer";
     this.stack = new Array();
     this.hasFailed = false;
+    this.completed = false;
 
     if(elemID != undefined && (isHiddenStack == undefined || !isHiddenStack)) {
 	    this.parentID = elemID;
@@ -204,8 +205,16 @@ StackVisualizer.prototype.createStackElement = function(value) {
 		'border-radius' : StackVisualizer.curvedness+'px'
 	});
 
-	if(this.hasFailed) {
-		stackElement.css({'background-color' : 'red'});
+
+	// var elemsQueued = $("#"+this.stackID).queue(StackVisualizer.qname) == 1;
+	// var elemsQueued = this.isAnimating();
+
+	if(this.completed && !this.hasFailed && value != 0) { //Success
+		// stackElement.css({'background-color' : 'green'});
+		stackElement.css({'background-color' : '#E89A2C'});
+	} else if (this.completed && this.hasFailed && value == 0) { //Failure
+		// stackElement.css({'background-color' : 'red'});
+		stackElement.css({'background-color' : '#E89A2C'});
 	} else {
 		stackElement.css({'background-color' : '#E89A2C'});
 	}
@@ -251,7 +260,7 @@ StackVisualizer.prototype.pushElementOnDiagram = function(stackElement) {
 			     	queue: false, //so other anim queues are independent
 			        complete: next //THIS IS IMPORTANT FOR ANIMATION
 		    });
-		    // thisStack.checkForAndHighlightFailure();
+		    thisStack.checkForAndHighlightCompletion();
 		     // console.log("(2/2)Animation for PUSH done.");
 		});
 
@@ -294,7 +303,7 @@ StackVisualizer.prototype.popElementFromDiagram = function() {
 		    });
 
 		    $(poppedSelector).remove();
-
+		    thisStack.checkForAndHighlightCompletion();
 		    // console.log("(2/2)After for POP done.");
 		});
 
@@ -518,8 +527,8 @@ StackVisualizer.prototype.pop = function() {
 			thisStack.popElementFromDiagram();
 		}, StackVisualizer.msToWaitPerCall*(this.callerCount++));
 	}
-console.log("STACK:");
-console.log(this.stack);
+// console.log("STACK:");
+// console.log(this.stack);
     return this.stack.pop();
 };
 
@@ -596,7 +605,7 @@ StackVisualizer.prototype.clear = function() {
 	    $(stackElements).animate({
 			'opacity' : '0.0',
 			'bottom' : heightToFlyTo+'px'
-	    }, StackVisualizer.stackAnimationTime, function(){
+	    }, StackVisualizer.stackAnimationTime* 0.50, function(){
 	    	stackElements.remove();
 	    	thisStack.dequeueIfNotAnimating();
 	    });
@@ -604,7 +613,7 @@ StackVisualizer.prototype.clear = function() {
 	}
 
 	this.hasFailed = false;
-
+	this.completed = false;
 };
 
 StackVisualizer.prototype.dequeueIfNotAnimating = function() {
@@ -618,18 +627,52 @@ StackVisualizer.prototype.flush = function() {
 	this.dequeueIfNotAnimating();
 };
 
-StackVisualizer.prototype.highlightFailure = function() {
-	$('#' + this.stackID).children().css({
-		'background-color':'red'
-	});
-	this.hasFailed = true;
+StackVisualizer.prototype.highlightCompletion = function(success) {
+	if(success) {
+		this.hasFailed = false;
+		this.completed = true;
+	} else {
+		//Failure
+		var elemsQueued = $("#"+this.stackID).queue(StackVisualizer.qname) == 0;
+		console.log(elemsQueued);
+		if(this.peek() == 0 && !elemsQueued) {
+			$('#' + this.stackID).children().first().css({
+				'background-color':'red'
+			});
+		}
+		this.hasFailed = true;
+		this.completed = true;
+	}
 };
 
-StackVisualizer.prototype.checkForAndHighlightFailure = function() {
-	console.log(this.hasFailed);
-	if(this.hasFailed) {
-		this.highlightFailure();
-	}	
+StackVisualizer.prototype.checkForAndHighlightCompletion = function() {
+	// console.log(this.hasFailed);
+
+	if(this.completed && this.hasFailed) {
+		var elemsQueued = $("#"+this.stackID).queue(StackVisualizer.qname) != 0;
+		console.log(elemsQueued);
+		var p = this.peek();
+		console.log(p == 0);
+		if(p == 0 && !elemsQueued) {
+			console.log("CHANGING");
+			// $('#' + this.stackID).children().first().css({
+			// 	'background-color':'red'
+			// });
+			$('#' + this.stackID).children().first().animate({
+				'backgroundColor':'red'
+			}, StackVisualizer.stackAnimationTime);
+		}
+	} else if (this.completed && !this.hasFailed) {
+		var elemsQueued = $("#"+this.stackID).queue(StackVisualizer.qname) != 0;
+		if(this.peek() != 0 && !elemsQueued) {
+			// $('#' + this.stackID).children().first().css({
+			// 	'background-color':'green'
+			// });
+			$('#' + this.stackID).children().first().animate({
+				'backgroundColor':'green'
+			}, StackVisualizer.stackAnimationTime);
+		}
+	}
 };
 
 

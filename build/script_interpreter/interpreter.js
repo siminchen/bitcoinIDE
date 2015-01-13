@@ -251,7 +251,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			if (top == null) return -1;
 			if (top != 0) 
 				mainstack.push(top);
-			maintack.push(top);
+			mainstack.push(top);
 			break;
 		case "OP_DEPTH":
 			mainstack.push(mainstack.size());

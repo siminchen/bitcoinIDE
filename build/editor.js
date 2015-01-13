@@ -8,15 +8,15 @@ $( document ).ready(function() {
 	/* All javascript manipulation for the page goes in here */
 
 	// Attach event listeners to the assemble and disassemble button
-	$( "body" ).delegate( "#assemble-button", "click", function() {
-		var script = editor.getSession().getValue();
-		$(".assembly-content").val(assembleToHex(script));
-	});
+	// $( "body" ).delegate( "#assemble-button", "click", function() {
+	// 	var script = editor.getSession().getValue();
+	// 	$(".assembly-content").val(assembleToHex(script));
+	// });
 
-	$( "body" ).delegate( "#disassemble-button", "click", function() {
-		var hex = $(".assembly-content").val();
-		editor.getSession().setValue(disassembleFromHex(hex));
-	});
+	// $( "body" ).delegate( "#disassemble-button", "click", function() {
+	// 	var hex = $(".assembly-content").val();
+	// 	editor.getSession().setValue(disassembleFromHex(hex));
+	// });
 
 	// Attach event listeners to the debugging buttons
 	scriptDebugger = new ScriptDebugger();
@@ -42,7 +42,10 @@ $( document ).ready(function() {
 		scriptDebugger.index = 0; // The current index in the commands array to execute    
 		// Display the next opcode to execute
 		$( "#next-opcode-container" ).text(scriptDebugger.commands[scriptDebugger.index]);
-		$( "#next-opcode-container" ).css({"background-color": "#dddddd", "color":"black"});
+		// $( "#next-opcode-container" ).css({"background-color": "#dddddd", "color":"black"});
+		$( "#next-opcode-container" ).animate({
+			"backgroundColor": "#dddddd",
+			"color":"black"});
 	});
 
 	// Attach event listeners to the toggling between assembly and script
@@ -139,11 +142,15 @@ var resizeDebuggerElements = function() {
 	var debuggerCenteredWidth = buttonsWidth + $("#next-opcode-container").outerWidth(true);
 	var widthRemainingLeftSide = (totalWidth - debuggerCenteredWidth)/2;
 	var leftMarginForCenter = widthRemainingLeftSide + buttonsWidth + ($("#next-opcode-container").outerWidth(true)/2);
+	var leftMarginForRightEnd = widthRemainingLeftSide + buttonsWidth + $("#next-opcode-container").outerWidth(true) + 0;
 
 	$("#next-opcode-arrow").css({
 		"margin-left" : leftMarginForCenter - 19
 	});
 	$("#next-opcode-text").css({
 		"margin-left" : leftMarginForCenter - 85
+	});
+	$(".completion-icon").css({
+		"margin-left" : leftMarginForRightEnd
 	});
 };

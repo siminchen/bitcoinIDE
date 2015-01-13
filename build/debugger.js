@@ -41,6 +41,7 @@ ScriptDebugger.prototype.initialize = function() {
 // Also notifies the user by setting the next opcode container
 ScriptDebugger.prototype.validate = function() {
     if (!this.interpreter.validateScript(this.commands)) {
+    $(" .next-opcode ").animate({ 'opacity': '0.0' }, 300);
 	$( "#next-opcode-container").text("The script is invalid");
 	$( "#next-opcode-container").css("background-color", "orange");
 	this.needToInitialize = true;
@@ -81,19 +82,26 @@ ScriptDebugger.prototype.nextStep = function(){
 	} else {
         $(" .next-opcode ").animate({ 'opacity': '0.0' });
 	    $( "#next-opcode-container").text("Execution successful");
-	    $( "#next-opcode-container").css({"background-color": "green", "color":"white"});
+	    // $( "#next-opcode-container").css({"background-color": "green", "color":"white"});
+        $( "#next-opcode-container" ).animate({
+            "backgroundColor": "green",
+            "color":"white"}, 100);
 	    $( "#current-execution-pass").animate({ 'opacity': '1.0' });
 	    $( "#current-execution-fail").animate({ 'opacity': '0.0' });
+        this.visibleStack.highlightCompletion(true);
 	}
     }
 
     if (this.index == -1) { // Execution Failure
     $(" .next-opcode ").animate({ 'opacity': '0.0' });
 	$( "#next-opcode-container").text("Execution unsuccessful");
-	$( "#next-opcode-container").css({"background-color": "red", "color":"white"});
+	// $( "#next-opcode-container").css({"background-color": "red", "color":"white"});
+    $( "#next-opcode-container" ).animate({
+            "backgroundColor": "red",
+            "color":"white"} , 100);
 	$( "#current-execution-fail").animate({ 'opacity': '1.0' });
 	$( "#current-execution-pass").animate({ 'opacity': '0.0' });
-	this.visibleStack.highlightFailure();
+	this.visibleStack.highlightCompletion(false);
 	this.needToInitialize = true;
     } else {
 	// Display the next opcode to execute
