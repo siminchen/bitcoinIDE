@@ -12,14 +12,11 @@ body {
 .navbar {
 	height: 62px;
 	margin-bottom: -1px;
-	/*background-color: blue;*/
 }
 
 .navbar-brand {
 	padding: 8px;
 	width: 800px;
-	/*position: relative;*/
-
 }
 
 
@@ -94,16 +91,12 @@ body {
 #ide-logo {
 	width: 45px;
 	display: inline-block;
-	/*vertical-align: middle;*/
-	
 }
 
 #ide-title {
 	display: inline-block;
-	/*margin: 5px;*/
 	height: 100%;
 	margin: 0;
-	/*padding: 0;*/
 	padding-left: 5px;
 	padding-top: 3px;
 	vertical-align: middle;
@@ -114,7 +107,6 @@ body {
 
 #ide-subtitle {
 	display: inline-block;
-	/*margin: 5px;*/
 	height: 100%;
 	margin: 0px;
 	margin-top: 22px;
@@ -128,8 +120,6 @@ body {
 }
 
 .section-title {
-/*	border-style: solid;
-  	border-width: 1px;*/
   	font-family: Verdana; 
   	font-size: 2.0em;
 
@@ -170,7 +160,6 @@ body {
   	border-width: 5px;
 
   	position: relative;
-  	/*text-align: center;*/
 }
 
 .centeredParent {
@@ -182,18 +171,11 @@ body {
 	position: relative;
 	padding-top: 3%;
 	height: 100%;
-	/*width: 100%;*/
-	/*height:100%;*/
-	/*display: inline-block;*/
-	/*text-align: left;*/
-
-	/*display: inline-block;*/
     vertical-align: middle;
 }
 
 .completion-icon {
 	font-size: 3.0em;
-	/*padding-bottom: -10px;*/
 	position: absolute;
 	margin-top: 2.5%;
 	width: 50px;
@@ -216,15 +198,10 @@ body {
 
 #debugger-container{
 	display: inline-block;
-	/*margin: 0 auto;*/
 }
 
 #next-opcode-container {
 	display: inline-block;
-	/*margin: 0 auto;*/
-
-	/*float:right;*/
-	/*height: 30%;*/
 	width: 50%;
 
 	border-style: inset;
@@ -236,39 +213,28 @@ body {
 
 #top-panel {
 	height: 65%;
-	/*width: 100%;*/
 }
 
 #middle-panel {
-	/*margin-left: 10px;*/
 	height: 23%;
-	/*height: 90px;*/
-	/*width: 100%;*/
 }
 
 #bottom-panel {
-	/*margin-left: 10px;*/
 	height: 0%;
-	/*width: 100%;*/
 }
 
 #editor-section {
 	height: 100%;
 	float:left;
 	width: 60%;
-	/*overflow: hidden;*/
 }
 
 #editor-tabs {
 	position: relative;
-	/*height: 12%;*/
-	/*height: 10px;*/
 }
 
 #editor-tabs li a {
-	position: relative;	
-	/*padding-top: 6px;*/
-	/*height: 70%;*/
+	position: relative;
 }
 
 #editor-holder {
@@ -291,11 +257,6 @@ body {
 	float:right;
 }
 
-#stack-visualizer {
-/*	width: 100%;
-	height: 100%;*/
-}
-
 
 #editor {
 	height: 100%;
@@ -304,9 +265,6 @@ body {
 	bottom: 0;
 	left: 0;
 	right: 0;
-
-/* 	-moz-border-radius: 8px;
-	border-radius: 8px;*/
 }
 
 
@@ -375,4 +333,5 @@ button {
   	transform: translateY(-50%);
   	font-size: 0.8em;
   	text-align: center;
+  	color: #919191;
 }
