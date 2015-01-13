@@ -630,7 +630,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			//for (var i = code_separator_index; i < script.length; i++) {
 			//	if (script[i] !== sig) sub_script.push(script[i]);
 			//}
-			mainstack.push(1);
+			mainstack.push("TRUE (CHECKSIG UNIMPLEMENTED)");
 			break;
 		// see https://en.bitcoin.it/wiki/OP_CHECKSIG
 		// use secp256k1 elliptic curve for signature verification
@@ -642,7 +642,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			mainstack.push(1);
 			break;
 		case "OP_CHECKMULTISIGVERIFY":
-			mainstack.push(1);
+			mainstack.push("TRUE (MULTISIG UNIMPLEMENTED)");
 			mainstack.pop();
 			break;
 
@@ -669,11 +669,21 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 		// Assume anything that is not an opcode is a hex literal to be pushed onto the stack
 		default:
 			// check for valid hex
-			var val = current_command.search(/[A-Fa-f0-9]+/);
-			if (val == -1) break;
-			val = current_command.match(/[A-Fa-f0-9]+/);
-			val = parseInt(val, 16);
-			mainstack.push(val);
+			if (current_command.search(/<.+>/) != -1)
+			{
+				console.log("HI");
+				var string = current_command.match(/<.+>/);
+				console.log(string[0]);
+				mainstack.push(string[0].substring(1, string[0].length - 1));
+			}
+			else
+			{
+				var val = current_command.search(/[A-Fa-f0-9]+/);
+				if (val == -1) break;
+				val = current_command.match(/[A-Fa-f0-9]+/);
+				val = parseInt(val, 16);
+				mainstack.push(val);
+			}
 			break;
 	}
 
