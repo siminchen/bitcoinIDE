@@ -595,9 +595,9 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 
 		/* Crypto ops */
 		case "OP_RIPEMD160":
-			var top = mainstack.pop();
+			var top = mainstack.pop() + "";
 			if (top == null) return -1;
-			mainstack.push(ripemd160(top));
+			mainstack.push(RMDstring(top));
 			break;
 		case "OP_SHA1":
 			var top = mainstack.pop();
@@ -610,9 +610,9 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			mainstack.push(Sha256.hash(top));
 			break;
 		case "OP_HASH160":
-			var top = mainstack.pop();
+			var top = mainstack.pop() + "";
 			if (top == null) return -1;
-			mainstack.push(ripemd160(Sha256.hash(top)));
+			mainstack.push(RMDstring(Sha256.hash(top)));
 			break;
 		case "OP_HASH256":
 			var top = mainstack.pop();
