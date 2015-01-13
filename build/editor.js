@@ -56,8 +56,10 @@ $( document ).ready(function() {
 		// 	$("#editor").addClass("assembly");
 		// 	$("#editor").removeClass("script");
 		// }
-		var script = editor.getSession().getValue();
-		editorAssembly.setValue(assembleToHex(script), -1); //-1 for cursor at start, 1 for end
+		if($("#editor-holder").hasClass("active")) {
+			var script = editor.getSession().getValue();
+			editorAssembly.setValue(assembleToHex(script), -1); //-1 for cursor at start, 1 for end
+		}
 
 		$("#editor-section div.tab-area").removeClass("active").addClass("inactive");
 		$("#editor-assembly-holder.tab-area").removeClass("inactive").addClass("active");
@@ -70,8 +72,10 @@ $( document ).ready(function() {
 		// 	$("#editor").addClass("script");
 		// 	$("#editor").removeClass("assembly");
 		// }
-		var hex = editorAssembly.getSession().getValue();
-		editor.setValue(disassembleFromHex(hex), -1); //-1 for cursor at start, 1 for end
+		if($("#editor-assembly-holder").hasClass("active")) {
+			var hex = editorAssembly.getSession().getValue();
+			editor.setValue(disassembleFromHex(hex), -1); //-1 for cursor at start, 1 for end
+		}
 
 		$("#editor-section div.tab-area").removeClass("active").addClass("inactive");
 		$("#editor-holder.tab-area").removeClass("inactive").addClass("active");
