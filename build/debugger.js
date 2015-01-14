@@ -12,6 +12,46 @@ function ScriptDebugger() {
     this.initialize();
 }
 
+// Split the script into an array of tokens,
+// treating everything within < > as one token.
+// Returns: an array of commands
+ScriptDebugger.prototype.splitScript = function(script) {
+    script = script.trim();
+    var commands = new Array();
+
+    for (var i = 0; i < script.length; i++) {
+	var curr = script[i];
+	var comm = ""; 
+
+	// Ignore white space characters
+	if (/\s/.test(curr)) {
+	    continue;
+	}
+
+	// If the command is a string literal, keep search for its end
+	if (curr == "<") {
+	    while (script[i] != ">" && i < script.length) {
+		comm += script[i];
+		i++;
+	    }
+	    comm += ">";
+	    commands.push(comm);
+	    continue;
+	}
+
+        // An opcode or a hex constant
+	while (!(/\s/.test(script[i])) && i < script.length) {
+	    comm += script[i];
+	    i++;
+       	}
+	commands.push(comm.toUpperCase());
+
+    }
+    
+    return commands;
+
+}
+
 
 // This function is called when the class is instantiated,
 // when the function runFromBeginning is called, or when
@@ -19,7 +59,7 @@ function ScriptDebugger() {
 ScriptDebugger.prototype.initialize = function() {
     var script = editor.getSession().getValue();
     // Split the script based on space characters
-    this.commands = script.toUpperCase().trim().split(/\s+/);
+    this.commands = this.splitScript(script);
 
     this.index = 0; // The current index in the commands array to execute
     this.needToInitialize = false;

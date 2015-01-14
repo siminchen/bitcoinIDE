@@ -38,7 +38,7 @@ $( document ).ready(function() {
 
 		var script = editor.getSession().getValue();
 		// Split the script based on space characters
-		scriptDebugger.commands = script.toUpperCase().trim().split(/\s+/);
+		scriptDebugger.commands = scriptDebugger.splitScript(script);
 		scriptDebugger.index = 0; // The current index in the commands array to execute    
 		// Display the next opcode to execute
 		$( "#next-opcode-container" ).text(scriptDebugger.commands[scriptDebugger.index]);

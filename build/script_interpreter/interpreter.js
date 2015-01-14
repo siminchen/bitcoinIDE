@@ -103,7 +103,7 @@ interpreter.prototype.search = function (script, tracker, if_index) {
 // of the current command within the script array, execute the current command
 // and return the index of the next command. Return -1 if the script is invalid.
 interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
-    var current_command = script[index].toUpperCase();
+    var current_command = script[index];
 	switch (current_command) {
 		case "OP_0":
 		case "OP_FALSE":
