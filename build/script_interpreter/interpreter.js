@@ -260,7 +260,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			if (mainstack.pop() == null) return -1;
 			break;
 		case "OP_DUP":
-			var toPeek = mainstack.peek(0);
+			var toPeek = mainstack.peek(1);
 			if (toPeek == null) return -1;
 			mainstack.push(toPeek);
 			break;
