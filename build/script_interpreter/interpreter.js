@@ -633,8 +633,11 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			code_separator_index = index;
 			break;
 		case "OP_CHECKSIG":
-			//var pubKey = mainstack.pop();
-			//var sig = mainstack.pop();
+			var pubKey = mainstack.pop();
+				if (pubKey == null) return -1;
+				
+			var sig = mainstack.pop();
+				if (sig == null) return -1;
 
 			//var sub_script = new Array();
 			//for (var i = code_separator_index; i < script.length; i++) {
@@ -645,8 +648,20 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 		// see https://en.bitcoin.it/wiki/OP_CHECKSIG
 		// use secp256k1 elliptic curve for signature verification
 		case "OP_CHECKSIGVERIFY":
-			mainstack.push(1);
-			mainstack.pop();
+			var pubKey = mainstack.pop();
+				if (pubKey == null) return -1;
+				
+			var sig = mainstack.pop();
+				if (sig == null) return -1;
+
+			//var sub_script = new Array();
+			//for (var i = code_separator_index; i < script.length; i++) {
+			//	if (script[i] !== sig) sub_script.push(script[i]);
+			//}
+			mainstack.push("1");
+			
+			if (mainstack.pop() === 0)
+				return -1;
 			break;
 		case "OP_CHECKMULTISIG":
 			mainstack.push(1);
