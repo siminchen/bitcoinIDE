@@ -358,6 +358,41 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			break;
 
 		/* Bitwise logic*/
+		case "OP_INVERT":
+			var top = mainstack.pop();
+			if (top == NULL) return -1;
+			
+			mainstack.push(~top);
+			break;
+		
+		case "OP_AND":
+			var first = mainstack.pop();
+			if (first == null) return -1;
+			var second = mainstack.pop();
+			if (second == null) return -1;
+			
+			mainstack.push(first & second);
+			break;
+			
+		case "OP_OR":
+			var first = mainstack.pop();
+			if (first == null) return -1;
+			var second = mainstack.pop();
+			if (second == null) return -1;
+			
+			mainstack.push(first | second);
+			break;
+			
+		case "OP_XOR":
+			var first = mainstack.pop();
+			if (first == null) return -1;
+			var second = mainstack.pop();
+			if (second == null) return -1;
+			
+			mainstack.push(first ^ second);
+			break;
+		
+		
 		case "OP_EQUAL":
 			var first = mainstack.pop();
 			if (first == null) return -1;
