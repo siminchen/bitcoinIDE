@@ -282,7 +282,7 @@ var constantToHexcode = function(constant) {
 function assembleToHex(script) {
     var hexcode = "";
     // Split the script based on space characters                                                                                                                                    
-    var commands = script.split(/\s+/);
+    var commands = script.trim().split(/\s+/);
     
     for (var i = 0; i < commands.length; i++) {
 	var opcode = commandToOpcode[commands[i].toUpperCase()];
