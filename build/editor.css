@@ -425,11 +425,19 @@ li.active a {
 	margin-top: 0px;
 }
 
+#upload-script{
+	padding: 0;
+}
+
 
 .uploadbtn {
-    display: block;
-    position: relative;
+    /*display: block;*/
+    /*position: relative;*/
     font-weight: normal;
+
+    cursor: pointer; cursor: hand;
+    padding: 15px;
+    height: 100%;
 }
 
 .uploadbtn input {
