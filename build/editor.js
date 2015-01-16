@@ -114,6 +114,34 @@ $( document ).ready(function() {
 		$("#editor-options.tab-area").removeClass("inactive").addClass("active");
 	});
 
+
+	//Download button
+	$( "body" ).delegate( "#download-script", "click", function() {
+		var blob = new Blob([ editor.getSession().getValue() ], {
+		    type: "text/plain;charset=utf-8;",
+		});
+		saveAs(blob, "script.txt");
+	});
+
+	//Upload button
+	$( "body" ).delegate( "#upload-input", "change", function() {
+		if (!window.FileReader) {
+	        console.log('Your browser is not supported for file upload!');
+	    }
+	    var fileInput = $('#upload-input');
+	    var input = fileInput.get(0);
+	    
+	    // Create a reader object
+	    var reader = new FileReader();
+	    if (input.files.length) {
+	        var textFile = input.files[0];
+	        reader.readAsText(textFile);
+	        $(reader).on('load', processFile);
+	    } else {
+	        console.log('Please upload a file before continuing.');
+	    }
+	});
+
 	$("#editor-section").on("mouseover", function() {
 		// console.log("READ");
 		$("#editor-section-title-tip").stop(true);
@@ -218,3 +246,15 @@ var setEditorOptionValues = function() {
 		}
 	});
 };
+
+var processFile = function(f) {
+    var file = f.target.result,
+        results;
+    if (file && file.length) {
+        results = file.split("\n");
+        // console.log(results);
+        // $('#name').val(results[0]); //first line
+        // $('#age').val(file); // whole file
+        editor.setValue(file);
+    }
+}

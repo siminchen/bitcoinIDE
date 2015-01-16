@@ -16,7 +16,7 @@ body {
 
 .navbar-brand {
 	padding: 8px;
-	width: 800px;
+	width: 600px;
 }
 
 
@@ -82,6 +82,11 @@ body {
 		color: #aae3ff;
 		background-color: #005cb9;
 	}
+}
+
+.nav > li > a:focus, .nav > li > a:hover {
+/*text-decoration: none;*/
+ background-color: #005cb9; 
 }
 
 
@@ -418,4 +423,21 @@ li.active a {
 
 .checkbox {
 	margin-top: 0px;
+}
+
+
+.uploadbtn {
+    display: block;
+    position: relative;
+    font-weight: normal;
+}
+
+.uploadbtn input {
+    width: 1px; /* 0 will hide validation tip in Chrome */
+    height: 1px;
+    position: absolute;
+    z-index: -1;
+    left: 50%;
+    bottom: 0;
+    opacity: 0; /* display:none will hide validation tip in Chrome */
 }
