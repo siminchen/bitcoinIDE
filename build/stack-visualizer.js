@@ -27,11 +27,19 @@ StackVisualizer.msToWaitBeforeQueueing = 0; //setTimeout timer
 StackVisualizer.msToWaitPerCall = 0; //delay between calls
 
 
+//Animation number system
+StackVisualizer.binary = 1;
+StackVisualizer.decimal = 2;
+StackVisualizer.hexadecimal = 3;
+
+
+
 function StackVisualizer (elemID, isHiddenStack) {
     this.name = "Bitcoin Stack Visualizer";
     this.stack = new Array();
     this.hasFailed = false;
     this.completed = false;
+    this.numberSystem = StackVisualizer.hexadecimal;
 
     if(elemID != undefined && (isHiddenStack == undefined || !isHiddenStack)) {
 	    this.parentID = elemID;
@@ -504,14 +512,22 @@ StackVisualizer.prototype.peek = function(idx) {
 };
 
 StackVisualizer.prototype.push = function(value) {
-	// console.log('callerCount: ' + callerCount);
+	this.stack.push(value);
+
+	console.log('numbsys: ' + this.numberSystem);
+
+	//Given in decimal, convert if necessary
+	if (this.numberSystem == StackVisualizer.binary)
+		value = value.toString(2).toUpperCase(); //convert all to binary.
+	else if (this.numberSystem == StackVisualizer.hexadecimal)
+		value = value.toString(16).toUpperCase(); //convert all to hex.
+
 	var thisStack = this;
 	if(!this.isHiddenStack) {
 		setTimeout(function() {
 			thisStack.pushElementOnDiagram(thisStack.createStackElement(value));
 		}, StackVisualizer.msToWaitPerCall*(this.callerCount++));
 	}
-	this.stack.push(value);
 };
 
 StackVisualizer.prototype.pop = function() {
