@@ -520,7 +520,7 @@ StackVisualizer.prototype.push = function(value) {
 	if (this.numberSystem == StackVisualizer.binary)
 		value = value.toString(2).toUpperCase(); //convert all to binary.
 	else if (this.numberSystem == StackVisualizer.hexadecimal)
-		value = value.toString(16).toUpperCase(); //convert all to hex.
+		value = '0x' + value.toString(16).toUpperCase(); //convert all to hex.
 
 	var thisStack = this;
 	if(!this.isHiddenStack) {
