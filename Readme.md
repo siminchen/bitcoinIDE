@@ -14,7 +14,7 @@ Features
 
 Try it out!
 --------------------
-1. Open up IDE in http://www.cs.princeton.edu/~tongbinw/bitcoinIDE/build/editor.html
+1. Open up IDE in https://siminchen.github.io/bitcoinIDE/
 2. In the **Script pane**, type in some script code:
   * ex. 1  2  OP_ADD
   * ex. 123  OP_HASH256
