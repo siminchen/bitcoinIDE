@@ -23,13 +23,13 @@ interpreter.prototype.validateScript = function (script) {
 				// if the search fails somehow, fail the script
 				if (this.search(script, tracker, i + 1) === false) return false;
 			}
-			
+
 			else continue;
 		}
 
 		// Since all valid ELSEs have to come after IFs, all valid
 		// ELSEs should be found and marked in the tracker array
-		// through the search() method. Thus if you come across an ELSE 
+		// through the search() method. Thus if you come across an ELSE
 		// that hasn't been marked, it must be invalid.
 		else if (script[i] === "OP_ELSE") {
 			if (tracker[i] == null || tracker[i] !== "OP_ELSE") return false;
@@ -37,7 +37,7 @@ interpreter.prototype.validateScript = function (script) {
 
 		// Since all valid ENDIFs have to come after IFs, then all valid
 		// ENDIFs should be found and marked in the tracker array
-		// through the search() method. Thus if you come across an ENDIFs 
+		// through the search() method. Thus if you come across an ENDIFs
 		// that hasn't been marked, it must be invalid.
 		else if (script[i] === "OP_ENDIF") {
 			if (tracker[i] == null || tracker[i] !== "OP_ENDIF") return false;
@@ -163,10 +163,10 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			break;
 
 		/* Flow control */
-		case "OP_NOP":
+		case "OP_NOP" :
 		case "OP_NOP1":
 		case "OP_NOP2":
-      	case "OP_NOP3":
+    case "OP_NOP3":
 		case "OP_NOP4":
 		case "OP_NOP5":
 		case "OP_NOP6":
@@ -191,20 +191,20 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 					// otherwise jump to the ENDIF
 					else if (script[j + 1] === "OP_ENDIF")
 						return j + 1;
-				}	
+				}
 			}
 
 			break;
-		// the only way you reach an OP_ELSE is if the OP_IF conditional 
-		// was true and all the opcodes following it were executed, so 
-		// everything within the OP_ELSE and OP_ENDIF can be ignored 
+		// the only way you reach an OP_ELSE is if the OP_IF conditional
+		// was true and all the opcodes following it were executed, so
+		// everything within the OP_ELSE and OP_ENDIF can be ignored
 		case "OP_ELSE":
 			for (var j = index; j < script.length; j++) {
 				// if the if condition is false and there is an else
 				// execute the opcodes right after the OP_ELSE
 				if (script[j + 1] === "OP_ENDIF")
 					return j + 1;
-			}	
+			}
 		case "OP_NOTIF":
 			var top = mainstack.pop();
 			if (top == null) return -1;
@@ -219,7 +219,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 
 					else if (script[j + 1] === "OP_ENDIF")
 						return j + 1;
-				}	
+				}
 			}
 
 			break;
@@ -249,7 +249,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 		case "OP_IFDUP":
 			var top = mainstack.pop();
 			if (top == null) return -1;
-			if (top != 0) 
+			if (top != 0)
 				mainstack.push(top);
 			mainstack.push(top);
 			break;
@@ -361,38 +361,38 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 		case "OP_INVERT":
 			var top = mainstack.pop();
 			if (top == NULL) return -1;
-			
+
 			mainstack.push(~top);
 			break;
-		
+
 		case "OP_AND":
 			var first = mainstack.pop();
 			if (first == null) return -1;
 			var second = mainstack.pop();
 			if (second == null) return -1;
-			
+
 			mainstack.push(first & second);
 			break;
-			
+
 		case "OP_OR":
 			var first = mainstack.pop();
 			if (first == null) return -1;
 			var second = mainstack.pop();
 			if (second == null) return -1;
-			
+
 			mainstack.push(first | second);
 			break;
-			
+
 		case "OP_XOR":
 			var first = mainstack.pop();
 			if (first == null) return -1;
 			var second = mainstack.pop();
 			if (second == null) return -1;
-			
+
 			mainstack.push(first ^ second);
 			break;
-		
-		
+
+
 		case "OP_EQUAL":
 			var first = mainstack.pop();
 			if (first == null) return -1;
@@ -542,7 +542,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			if (top == null) return -1;
 			var second = mainstack.pop();
 			if (second == null) return -1;
-			if (top === second) 
+			if (top === second)
 				mainstack.push(1);
 			else
 				mainstack.push(0);
@@ -552,7 +552,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			if (top == null) return -1;
 			var second = mainstack.pop();
 			if (second == null) return -1;
-			if (top === second) 
+			if (top === second)
 				mainstack.push(1);
 			else
 				mainstack.push(0);
@@ -565,7 +565,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			if (top == null) return -1;
 			var second = mainstack.pop();
 			if (second == null) return -1;
-			if (top === second) 
+			if (top === second)
 				mainstack.push(0);
 			else
 				mainstack.push(1);
@@ -575,7 +575,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			if (top == null) return -1;
 			var second = mainstack.pop();
 			if (second == null) return -1;
-			if (second < top) 
+			if (second < top)
 				mainstack.push(1);
 			else
 				mainstack.push(0);
@@ -585,7 +585,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			if (top == null) return -1;
 			var second = mainstack.pop();
 			if (second == null) return -1;
-			if (second > top) 
+			if (second > top)
 				mainstack.push(1);
 			else
 				mainstack.push(0);
@@ -595,7 +595,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			if (top == null) return -1;
 			var second = mainstack.pop();
 			if (second == null) return -1;
-			if (second <= top) 
+			if (second <= top)
 				mainstack.push(1);
 			else
 				mainstack.push(0);
@@ -605,7 +605,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			if (top == null) return -1;
 			var second = mainstack.pop();
 			if (second == null) return -1;
-			if (second >= top) 
+			if (second >= top)
 				mainstack.push(1);
 			else
 				mainstack.push(0);
@@ -670,7 +670,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 		case "OP_CHECKSIG":
 			var pubKey = mainstack.pop();
 				if (pubKey == null) return -1;
-				
+
 			var sig = mainstack.pop();
 				if (sig == null) return -1;
 
@@ -685,7 +685,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 		case "OP_CHECKSIGVERIFY":
 			var pubKey = mainstack.pop();
 				if (pubKey == null) return -1;
-				
+
 			var sig = mainstack.pop();
 				if (sig == null) return -1;
 
@@ -694,7 +694,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			//	if (script[i] !== sig) sub_script.push(script[i]);
 			//}
 			mainstack.push("1");
-			
+
 			if (mainstack.pop() === 0)
 				return -1;
 			break;
@@ -741,7 +741,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 				var val = current_command.search(/[A-Fa-f0-9]+/);
 				if (val == -1) break;
 				val = current_command.match(/[A-Fa-f0-9]+/);
-				val = parseInt(val, 16);
+				val = val[0].length > 12 ? val[0].toLowerCase() : parseInt(val, 16);
 				mainstack.push(val);
 			}
 			break;
