@@ -353,7 +353,7 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 		case "OP_SIZE":
 			var size = mainstack.peek(1)
 			if (size == null) return -1;
-			size = size.length();
+			size = size.length / 2;
 			mainstack.push(size);
 			break;
 
