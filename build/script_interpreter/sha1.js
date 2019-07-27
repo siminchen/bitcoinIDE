@@ -24,6 +24,7 @@ var Sha1 = {};
  * @returns {string} Hash of msg as hex character string.
  */
 Sha1.hash = function(msg) {
+    msg = msg.toString(16);
     // convert string to UTF-8, as SHA only deals with byte-streams
     msg = msg.utf8Encode();
 
