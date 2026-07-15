@@ -20,3 +20,7 @@ jam/
 .git-ref
 npm-debug.log
 deps/
+
+# Playwright smoke-test artifacts
+test-results/
+playwright-report/
