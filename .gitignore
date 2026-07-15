@@ -24,3 +24,4 @@ deps/
 # Playwright smoke-test artifacts
 test-results/
 playwright-report/
+docs/*

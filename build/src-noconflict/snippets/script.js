@@ -101,6 +101,20 @@ snippet 16\n\
 	OP_16\n\
 snippet CAT\n\
 	OP_CAT\n\
+snippet SPLIT\n\
+	OP_SPLIT\n\
+snippet NUM2BIN\n\
+	OP_NUM2BIN\n\
+snippet BIN2NUM\n\
+	OP_BIN2NUM\n\
+snippet LSHIFTNUM\n\
+	OP_LSHIFTNUM\n\
+snippet RSHIFTNUM\n\
+	OP_RSHIFTNUM\n\
+snippet CHECKLOCKTIMEVERIFY\n\
+	OP_CHECKLOCKTIMEVERIFY\n\
+snippet CHECKSEQUENCEVERIFY\n\
+	OP_CHECKSEQUENCEVERIFY\n\
 snippet SUBSTR\n\
 	OP_SUBSTR\n\
 snippet LEFT\n\
@@ -334,6 +348,20 @@ snippet 16\n\
 	OP_16\n\
 snippet cat\n\
 	OP_CAT\n\
+snippet split\n\
+	OP_SPLIT\n\
+snippet num2bin\n\
+	OP_NUM2BIN\n\
+snippet bin2num\n\
+	OP_BIN2NUM\n\
+snippet lshiftnum\n\
+	OP_LSHIFTNUM\n\
+snippet rshiftnum\n\
+	OP_RSHIFTNUM\n\
+snippet checklocktimeverify\n\
+	OP_CHECKLOCKTIMEVERIFY\n\
+snippet checksequenceverify\n\
+	OP_CHECKSEQUENCEVERIFY\n\
 snippet substr\n\
 	OP_SUBSTR\n\
 snippet left\n\

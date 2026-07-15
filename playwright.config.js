@@ -15,7 +15,7 @@ module.exports = defineConfig({
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
   ],
   webServer: {
-    command: 'python3 -m http.server 8080',
+    command: 'PORT=8080 node serve.js',
     url: 'http://localhost:8080/build/editor.html',
     reuseExistingServer: true,
     timeout: 30000,

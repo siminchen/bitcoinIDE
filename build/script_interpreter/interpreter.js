@@ -166,12 +166,9 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 		case "OP_NOP" :
 		case "OP_NOP1":
 		case "OP_NOP2":
-    case "OP_NOP3":
-		case "OP_NOP4":
-		case "OP_NOP5":
-		case "OP_NOP6":
-		case "OP_NOP7":
-		case "OP_NOP8":
+		case "OP_CHECKLOCKTIMEVERIFY":
+		case "OP_NOP3":
+		case "OP_CHECKSEQUENCEVERIFY":
 		case "OP_NOP9":
 		case "OP_NOP10":
 			break;
@@ -356,6 +353,99 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			size = size.length / 2;
 			mainstack.push(size);
 			break;
+		// OP_SPLIT (0x7f): (data n -- data[0:n] data[n:]). n is a byte
+		// offset; stack data items are hex strings with two chars per byte.
+		case "OP_SPLIT":
+			var n = mainstack.pop();
+			if (n == null) return -1;
+			var data = mainstack.pop();
+			if (data == null) return -1;
+			data = data + "";
+			if (n < 0 || n * 2 > data.length) return -1;
+			mainstack.push(data.substring(0, n * 2));
+			mainstack.push(data.substring(n * 2));
+			break;
+		// OP_NUM2BIN (0x80): (num size -- out). Little-endian byte string
+		// of length "size", with the sign carried in the top bit.
+		case "OP_NUM2BIN":
+			var numSize = mainstack.pop();
+			if (numSize == null) return -1;
+			var num = mainstack.pop();
+			if (num == null) return -1;
+			var negative = num < 0;
+			var magnitude = Math.abs(num);
+			var bin = "";
+			for (var b = 0; b < numSize; b++) {
+				var octet = magnitude % 256;
+				bin += (octet < 16 ? "0" : "") + octet.toString(16);
+				magnitude = Math.floor(magnitude / 256);
+			}
+			// number does not fit in the requested number of bytes
+			if (magnitude > 0) return -1;
+			if (negative && bin.length >= 2) {
+				var msb = parseInt(bin.substring(bin.length - 2), 16) | 0x80;
+				bin = bin.substring(0, bin.length - 2) + msb.toString(16);
+			}
+			mainstack.push(bin);
+			break;
+		// OP_BIN2NUM (0x81): (in -- out). Decode a little-endian byte string
+		// (top bit of the last byte is the sign) back into a number.
+		case "OP_BIN2NUM":
+			var inBin = mainstack.pop();
+			if (inBin == null) return -1;
+			inBin = inBin + "";
+			var bytes = [];
+			for (var i = 0; i + 1 < inBin.length; i += 2) {
+				bytes.push(parseInt(inBin.substring(i, i + 2), 16));
+			}
+			var isNeg = false;
+			if (bytes.length > 0 && (bytes[bytes.length - 1] & 0x80)) {
+				isNeg = true;
+				bytes[bytes.length - 1] &= 0x7f;
+			}
+			var value = 0;
+			var multiplier = 1;
+			for (var i = 0; i < bytes.length; i++) {
+				value += bytes[i] * multiplier;
+				multiplier *= 256;
+			}
+			if (isNeg) value = -value;
+			mainstack.push(value);
+			break;
+		// OP_SUBSTR (0xb3): (in begin size -- out). Byte offsets, two hex
+		// characters per byte.
+		case "OP_SUBSTR":
+			var subSize = mainstack.pop();
+			if (subSize == null) return -1;
+			var begin = mainstack.pop();
+			if (begin == null) return -1;
+			var subStr = mainstack.pop();
+			if (subStr == null) return -1;
+			subStr = subStr + "";
+			if (begin < 0 || subSize < 0 || (begin + subSize) * 2 > subStr.length) return -1;
+			mainstack.push(subStr.substring(begin * 2, (begin + subSize) * 2));
+			break;
+		// OP_LEFT (0xb4): (in size -- out). Keep the leftmost "size" bytes.
+		case "OP_LEFT":
+			var leftSize = mainstack.pop();
+			if (leftSize == null) return -1;
+			var leftStr = mainstack.pop();
+			if (leftStr == null) return -1;
+			leftStr = leftStr + "";
+			if (leftSize < 0 || leftSize * 2 > leftStr.length) return -1;
+			mainstack.push(leftStr.substring(0, leftSize * 2));
+			break;
+		// OP_RIGHT (0xb5): (in size -- out). Keep the bytes from position
+		// "size" to the end.
+		case "OP_RIGHT":
+			var rightSize = mainstack.pop();
+			if (rightSize == null) return -1;
+			var rightStr = mainstack.pop();
+			if (rightStr == null) return -1;
+			rightStr = rightStr + "";
+			if (rightSize < 0 || rightSize * 2 > rightStr.length) return -1;
+			mainstack.push(rightStr.substring(rightSize * 2));
+			break;
 
 		/* Bitwise logic*/
 		case "OP_INVERT":
@@ -511,6 +601,22 @@ interpreter.prototype.nextStep = function (mainstack, altstack, script, index) {
 			mainstack.push(second << top);
 			break;
 		case "OP_RSHIFT":
+			var top = mainstack.pop();
+			if (top == null) return -1;
+			var second = mainstack.pop();
+			if (second == null) return -1;
+			mainstack.push(second >> top);
+			break;
+		// OP_LSHIFTNUM (0xb6) / OP_RSHIFTNUM (0xb7): numeric shift variants,
+		// (a b -- a<<b) / (a b -- a>>b).
+		case "OP_LSHIFTNUM":
+			var top = mainstack.pop();
+			if (top == null) return -1;
+			var second = mainstack.pop();
+			if (second == null) return -1;
+			mainstack.push(second << top);
+			break;
+		case "OP_RSHIFTNUM":
 			var top = mainstack.pop();
 			if (top == null) return -1;
 			var second = mainstack.pop();
