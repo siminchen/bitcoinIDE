@@ -117,3 +117,42 @@ Every vendored file's sha256 is recorded in `build/vendor/CHECKSUMS.txt`; a
 provenance comment for the `jquery.color` exception has been added directly
 to that file (see below) so the non-cdnjs sourcing is visible in the
 artifact itself, not only in this report.
+
+---
+
+## Residual unreferenced stale libraries (accepted — "Minimal" scope decision)
+
+The final whole-branch review flagged that `build/editor.html`'s *former*
+libraries were still git-tracked and therefore URL-reachable on GitHub Pages
+even though the page no longer loads them. As part of that review's fixes,
+**the two directories the IDE page formerly loaded were removed** via
+`git rm -r`:
+
+- `build/jquery-ui/` — jQuery UI **1.11.2** + jquery.color 2.1.2 (removed)
+- `build/files-js/` — old `Blob.js` + `FileSaver.min.js` (removed)
+
+A follow-up sweep then found **additional** stale, unreferenced third-party
+copies elsewhere in the repo. Per an explicit **"Minimal" scope decision by
+the maintainer (2026-07-15)**, these are **accepted and left in place** — none
+is loaded by `build/editor.html` or executed in the IDE; they are only
+reachable by direct URL on the GitHub Pages deployment:
+
+- `build/jquery-ui-1.11.2.custom/` — a full jQuery UI **1.11.2** custom build
+  (also bundles its own `external/jquery/jquery.js`). ~632 KB. Not referenced
+  by `build/editor.html`.
+- `build/bootstrap/` — a bundled **Bootstrap 3.3.1** distribution (CSS/JS +
+  glyphicons fonts). ~956 KB. Not referenced by `build/editor.html`.
+- The ACE **upstream** trees (`api/`, `demo/`, `experiments/`, `tool/`,
+  `kitchen-sink.html`, `build_support/`, `lib/ace/test/`) ship ACE's own
+  bundled libraries. These are upstream ACE fork content, and modernizing the
+  ACE editor core/demos is **explicitly out of scope** for this effort (see
+  the plan's Out-of-Scope section).
+
+**Rationale for acceptance:** the shipped Bitcoin IDE (`build/editor.html` and
+everything it loads) now uses only the patched, vendored libraries under
+`build/vendor/`; these residual copies are never loaded or executed by the
+IDE. The maintainer chose not to expand this security-hardening effort into a
+broader repo-wide purge or into the upstream ACE tree. If stricter posture is
+desired later, options include `git rm`-ing `build/jquery-ui-1.11.2.custom/`
+and `build/bootstrap/`, and/or restricting what GitHub Pages publishes (e.g. a
+publish subdirectory) so the ACE demo/api trees are not served.
