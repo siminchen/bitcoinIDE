@@ -130,7 +130,7 @@ StackVisualizer.prototype.createStackDiagram = function() {
 	});
 
 	speedSliderTitle.prepend($('<span/>', {
-    	'class': 'glyphicon glyphicon-flash',
+    	'class': 'bi bi-lightning-charge-fill',
 	    'aria-hidden': 'true',
 	    'style' : 'color:#0080ff; margin-right: 3px;'
 

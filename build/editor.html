@@ -10,20 +10,17 @@
     <!-- jQuery (vendored, patched) -->
     <script src="vendor/jquery-3.7.1.min.js"></script>
 
-    <!-- Twitter Bootstrap -->
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-
     <!-- jquery.color (vendored, jQuery-3 compatible) -->
     <script src="vendor/jquery.color-2.2.0.min.js"></script>
 
     <!-- jQuery UI (vendored, patched) -->
     <link href="vendor/jquery-ui-1.13.3.min.css" rel="stylesheet">
     <script src="vendor/jquery-ui-1.13.3.min.js"></script>
+
+    <!-- Bootstrap 5.3.3 (vendored) -->
+    <link rel="stylesheet" href="vendor/bootstrap-5.3.3.min.css">
+    <link rel="stylesheet" href="vendor/bootstrap-icons/bootstrap-icons.min.css">
+    <script src="vendor/bootstrap-5.3.3.bundle.min.js"></script>
 
     <!-- FileSaver (vendored, native Blob) -->
     <script src="vendor/FileSaver-2.0.5.min.js"></script>
@@ -37,74 +34,30 @@
 
 
     <!-- NAV BAR START -->
-    <nav class="navbar navbar-custom">
+    <nav class="navbar navbar-custom navbar-expand-lg">
       <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">
-            <img id="ide-logo" alt="Bitcoin Script ID" src="images/bIDE_logo.png">
-            <h2 id="ide-title"> Bitcoin IDE</h2>
-            <h2 id="ide-subtitle">Bitcoin Script for dummies.</h2>
-          </a>
-
-        </div>
-
-        
-
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav">
-            <li class="">
-                <a id="upload-script" href="#">
-                    <label class="uploadbtn">
-                        Upload Script
-                        <input type="file" id="upload-input" required></input>
-                    </label>
-                </a>
+        <a class="navbar-brand" href="#">
+          <img id="ide-logo" alt="Bitcoin Script IDE" src="images/bIDE_logo.png">
+          <h2 id="ide-title"> Bitcoin IDE</h2>
+          <h2 id="ide-subtitle">Bitcoin Script for dummies.</h2>
+        </a>
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#bs-navbar-collapse-1" aria-controls="bs-navbar-collapse-1" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" id="upload-script" href="#">
+                <label class="uploadbtn">
+                  Upload Script
+                  <input type="file" id="upload-input" required>
+                </label>
+              </a>
             </li>
-            <li><a id="download-script" href="#">Download Script</a></li>
-            <!-- <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                <li><a href="#">Separated link</a></li>
-                <li class="divider"></li>
-                <li><a href="#">One more separated link</a></li>
-              </ul>
-            </li>
+            <li class="nav-item"><a class="nav-link" id="download-script" href="#">Download Script</a></li>
           </ul>
-          <form class="navbar-form navbar-left" role="search">
-            <div class="form-group">
-              <input type="text" class="form-control" placeholder="Search">
-            </div>
-            <button type="submit" class="btn btn-default">Submit</button>
-          </form>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Link</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                <li><a href="#">Separated link</a></li>
-              </ul>
-            </li>
-          </ul> -->
-
         </div>
-        <!-- /.navbar-collapse -->
       </div>
-      <!-- /.container-fluid -->
     </nav>
     <!-- NAV BAR END -->
 
@@ -117,18 +70,18 @@
                 <!-- <h2 id="editor-section-title" class="section-title">Script Editor</h2> -->
 
                 <ul id="editor-tabs" class="nav nav-tabs nav-justified">
-                  <li role="presentation" class="active">
-                    <a id="editor-tab-script" data-toggle="tab" href="#">Script</a>
+                  <li class="nav-item">
+                    <a class="nav-link active" id="editor-tab-script" href="#">Script</a>
                   </li>
-                  <li role="presentation">
-                    <a id="editor-tab-assembly" data-toggle="tab" href="#">Assembly</a>
+                  <li class="nav-item">
+                    <a class="nav-link" id="editor-tab-assembly" href="#">Assembly</a>
                   </li>
-                  <li role="presentation">
-                    <a id="editor-tab-options" data-toggle="tab" href="#">
-                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                  <li class="nav-item">
+                    <a class="nav-link" id="editor-tab-options" href="#">
+                        <span class="bi bi-gear" aria-hidden="true"></span>
                         Editor Options</a>
                   </li>
-                </ul> 
+                </ul>
 
                 <div id="editor-holder" class="tab-area active">
                     <div id="editor" class="script" style="position: relative;">1 2 OP_ADD</div>
@@ -139,76 +92,49 @@
                 <div id="editor-options" class="tab-area inactive">
                     <form>
                         <div class="dropdown">
-                          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownTheme" data-bs-toggle="dropdown" aria-expanded="false">
                             Editor Theme
-                            <span class="caret"></span>
                           </button>
-                          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                            <li role="presentation"><a role="menuitem" tabindex="-1" option="theme" value="ace/theme/ambiance" href="#">Ambiance</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" option="theme" value="ace/theme/chaos" href="#">Chaos</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" option="theme" value="ace/theme/chrome" href="#">Chrome</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" option="theme" value="ace/theme/cobalt" href="#">Cobalt</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" option="theme" value="ace/theme/dawn" href="#">Dawn</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" option="theme" value="ace/theme/eclipse" href="#">Eclipse</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" option="theme" value="ace/theme/github" href="#">Github</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" option="theme" value="ace/theme/merbivore" href="#">Merbivore</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" option="theme" value="ace/theme/terminal" href="#">Terminal</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" option="theme" value="ace/theme/tomorrow" href="#">Tomorrow</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" option="theme" value="ace/theme/tomorrow_night_eighties" href="#">Tomorrow Night 80's</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" option="theme" value="ace/theme/twilight" href="#">Twilight</a></li>
+                          <ul class="dropdown-menu" aria-labelledby="dropdownTheme">
+                            <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1" option="theme" value="ace/theme/ambiance" href="#">Ambiance</a></li>
+                            <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1" option="theme" value="ace/theme/chaos" href="#">Chaos</a></li>
+                            <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1" option="theme" value="ace/theme/chrome" href="#">Chrome</a></li>
+                            <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1" option="theme" value="ace/theme/cobalt" href="#">Cobalt</a></li>
+                            <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1" option="theme" value="ace/theme/dawn" href="#">Dawn</a></li>
+                            <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1" option="theme" value="ace/theme/eclipse" href="#">Eclipse</a></li>
+                            <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1" option="theme" value="ace/theme/github" href="#">Github</a></li>
+                            <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1" option="theme" value="ace/theme/merbivore" href="#">Merbivore</a></li>
+                            <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1" option="theme" value="ace/theme/terminal" href="#">Terminal</a></li>
+                            <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1" option="theme" value="ace/theme/tomorrow" href="#">Tomorrow</a></li>
+                            <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1" option="theme" value="ace/theme/tomorrow_night_eighties" href="#">Tomorrow Night 80's</a></li>
+                            <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1" option="theme" value="ace/theme/twilight" href="#">Twilight</a></li>
                           </ul>
                         </div>
                         <div class="dropdown">
-                          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownFont" data-bs-toggle="dropdown" aria-expanded="false">
                             Font Family
-                            <span class="caret"></span>
                           </button>
-                          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                            <li role="presentation"><a role="menuitem" tabindex="-1" option="fontFamily" value="Arial" href="#">Arial</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" option="fontFamily" value="Comic Sans MS" href="#">Comic Sans</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" option="fontFamily" value="Courier" href="#">Courier</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" option="fontFamily" value="Georgia" href="#">Georgia</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" option="fontFamily" value="Impact" href="#">Impact</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" option="fontFamily" value="Lucida Sans Unicode" href="#">Lucida Sans Unicode</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" option="fontFamily" value="Tahoma" href="#">Tahoma</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" option="fontFamily" value="Times New Roman" href="#">Times New Roman</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" option="fontFamily" value="Trebuchet MS" href="#">Trebuchet MS</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" option="fontFamily" value="Verdana" href="#">Verdana</a></li>
+                          <ul class="dropdown-menu" aria-labelledby="dropdownFont">
+                            <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1" option="fontFamily" value="Arial" href="#">Arial</a></li>
+                            <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1" option="fontFamily" value="Comic Sans MS" href="#">Comic Sans</a></li>
+                            <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1" option="fontFamily" value="Courier" href="#">Courier</a></li>
+                            <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1" option="fontFamily" value="Georgia" href="#">Georgia</a></li>
+                            <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1" option="fontFamily" value="Impact" href="#">Impact</a></li>
+                            <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1" option="fontFamily" value="Lucida Sans Unicode" href="#">Lucida Sans Unicode</a></li>
+                            <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1" option="fontFamily" value="Tahoma" href="#">Tahoma</a></li>
+                            <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1" option="fontFamily" value="Times New Roman" href="#">Times New Roman</a></li>
+                            <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1" option="fontFamily" value="Trebuchet MS" href="#">Trebuchet MS</a></li>
+                            <li role="presentation"><a class="dropdown-item" role="menuitem" tabindex="-1" option="fontFamily" value="Verdana" href="#">Verdana</a></li>
                           </ul>
                         </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" option="highlightActiveLine"> Highlight Active Line
-                            </label>
-                            <br>
-                            <label>
-                                <input type="checkbox" option="highlightSelectedWord"> Highlight Selected Word
-                            </label>
-                            <br>
-                            <label>
-                                <input type="checkbox" option="showGutter"> Show Gutter
-                            </label>
-                            <br>
-                            <label>
-                                <input type="checkbox" option="wrap"> Wrap Text
-                            </label>
-                            <br>
-                            <label>
-                                <input type="checkbox" option="enableBasicAutocompletion"> Enable Basic Autocompletion
-                            </label>
-                            <br>
-                            <label>
-                                <input type="checkbox" option="enableLiveAutocompletion"> Enable Live Autocompletion
-                            </label>
-                            <br>
-                            <label>
-                                <input type="checkbox" option="enableSnippets"> Enable Snippets
-                            </label>
-                            <br>
-                            <label>
-                                <input type="checkbox" option="useSoftTabs"> Use Soft Tabs
-                            </label>
-                        </div>
+                        <div class="form-check"><input class="form-check-input" type="checkbox" option="highlightActiveLine" id="opt-highlightActiveLine"><label class="form-check-label" for="opt-highlightActiveLine">Highlight Active Line</label></div>
+                        <div class="form-check"><input class="form-check-input" type="checkbox" option="highlightSelectedWord" id="opt-highlightSelectedWord"><label class="form-check-label" for="opt-highlightSelectedWord">Highlight Selected Word</label></div>
+                        <div class="form-check"><input class="form-check-input" type="checkbox" option="showGutter" id="opt-showGutter"><label class="form-check-label" for="opt-showGutter">Show Gutter</label></div>
+                        <div class="form-check"><input class="form-check-input" type="checkbox" option="wrap" id="opt-wrap"><label class="form-check-label" for="opt-wrap">Wrap Text</label></div>
+                        <div class="form-check"><input class="form-check-input" type="checkbox" option="enableBasicAutocompletion" id="opt-enableBasicAutocompletion"><label class="form-check-label" for="opt-enableBasicAutocompletion">Enable Basic Autocompletion</label></div>
+                        <div class="form-check"><input class="form-check-input" type="checkbox" option="enableLiveAutocompletion" id="opt-enableLiveAutocompletion"><label class="form-check-label" for="opt-enableLiveAutocompletion">Enable Live Autocompletion</label></div>
+                        <div class="form-check"><input class="form-check-input" type="checkbox" option="enableSnippets" id="opt-enableSnippets"><label class="form-check-label" for="opt-enableSnippets">Enable Snippets</label></div>
+                        <div class="form-check"><input class="form-check-input" type="checkbox" option="useSoftTabs" id="opt-useSoftTabs"><label class="form-check-label" for="opt-useSoftTabs">Use Soft Tabs</label></div>
                         <div class="form-group">
                             <label for="">Font size</label>
                             <input type="text" class="form-control" id="" placeholder="14" option="fontSize">
@@ -240,24 +166,24 @@
                     <div id="debugger-container">
         	            <!-- <h2 id="debugger-subsection-title" class="subsection-title"> Debugger </h2> -->
                         <button id="run-button" type="button" class="btn btn-success">
-                            <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+                            <span class="bi bi-play-fill" aria-hidden="true"></span>
                             Run
                         </button>
                         <button id="next-button" type="button" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span>
+                            <span class="bi bi-skip-forward-fill" aria-hidden="true"></span>
                             Step
                         </button>
                         <button id="continue-button" type="button" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-forward" aria-hidden="true"></span>
+                            <span class="bi bi-fast-forward-fill" aria-hidden="true"></span>
                             Continue
                         </button>
                     </div>
                     <div id="next-opcode-container" class=""></div>
-                    <span id="next-opcode-arrow" class="glyphicon glyphicon-arrow-down next-opcode" aria-hidden="true"></span> 
+                    <span id="next-opcode-arrow" class="bi bi-arrow-down next-opcode" aria-hidden="true"></span>
                     
                     <h3 id="next-opcode-text" class="next-opcode">Next Argument</h3>
-                    <span id="current-execution-pass" class="glyphicon glyphicon-ok completion-icon" aria-hidden="true" style="opacity:0.0; color:green;"></span>
-                    <span id="current-execution-fail" class="glyphicon glyphicon-remove completion-icon" aria-hidden="true" style="opacity:0.0; color:red;"></span>
+                    <span id="current-execution-pass" class="bi bi-check completion-icon" aria-hidden="true" style="opacity:0.0; color:green;"></span>
+                    <span id="current-execution-fail" class="bi bi-x completion-icon" aria-hidden="true" style="opacity:0.0; color:red;"></span>
                 </div>
             </div>
 
