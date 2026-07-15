@@ -14,3 +14,13 @@ c68874cbaa2fd1650b7d770b328680ea765fb3376023cc3608427fde4f0d0481  ./FileSaver-2.
 f5e27d537cdfa9d199f81224f07143b79a6aa275d674438eff9441a21f0ea8b8  ./jquery-ui-1.13.3.min.css
 f643d6fe7e679f9de3e16311600c5ef5cd6b098f7a3a8828fcc29255d2b33e62  ./bootstrap-icons/bootstrap-icons.min.css
 fc9a93dd241f6b045cbff0481cf4e1901becd0e12fb45166a8f17f95823f0b1a  ./jquery-3.7.1.min.js
+
+# Provenance note (2026-07-15): every file above was verified against
+# cdnjs-published SRI (sha512), except ./jquery.color-2.2.0.min.js — cdnjs
+# never published jquery-color past 2.1.2, so this file was sourced from
+# jsDelivr's npm mirror (cdn.jsdelivr.net/npm/jquery-color@2.2.0/dist/
+# jquery.color.min.js) and verified against jsDelivr's published sha256
+# (base64 aSe2ZC5QeunlL/w/7PsVKmV+fa0eDbmybn/ptsKHR6I=) instead of cdnjs SRI.
+# See docs/superpowers/notes/2026-07-15-devdeps-audit.md and
+# .superpowers/sdd/task-2-report.md for details. The sha256 line above for
+# jquery.color-2.2.0.min.js is unchanged/unaffected by this note.
