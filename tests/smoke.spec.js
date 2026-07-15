@@ -55,10 +55,14 @@ test('4. Tab switching Script <-> Assembly <-> Options', async ({ page }) => {
   await page.waitForFunction(() => typeof window.editor !== 'undefined');
   await page.click('#editor-tab-assembly');
   await expect(page.locator('#editor-assembly-holder')).toHaveClass(/active/);
+  await expect(page.locator('#editor-tab-assembly')).toHaveClass(/active/);
+  await expect(page.locator('#editor-tab-script')).not.toHaveClass(/active/);
   await page.click('#editor-tab-options');
   await expect(page.locator('#editor-options')).toHaveClass(/active/);
   await page.click('#editor-tab-script');
   await expect(page.locator('#editor-holder')).toHaveClass(/active/);
+  await expect(page.locator('#editor-tab-script')).toHaveClass(/active/);
+  await expect(page.locator('#editor-tab-assembly')).not.toHaveClass(/active/);
 });
 
 test('5. Dropdown opens and font-size option applies', async ({ page }) => {
@@ -86,4 +90,22 @@ test('6. Download produces a script.txt blob', async ({ page }) => {
   await page.click('#download-script');
   const download = await downloadPromise;
   expect(download.suggestedFilename()).toBe('script.txt');
+});
+
+test('7. Upload replaces editor content', async ({ page }) => {
+  await page.goto(PAGE);
+  await page.waitForFunction(() => typeof window.editor !== 'undefined');
+  await page.setInputFiles('#upload-input', {
+    name: 'uploaded.txt', mimeType: 'text/plain', buffer: Buffer.from('OP_1 OP_2 OP_ADD'),
+  });
+  await expect.poll(async () => page.evaluate(() => window.editor.getSession().getValue())).toContain('OP_1 OP_2 OP_ADD');
+});
+
+test('8. Theme dropdown item applies', async ({ page }) => {
+  await page.goto(PAGE);
+  await page.waitForFunction(() => typeof window.editor !== 'undefined');
+  await page.click('#editor-tab-options');
+  await page.locator('#editor-options .dropdown .dropdown-toggle').first().click(); // open Editor Theme dropdown
+  await page.click('#editor-options a.dropdown-item[value="ace/theme/chrome"]');
+  await expect.poll(async () => page.evaluate(() => window.editor.getOption('theme'))).toBe('ace/theme/chrome');
 });

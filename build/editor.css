@@ -390,7 +390,7 @@ button {
 }
 
 
-li.active a {
+#editor-tabs .nav-link.active {
 	/*font-weight: bold;*/
 	text-shadow: 1px 1px #BFBFBF;
 }

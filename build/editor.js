@@ -63,6 +63,9 @@ $( document ).ready(function() {
 
 		$("#editor-section div.tab-area").removeClass("active").addClass("inactive");
 		$("#editor-assembly-holder.tab-area").removeClass("inactive").addClass("active");
+
+		$("#editor-tabs .nav-link").removeClass("active");
+		$("#editor-tab-assembly").addClass("active");
 	});
 
 	$( "body" ).delegate( "#editor-tab-script", "click", function() {
@@ -79,6 +82,9 @@ $( document ).ready(function() {
 
 		$("#editor-section div.tab-area").removeClass("active").addClass("inactive");
 		$("#editor-holder.tab-area").removeClass("inactive").addClass("active");
+
+		$("#editor-tabs .nav-link").removeClass("active");
+		$("#editor-tab-script").addClass("active");
 	});
 
 	$("body").delegate("#editor-options form", "change", function() {
@@ -112,6 +118,9 @@ $( document ).ready(function() {
 	$( "body" ).delegate( "#editor-tab-options", "click", function() {
 		$("#editor-section div.tab-area").removeClass("active").addClass("inactive");
 		$("#editor-options.tab-area").removeClass("inactive").addClass("active");
+
+		$("#editor-tabs .nav-link").removeClass("active");
+		$("#editor-tab-options").addClass("active");
 	});
 
 
