@@ -1,0 +1,16 @@
+0833b2e9c3a26c258476c46266e6877fc75218625162e0460be9a3a098a61c6c  ./bootstrap-5.3.3.bundle.min.js
+0ec96bcefdbf3c3b8f142593cdb75a097f6d64f5c64e08ba3ec5b806423a3fe6  ./jquery-ui/images/ui-icons_ffffff_256x240.png
+30b20373fe682700f86368cbdaf37e2e983365ffd3d10573012dfa517bef6c02  ./jquery-ui/images/ui-icons_777777_256x240.png
+3c8f27e6009ccfd710a905e6dcf12d0ee3c6f2ac7da05b0572d3e0d12e736fc8  ./bootstrap-5.3.3.min.css
+476adf42b40325098fcfa8b36ab3e769186bb4f6ce6a249753e2e1a9c22bf99e  ./bootstrap-icons/fonts/bootstrap-icons.woff2
+6927b6642e507ae9e52ffc3fecfb152a657e7dad1e0db9b26e7fe9b6c28747a2  ./jquery.color-2.2.0.min.js
+7e25e0d5018832b267fc337cba91823f68378127f1ba2aa47dd284a245306de6  ./jquery-ui/images/ui-icons_777620_256x240.png
+ae4c58465a83263ba71fd3c4bad7b1bbb2a9f7048317cc499fd1c693d803736c  ./jquery-ui/images/ui-icons_444444_256x240.png
+b30d2234d5e63896d085816e0bd385da43a50f929029ed72e657c19f80bd4a38  ./jquery-ui-1.13.3.min.js
+b9dd2d3791f336ee535cb0d44a320212aacf4aca7a2b67131108a4e6ce76646d  ./jquery-ui/images/ui-icons_cc0000_256x240.png
+bb1de989b83970f6f4e54de1cd974c5cba55b73582da5e1b225a6d0edf029483  ./bootstrap-icons/fonts/bootstrap-icons.woff
+bdc60c870b14fcbd6b373618eca827101a3c77002a9f0f9bc046f895e94a6745  ./jquery-ui/images/ui-icons_555555_256x240.png
+c68874cbaa2fd1650b7d770b328680ea765fb3376023cc3608427fde4f0d0481  ./FileSaver-2.0.5.min.js
+f5e27d537cdfa9d199f81224f07143b79a6aa275d674438eff9441a21f0ea8b8  ./jquery-ui-1.13.3.min.css
+f643d6fe7e679f9de3e16311600c5ef5cd6b098f7a3a8828fcc29255d2b33e62  ./bootstrap-icons/bootstrap-icons.min.css
+fc9a93dd241f6b045cbff0481cf4e1901becd0e12fb45166a8f17f95823f0b1a  ./jquery-3.7.1.min.js
